@@ -1,0 +1,89 @@
+<!-- Use this file to deploy some handlers/chains and services      -->
+<!-- Two ways to do this:                                           -->
+<!--   java org.apache.axis.client.AdminClient deploy.wsdd          -->
+<!--      after the axis server is running                          -->
+<!-- or                                                             -->
+<!--   java org.apache.axis.utils.Admin client|server deploy.wsdd   -->
+<!--      from the same directory that the Axis engine runs         -->
+
+<deployment
+    xmlns="http://xml.apache.org/axis/wsdd/"
+    xmlns:java="http://xml.apache.org/axis/wsdd/providers/java">
+
+  <!-- Services from AuthenticationServiceService WSDL service -->
+
+  <service name="AuthenticationService" provider="java:RPC" style="wrapped" use="literal">
+      <parameter name="wsdlTargetNamespace" value="http://service.com"/>
+      <parameter name="wsdlServiceElement" value="AuthenticationServiceService"/>
+      <parameter name="schemaQualified" value="http://domain.com,http://service.com"/>
+      <parameter name="wsdlServicePort" value="AuthenticationService"/>
+      <parameter name="className" value="com.service.AuthenticationServiceSoapBindingImpl"/>
+      <parameter name="wsdlPortType" value="AuthenticationService"/>
+      <parameter name="typeMappingVersion" value="1.2"/>
+      <operation name="updateEmpInformation" qname="operNS:updateEmpInformation" xmlns:operNS="http://service.com" returnQName="retNS:updateEmpInformationReturn" xmlns:retNS="http://service.com" returnType="rtns:boolean" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <parameter qname="pns:employee" xmlns:pns="http://service.com" type="tns:Employee" xmlns:tns="http://domain.com"/>
+      </operation>
+      <operation name="employeeSignUp" qname="operNS:employeeSignUp" xmlns:operNS="http://service.com" returnQName="retNS:employeeSignUpReturn" xmlns:retNS="http://service.com" returnType="rtns:boolean" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <parameter qname="pns:employee" xmlns:pns="http://service.com" type="tns:Employee" xmlns:tns="http://domain.com"/>
+      </operation>
+      <operation name="customerSignUp" qname="operNS:customerSignUp" xmlns:operNS="http://service.com" returnQName="retNS:customerSignUpReturn" xmlns:retNS="http://service.com" returnType="rtns:boolean" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <parameter qname="pns:customer" xmlns:pns="http://service.com" type="tns:Customer" xmlns:tns="http://domain.com"/>
+      </operation>
+      <operation name="updateCustInformation" qname="operNS:updateCustInformation" xmlns:operNS="http://service.com" returnQName="retNS:updateCustInformationReturn" xmlns:retNS="http://service.com" returnType="rtns:boolean" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <parameter qname="pns:customer" xmlns:pns="http://service.com" type="tns:Customer" xmlns:tns="http://domain.com"/>
+      </operation>
+      <operation name="signIn" qname="operNS:signIn" xmlns:operNS="http://service.com" returnQName="retNS:signInReturn" xmlns:retNS="http://service.com" returnType="rtns:boolean" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <parameter qname="pns:username" xmlns:pns="http://service.com" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="pns:password" xmlns:pns="http://service.com" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+      </operation>
+      <parameter name="allowedMethods" value="signIn updateCustInformation customerSignUp employeeSignUp updateEmpInformation"/>
+
+      <typeMapping
+        xmlns:ns="http://domain.com"
+        qname="ns:Customer"
+        type="java:com.domain.Customer"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://domain.com"
+        qname="ns:Employee"
+        type="java:com.domain.Employee"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://domain.com"
+        qname="ns:Traveller"
+        type="java:com.domain.Traveller"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <arrayMapping
+        xmlns:ns="http://service.com"
+        qname="ns:ArrayOf_tns1_Traveller"
+        type="java:com.domain.Traveller[]"
+        innerType="cmp-ns:Traveller" xmlns:cmp-ns="http://domain.com"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://domain.com"
+        qname="ns:Reservation"
+        type="java:com.domain.Reservation"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://domain.com"
+        qname="ns:Person"
+        type="java:com.domain.Person"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+  </service>
+</deployment>

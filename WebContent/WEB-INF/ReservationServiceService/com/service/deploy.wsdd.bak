@@ -1,0 +1,58 @@
+<!-- Use this file to deploy some handlers/chains and services      -->
+<!-- Two ways to do this:                                           -->
+<!--   java org.apache.axis.client.AdminClient deploy.wsdd          -->
+<!--      after the axis server is running                          -->
+<!-- or                                                             -->
+<!--   java org.apache.axis.utils.Admin client|server deploy.wsdd   -->
+<!--      from the same directory that the Axis engine runs         -->
+
+<deployment
+    xmlns="http://xml.apache.org/axis/wsdd/"
+    xmlns:java="http://xml.apache.org/axis/wsdd/providers/java">
+
+  <!-- Services from ReservationServiceService WSDL service -->
+
+  <service name="ReservationService" provider="java:RPC" style="wrapped" use="literal">
+      <parameter name="wsdlTargetNamespace" value="http://service.com"/>
+      <parameter name="wsdlServiceElement" value="ReservationServiceService"/>
+      <parameter name="schemaQualified" value="http://domain.com,http://service.com"/>
+      <parameter name="wsdlServicePort" value="ReservationService"/>
+      <parameter name="className" value="com.service.ReservationServiceSoapBindingImpl"/>
+      <parameter name="wsdlPortType" value="ReservationService"/>
+      <parameter name="typeMappingVersion" value="1.2"/>
+      <operation name="getReservation" qname="operNS:getReservation" xmlns:operNS="http://service.com" returnQName="retNS:getReservationReturn" xmlns:retNS="http://service.com" returnType="rtns:Reservation" xmlns:rtns="http://domain.com" soapAction="" >
+        <parameter qname="pns:reservationId" xmlns:pns="http://service.com" type="tns:int" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+      </operation>
+      <operation name="insertReservation" qname="operNS:insertReservation" xmlns:operNS="http://service.com" returnQName="retNS:insertReservationReturn" xmlns:retNS="http://service.com" returnType="rtns:boolean" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <parameter qname="pns:reservation" xmlns:pns="http://service.com" type="tns:Reservation" xmlns:tns="http://domain.com"/>
+      </operation>
+      <operation name="updateReservation" qname="operNS:updateReservation" xmlns:operNS="http://service.com" returnQName="retNS:updateReservationReturn" xmlns:retNS="http://service.com" returnType="rtns:boolean" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <parameter qname="pns:reservation" xmlns:pns="http://service.com" type="tns:Reservation" xmlns:tns="http://domain.com"/>
+      </operation>
+      <parameter name="allowedMethods" value="getReservation updateReservation insertReservation"/>
+
+      <typeMapping
+        xmlns:ns="http://domain.com"
+        qname="ns:Traveller"
+        type="java:com.domain.Traveller"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <arrayMapping
+        xmlns:ns="http://service.com"
+        qname="ns:ArrayOf_tns1_Traveller"
+        type="java:com.domain.Traveller[]"
+        innerType="cmp-ns:Traveller" xmlns:cmp-ns="http://domain.com"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://domain.com"
+        qname="ns:Reservation"
+        type="java:com.domain.Reservation"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+  </service>
+</deployment>

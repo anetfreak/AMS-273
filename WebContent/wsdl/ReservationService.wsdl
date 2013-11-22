@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://service.com" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://service.com" xmlns:intf="http://service.com" xmlns:tns1="http://domain.com" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!--WSDL created by Apache Axis version: 1.4
+Built on Apr 22, 2006 (06:55:48 PDT)-->
+ <wsdl:types>
+  <schema elementFormDefault="qualified" targetNamespace="http://service.com" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://domain.com"/>
+   <element name="getReservation">
+    <complexType>
+     <sequence>
+      <element name="reservationId" type="xsd:int"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getReservationResponse">
+    <complexType>
+     <sequence>
+      <element name="getReservationReturn" type="tns1:Reservation"/>
+     </sequence>
+    </complexType>
+   </element>
+   <complexType name="ArrayOf_tns1_Traveller">
+    <sequence>
+     <element maxOccurs="unbounded" minOccurs="0" name="item" type="tns1:Traveller"/>
+    </sequence>
+   </complexType>
+   <element name="insertReservation">
+    <complexType>
+     <sequence>
+      <element name="reservation" type="tns1:Reservation"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="insertReservationResponse">
+    <complexType>
+     <sequence>
+      <element name="insertReservationReturn" type="xsd:boolean"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="updateReservation">
+    <complexType>
+     <sequence>
+      <element name="reservation" type="tns1:Reservation"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="updateReservationResponse">
+    <complexType>
+     <sequence>
+      <element name="updateReservationReturn" type="xsd:boolean"/>
+     </sequence>
+    </complexType>
+   </element>
+  </schema>
+  <schema elementFormDefault="qualified" targetNamespace="http://domain.com" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://service.com"/>
+   <complexType name="Traveller">
+    <sequence>
+     <element name="age" nillable="true" type="xsd:int"/>
+     <element name="firstName" nillable="true" type="xsd:string"/>
+     <element name="lastName" nillable="true" type="xsd:string"/>
+     <element name="sex" nillable="true" type="xsd:string"/>
+     <element name="travellerId" nillable="true" type="xsd:int"/>
+    </sequence>
+   </complexType>
+   <complexType name="Reservation">
+    <sequence>
+     <element name="reservationId" nillable="true" type="xsd:int"/>
+     <element name="reservationNo" nillable="true" type="xsd:string"/>
+     <element name="reservationStatus" nillable="true" type="xsd:int"/>
+     <element name="seatsBooked" nillable="true" type="xsd:int"/>
+     <element name="travellers" nillable="true" type="impl:ArrayOf_tns1_Traveller"/>
+    </sequence>
+   </complexType>
+  </schema>
+ </wsdl:types>
+
+   <wsdl:message name="insertReservationRequest">
+
+      <wsdl:part element="impl:insertReservation" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="insertReservationResponse">
+
+      <wsdl:part element="impl:insertReservationResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="updateReservationResponse">
+
+      <wsdl:part element="impl:updateReservationResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="updateReservationRequest">
+
+      <wsdl:part element="impl:updateReservation" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getReservationResponse">
+
+      <wsdl:part element="impl:getReservationResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getReservationRequest">
+
+      <wsdl:part element="impl:getReservation" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:portType name="ReservationService">
+
+      <wsdl:operation name="getReservation">
+
+         <wsdl:input message="impl:getReservationRequest" name="getReservationRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getReservationResponse" name="getReservationResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="insertReservation">
+
+         <wsdl:input message="impl:insertReservationRequest" name="insertReservationRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:insertReservationResponse" name="insertReservationResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="updateReservation">
+
+         <wsdl:input message="impl:updateReservationRequest" name="updateReservationRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:updateReservationResponse" name="updateReservationResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:portType>
+
+   <wsdl:binding name="ReservationServiceSoapBinding" type="impl:ReservationService">
+
+      <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+      <wsdl:operation name="getReservation">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getReservationRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getReservationResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="insertReservation">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="insertReservationRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="insertReservationResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="updateReservation">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="updateReservationRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="updateReservationResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:binding>
+
+   <wsdl:service name="ReservationServiceService">
+
+      <wsdl:port binding="impl:ReservationServiceSoapBinding" name="ReservationService">
+
+         <wsdlsoap:address location="http://localhost:8080/AMS/services/ReservationService"/>
+
+      </wsdl:port>
+
+   </wsdl:service>
+
+</wsdl:definitions>

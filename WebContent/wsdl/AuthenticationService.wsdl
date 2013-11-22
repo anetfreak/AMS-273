@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://service.com" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://service.com" xmlns:intf="http://service.com" xmlns:tns1="http://domain.com" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!--WSDL created by Apache Axis version: 1.4
+Built on Apr 22, 2006 (06:55:48 PDT)-->
+ <wsdl:types>
+  <schema elementFormDefault="qualified" targetNamespace="http://service.com" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://domain.com"/>
+   <element name="updateEmpInformation">
+    <complexType>
+     <sequence>
+      <element name="employee" type="tns1:Employee"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="updateEmpInformationResponse">
+    <complexType>
+     <sequence>
+      <element name="updateEmpInformationReturn" type="xsd:boolean"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="employeeSignUp">
+    <complexType>
+     <sequence>
+      <element name="employee" type="tns1:Employee"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="employeeSignUpResponse">
+    <complexType>
+     <sequence>
+      <element name="employeeSignUpReturn" type="xsd:boolean"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="customerSignUp">
+    <complexType>
+     <sequence>
+      <element name="customer" type="tns1:Customer"/>
+     </sequence>
+    </complexType>
+   </element>
+   <complexType name="ArrayOf_tns1_Traveller">
+    <sequence>
+     <element maxOccurs="unbounded" minOccurs="0" name="item" type="tns1:Traveller"/>
+    </sequence>
+   </complexType>
+   <element name="customerSignUpResponse">
+    <complexType>
+     <sequence>
+      <element name="customerSignUpReturn" type="xsd:boolean"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="updateCustInformation">
+    <complexType>
+     <sequence>
+      <element name="customer" type="tns1:Customer"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="updateCustInformationResponse">
+    <complexType>
+     <sequence>
+      <element name="updateCustInformationReturn" type="xsd:boolean"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="signIn">
+    <complexType>
+     <sequence>
+      <element name="username" type="xsd:string"/>
+      <element name="password" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="signInResponse">
+    <complexType>
+     <sequence>
+      <element name="signInReturn" type="xsd:boolean"/>
+     </sequence>
+    </complexType>
+   </element>
+  </schema>
+  <schema elementFormDefault="qualified" targetNamespace="http://domain.com" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://service.com"/>
+   <complexType name="Person">
+    <sequence>
+     <element name="address" nillable="true" type="xsd:string"/>
+     <element name="city" nillable="true" type="xsd:string"/>
+     <element name="firstName" nillable="true" type="xsd:string"/>
+     <element name="lastName" nillable="true" type="xsd:string"/>
+     <element name="password" nillable="true" type="xsd:string"/>
+     <element name="personId" nillable="true" type="xsd:int"/>
+     <element name="personType" nillable="true" type="xsd:int"/>
+     <element name="state" nillable="true" type="xsd:string"/>
+     <element name="username" nillable="true" type="xsd:string"/>
+     <element name="zip" nillable="true" type="xsd:int"/>
+    </sequence>
+   </complexType>
+   <complexType name="Employee">
+    <sequence>
+     <element name="employeeId" nillable="true" type="xsd:int"/>
+     <element name="hireDate" nillable="true" type="xsd:string"/>
+     <element name="person" nillable="true" type="tns1:Person"/>
+     <element name="position" nillable="true" type="xsd:int"/>
+     <element name="workDesc" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <complexType name="Traveller">
+    <sequence>
+     <element name="age" nillable="true" type="xsd:int"/>
+     <element name="firstName" nillable="true" type="xsd:string"/>
+     <element name="lastName" nillable="true" type="xsd:string"/>
+     <element name="sex" nillable="true" type="xsd:string"/>
+     <element name="travellerId" nillable="true" type="xsd:int"/>
+    </sequence>
+   </complexType>
+   <complexType name="Reservation">
+    <sequence>
+     <element name="reservationId" nillable="true" type="xsd:int"/>
+     <element name="reservationNo" nillable="true" type="xsd:string"/>
+     <element name="reservationStatus" nillable="true" type="xsd:int"/>
+     <element name="seatsBooked" nillable="true" type="xsd:int"/>
+     <element name="travellers" nillable="true" type="impl:ArrayOf_tns1_Traveller"/>
+    </sequence>
+   </complexType>
+   <complexType name="Customer">
+    <sequence>
+     <element name="customerId" nillable="true" type="xsd:int"/>
+     <element name="nationality" nillable="true" type="xsd:string"/>
+     <element name="passportNumber" nillable="true" type="xsd:string"/>
+     <element name="person" nillable="true" type="tns1:Person"/>
+     <element name="reservation" nillable="true" type="tns1:Reservation"/>
+    </sequence>
+   </complexType>
+  </schema>
+ </wsdl:types>
+
+   <wsdl:message name="updateCustInformationRequest">
+
+      <wsdl:part element="impl:updateCustInformation" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="employeeSignUpResponse">
+
+      <wsdl:part element="impl:employeeSignUpResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="employeeSignUpRequest">
+
+      <wsdl:part element="impl:employeeSignUp" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="customerSignUpRequest">
+
+      <wsdl:part element="impl:customerSignUp" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="signInRequest">
+
+      <wsdl:part element="impl:signIn" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="signInResponse">
+
+      <wsdl:part element="impl:signInResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="customerSignUpResponse">
+
+      <wsdl:part element="impl:customerSignUpResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="updateEmpInformationResponse">
+
+      <wsdl:part element="impl:updateEmpInformationResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="updateEmpInformationRequest">
+
+      <wsdl:part element="impl:updateEmpInformation" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="updateCustInformationResponse">
+
+      <wsdl:part element="impl:updateCustInformationResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:portType name="AuthenticationService">
+
+      <wsdl:operation name="updateEmpInformation">
+
+         <wsdl:input message="impl:updateEmpInformationRequest" name="updateEmpInformationRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:updateEmpInformationResponse" name="updateEmpInformationResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="employeeSignUp">
+
+         <wsdl:input message="impl:employeeSignUpRequest" name="employeeSignUpRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:employeeSignUpResponse" name="employeeSignUpResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="customerSignUp">
+
+         <wsdl:input message="impl:customerSignUpRequest" name="customerSignUpRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:customerSignUpResponse" name="customerSignUpResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="updateCustInformation">
+
+         <wsdl:input message="impl:updateCustInformationRequest" name="updateCustInformationRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:updateCustInformationResponse" name="updateCustInformationResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="signIn">
+
+         <wsdl:input message="impl:signInRequest" name="signInRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:signInResponse" name="signInResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:portType>
+
+   <wsdl:binding name="AuthenticationServiceSoapBinding" type="impl:AuthenticationService">
+
+      <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+      <wsdl:operation name="updateEmpInformation">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="updateEmpInformationRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="updateEmpInformationResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="employeeSignUp">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="employeeSignUpRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="employeeSignUpResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="customerSignUp">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="customerSignUpRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="customerSignUpResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="updateCustInformation">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="updateCustInformationRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="updateCustInformationResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="signIn">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="signInRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="signInResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:binding>
+
+   <wsdl:service name="AuthenticationServiceService">
+
+      <wsdl:port binding="impl:AuthenticationServiceSoapBinding" name="AuthenticationService">
+
+         <wsdlsoap:address location="http://localhost:8080/AMS/services/AuthenticationService"/>
+
+      </wsdl:port>
+
+   </wsdl:service>
+
+</wsdl:definitions>
