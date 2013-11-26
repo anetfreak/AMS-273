@@ -1,0 +1,69 @@
+AIRLINE DATABASE
+Table : Flight Details
+Flight_No    
+Flight_Id (PK)
+Airline_Name
+Flight_Source
+Flight_Destination
+Flight_NoOfSeats
+
+Table : Flight Time
+Flight_Id (FK)
+Day
+Time
+
+Table : Person
+Person_Id (PK)
+First_Name
+Last_Name
+Address
+City
+State
+ZipCode
+DOB
+Person_Type(ENUM)
+UserName(email)
+Password
+
+Table : Employee
+Employee_Id (PK) (SSN)
+Person_Id (FK)
+Work_Description
+Position (ENUM)
+HireDate
+
+Table : Traveller
+Traveller_Id (PK)
+First_Name
+Last_Name
+Age
+Sex
+Reservation_Id (FK)
+
+Table : Customer
+Customer_Id (PK) (SSN)
+Person_ID (FK)
+Passport_Number
+Nationality
+
+Table : Reservation
+Reservation_Id (PK) : Integer
+Reservation_No : String
+Flight_No + Person_Id(6 digits) + Reservation_Id -- no need of flight no in this key
+Customer_Id (SSN) (FK)
+Reservation_Status (ENUM)
+Flight_Id (FK) -- need delete this, as can have more than one flight for a reservation, will take care in journey
+Seats_Booked
+
+Table : Journey
+Flight_Id (FK) – Composite Key
+DateTime -- Added by amit, as there is no way to know when the flight is. Here we can add other things as well like seat preference, etc.
+Boarding
+Destination
+Reservation_ID (FK) – Composite Key
+
+Table : Locations
+Location_Id (PK)
+State
+State_Code
+Airport_Code
