@@ -6,7 +6,7 @@ public class Customer {
 	private String passportNumber;
 	private String nationality;
 	private Person person;
-	private Reservation reservation;
+	//private Reservation reservation;	//deleted by Amit 26/11/2013
 	
 	public String getPassportNumber() {
 		return passportNumber;
@@ -32,10 +32,5 @@ public class Customer {
 	public void setPerson(Person person) {
 		this.person = person;
 	}
-	public Reservation getReservation() {
-		return reservation;
-	}
-	public void setReservation(Reservation reservation) {
-		this.reservation = reservation;
-	}
+
 }

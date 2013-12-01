@@ -4,9 +4,12 @@ package com.domain;
 public class Reservation {
 	private Integer reservationId;
 	private String reservationNo;
+	private Integer customerId;	//Added by Amit 26/11/2013
 	private Integer reservationStatus;
+	//private Integer flightId; //Deleted by Amit 26/11/2013
 	private Integer seatsBooked;
 	private Traveller[] travellers;
+	private Journey[] journey; 
 	
 	public Integer getReservationId() {
 		return reservationId;
@@ -38,4 +41,17 @@ public class Reservation {
 	public void setTravellers(Traveller[] travellers) {
 		this.travellers = travellers;
 	}
+	public void setCustomerId(Integer customerId) {
+		this.customerId = customerId;
+	}
+	public Integer getCustomerId() {
+		return customerId;
+	}
+	public void setJourney(Journey[] journey) {
+		this.journey = journey;
+	}
+	public Journey[] getJourney() {
+		return journey;
+	}
+
 }

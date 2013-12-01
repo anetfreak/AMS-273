@@ -10,6 +10,7 @@ public class Person {
 	private String state;
 	private Integer zip;
 	private Integer personType; 
+	private String DOB;	//added by Amit 26/11/2013 
 	private String username;
 	private String password;
 	
@@ -72,6 +73,12 @@ public class Person {
 	}
 	public void setPersonType(Integer personType) {
 		this.personType = personType;
+	}
+	public void setDOB(String dOB) {
+		DOB = dOB;
+	}
+	public String getDOB() {
+		return DOB;
 	}
 
 }

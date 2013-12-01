@@ -10,7 +10,7 @@ public class Flight {
 	private Integer noOfSeats;
 	private FlightTime[] flightTime;
 	private Journey journey;
-	private Reservation reservation;
+	//private Reservation reservation;  //deleted by Amit 26/11/2013
 	
 	public Integer getFlightId() {
 		return flightId;
@@ -53,12 +53,6 @@ public class Flight {
 	}
 	public void setJourney(Journey journey) {
 		this.journey = journey;
-	}
-	public Reservation getReservation() {
-		return reservation;
-	}
-	public void setReservation(Reservation reservation) {
-		this.reservation = reservation;
 	}
 	public FlightTime[] getFlightTime() {
 		return flightTime;

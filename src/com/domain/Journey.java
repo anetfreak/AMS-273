@@ -4,7 +4,10 @@ public class Journey {
 	
 	private String source;
 	private String destination;
-	private Reservation reservation;
+	private Integer flightId; //added by amit 26/11/2013
+	private String dateTime;
+	//private Reservation reservation;
+	
 	
 	public String getSource() {
 		return source;
@@ -18,10 +21,16 @@ public class Journey {
 	public void setDestination(String destination) {
 		this.destination = destination;
 	}
-	public Reservation getReservation() {
-		return reservation;
+	public void setFlightId(Integer flightId) {
+		this.flightId = flightId;
 	}
-	public void setReservation(Reservation reservation) {
-		this.reservation = reservation;
+	public Integer getFlightId() {
+		return flightId;
+	}
+	public void setDateTime(String dateTime) {
+		this.dateTime = dateTime;
+	}
+	public String getDateTime() {
+		return dateTime;
 	}
 }
