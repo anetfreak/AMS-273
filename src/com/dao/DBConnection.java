@@ -28,7 +28,7 @@ public class DBConnection {
 		try {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
 			con = DriverManager.getConnection("jdbc:mysql://localhost/ams_schema",
-					"root", "root");
+					"root", "mysql");
 
 			if (!con.isClosed()) {
 				System.out

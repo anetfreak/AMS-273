@@ -30,7 +30,7 @@ public class PDBConnection {
 		try {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
 			con = DriverManager.getConnection("jdbc:mysql://localhost/ams_schema",
-					"root", "root");
+					"root", "mysql");
 
 			if (!con.isClosed()) {
 				System.out
@@ -51,6 +51,27 @@ public class PDBConnection {
 		}
 	}
 
+	public boolean signIn(String username, String password) 
+	{
+		String query = "select * from person where username = ? AND password = ?";
+		try 
+		{
+			PreparedStatement ps = con.prepareStatement(query);
+			ps.setString(1, username);
+			ps.setString(2, password);
+			rs = ps.executeQuery(query);
+			if (rs.next()) {
+				return true;
+			}
+		}
+		catch (SQLException sqle) 
+		{
+			sqle.printStackTrace();
+		}
+		
+		return false;
+	}
+	
 	public Integer createPerson(Person person)
 	{
 		int rc = 0;
