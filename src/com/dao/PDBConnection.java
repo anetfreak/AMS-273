@@ -30,7 +30,7 @@ public class PDBConnection {
 		try {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
 			con = DriverManager.getConnection("jdbc:mysql://localhost/ams_schema",
-					"root", "mysql");
+					"root", "root");
 
 			if (!con.isClosed()) {
 				System.out
@@ -55,26 +55,25 @@ public class PDBConnection {
 	{
 		int rc = 0;
 		int personId = 0;
-		/*									1			2		3		4		5	  6	   7	8		  9		10		11  		*/
-		String query = "insert into person(personId,firstName,lastName,address,city,state,zip,personType,DOB,username,password) " +
-		"values(?,?,?,?,?,?,?,?,?,?,?)";
+		/*									1			2		3		4		5	  6	   7	8		  9		10		  		*/
+		String query = "insert into person(firstName,lastName,address,city,state,zip,personType,DOB,username,password) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		try 
 		{	
 			PreparedStatement ps = con.prepareStatement(query,Statement.RETURN_GENERATED_KEYS);
 					
 			//ps.setInt(1,3456789);			
-			ps.setString(2, person.getFirstName());
-			ps.setString(3,person.getLastName());
-			ps.setString(4,person.getAddress());
-			ps.setString(5,person.getCity());
-			ps.setString(6,person.getState());
-			ps.setInt(7,person.getZip());
-			ps.setInt(8,person.getPersonType());
-			ps.setString(9,person.getDOB());
-			ps.setString(10,person.getUsername());
-			ps.setString(11,person.getPassword());
+			ps.setString(1, person.getFirstName());
+			ps.setString(2,person.getLastName());
+			ps.setString(3,person.getAddress());
+			ps.setString(4,person.getCity());
+			ps.setString(5,person.getState());
+			ps.setInt(6,person.getZip());
+			ps.setInt(7,person.getPersonType());
+			ps.setString(8,person.getDOB());
+			ps.setString(9,person.getUsername());
+			ps.setString(10,person.getPassword());
 			
-			rc = ps.executeUpdate(query);
+			rc = ps.executeUpdate();
 
 			rs = ps.getGeneratedKeys();
 			if(rs.next())
@@ -224,7 +223,7 @@ public class PDBConnection {
 		{
 			/*										1			2		3				4	*/
 			String query = "insert into customer(customerId,personId,passportNumber,nationality) " +
-			"values (?,?,?,?)";
+			"values (?, ?, ?, ?)";
 			
 
 
@@ -236,7 +235,7 @@ public class PDBConnection {
 				ps.setString(3, customer.getPassportNumber());
 				ps.setString(4, customer.getNationality());
 				
-				rc = ps.executeUpdate(query);
+				rc = ps.executeUpdate();
 			} 
 			catch (SQLException sqle) 
 			{
@@ -362,7 +361,7 @@ public class PDBConnection {
 		{
 			/*										1			2		3		4		5	*/
 			String query = "insert into employee(employeeId,personId,workDesc,position,hireDate) " +
-			"values (?,?,?,?,?)";
+			"values (?, ?, ?, ?, ?)";
 
 			try 
 			{
@@ -372,7 +371,7 @@ public class PDBConnection {
 				ps.setString(3, employee.getWorkDesc());
 				ps.setInt(4, employee.getPosition());
 				ps.setString(5,employee.getHireDate());
-				rc = ps.executeUpdate(query);
+				rc = ps.executeUpdate();
 			} 
 			catch (SQLException sqle) 
 			{
@@ -496,21 +495,21 @@ public class PDBConnection {
 	{
 		int rc = 0;
 		int reservationId = -1;
-		/*											1			2				3			4				5	*/
-		String query = "insert into reservation(reservationId,reservationNo,customerId,reservationStatus,seatsBooked) " +
-		"values (?,?,?,?,?)";
+		/*											1			2				3			4					*/
+		String query = "insert into reservation(reservationNo,customerId,reservationStatus,seatsBooked) " +
+		"values (?,?,?,?)";
 
 
 		try 
 		{
 			PreparedStatement ps = con.prepareStatement(query);
 			//ps.setInt(1, null); //Auto Increment
-			ps.setString(2, reservation.getReservationNo());
-			ps.setInt(3, reservation.getCustomerId());
-			ps.setInt(4, reservation.getReservationStatus());
-			ps.setInt(5, reservation.getSeatsBooked());
+			ps.setString(1, reservation.getReservationNo());
+			ps.setInt(2, reservation.getCustomerId());
+			ps.setInt(3, reservation.getReservationStatus());
+			ps.setInt(4, reservation.getSeatsBooked());
 			
-			rc = ps.executeUpdate(query);
+			rc = ps.executeUpdate();
 			rs = ps.getGeneratedKeys();
 			
 			if(rs.next())
@@ -760,21 +759,21 @@ public class PDBConnection {
 	public boolean createTravller(Integer reservationId,Traveller traveller)
 	{
 		int rc = 0;
-		/*											1		2			3	  4	  5		6*/
-		String query = "insert into traveller(travellerId,firstName,lastName,age,sex,reservationId) " +
-		"values (?,?,?,?,?,?)";
+		/*											1		2			3	  4	  		*/
+		String query = "insert into traveller(firstName,lastName,age,sex,reservationId) " +
+		"values (?,?,?,?,?)";
 
 
 		try 
 		{
 			PreparedStatement ps = con.prepareStatement(query);
 			//ps.setInt(1, travellerId); //auto Increment
-			ps.setString(2, traveller.getFirstName());
-			ps.setString(3, traveller.getLastName());
-			ps.setInt(4, traveller.getAge());
-			ps.setString(5, traveller.getSex());
-			ps.setInt(6, reservationId);
-			rc = ps.executeUpdate(query);
+			ps.setString(1, traveller.getFirstName());
+			ps.setString(2, traveller.getLastName());
+			ps.setInt(3, traveller.getAge());
+			ps.setString(4, traveller.getSex());
+			ps.setInt(5, reservationId);
+			rc = ps.executeUpdate();
 		} 
 		catch (SQLException sqle) 
 		{
@@ -937,7 +936,7 @@ public class PDBConnection {
 			ps.setString(2, location.getState());
 			ps.setString(3, location.getStateCode());
 			ps.setString(4, location.getAirportCode());
-			rc = ps.executeUpdate(query);
+			rc = ps.executeUpdate();
 		} 
 		catch (SQLException sqle) 
 		{
@@ -1143,21 +1142,21 @@ public class PDBConnection {
 	public boolean createFlight(Flight flight)
 	{
 		int rc = 0;
-		/*										1		2			3		4		5			6	*/
-		String query = "insert into flight(flightId ,flightNo,airlineName,source,destination,noOfSeats) " +
+		/*										1		2			3		4		5				*/
+		String query = "insert into flight(flightNo,airlineName,source,destination,noOfSeats) " +
 		"values (?,?,?,?,?,?)";
 
 
 		try 
 		{
 			PreparedStatement ps = con.prepareStatement(query);
-			ps.setInt(1, flight.getFlightId());
-			ps.setString(2, flight.getFlightNo());
-			ps.setString(3, flight.getAirlineName());
-			ps.setString(4, flight.getSource());
-			ps.setString(5, flight.getDestination());
-			ps.setInt(6,flight.getNoOfSeats());
-			rc = ps.executeUpdate(query);
+			//ps.setInt(1, flight.getFlightId());
+			ps.setString(1, flight.getFlightNo());
+			ps.setString(2, flight.getAirlineName());
+			ps.setString(3, flight.getSource());
+			ps.setString(4, flight.getDestination());
+			ps.setInt(5,flight.getNoOfSeats());
+			rc = ps.executeUpdate();
 		} 
 		catch (SQLException sqle) 
 		{
@@ -1382,7 +1381,7 @@ public class PDBConnection {
 			ps.setInt(1, flightId);
 			ps.setString(2, flightTime.getFlightDay());
 			ps.setString(3, flightTime.getFlightTime());
-			rc = ps.executeUpdate(query);
+			rc = ps.executeUpdate();
 		} 
 		catch (SQLException sqle) 
 		{
@@ -1462,7 +1461,7 @@ public class PDBConnection {
 			ps.setString(3, journey.getDestination());
 			ps.setInt(4, reservationId);
 			ps.setString(5, journey.getDateTime());
-			rc = ps.executeUpdate(query);
+			rc = ps.executeUpdate();
 		} 
 		catch (SQLException sqle) 
 		{
