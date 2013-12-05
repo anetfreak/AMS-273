@@ -6,6 +6,7 @@ import com.domain.Customer;
 import com.domain.Employee;
 import com.domain.Journey;
 import com.domain.Person;
+import com.domain.PersonType;
 import com.domain.Reservation;
 import com.domain.Traveller;
 
@@ -34,6 +35,12 @@ int customerId = 0;
 		if(dbcon.createReservation(res))
 			System.out.println("Create reservation Success");
 		
+		
+		if(dbcon.signIn("username", "password", PersonType.CUSTOMER))
+			System.out.println("Customer signIn Success");
+		
+		if(dbcon.signIn("username", "password", PersonType.EMPLOYEE))
+			System.out.println("Employee signIn Success");
 	}
 	
 	
@@ -131,5 +138,7 @@ int customerId = 0;
 		}
 		return traveller;
 	}
+	
+
 
 }

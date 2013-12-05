@@ -1,5 +1,5 @@
 package com.dao;
-/*Using Prepared Statement, Currently not working*/
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -16,6 +16,7 @@ import com.domain.FlightTime;
 import com.domain.Journey;
 import com.domain.Location;
 import com.domain.Person;
+import com.domain.PersonType;
 import com.domain.Reservation;
 import com.domain.Traveller;
 
@@ -51,15 +52,19 @@ public class PDBConnection {
 		}
 	}
 
-	public boolean signIn(String username, String password) 
+	public boolean signIn(String username, String password, PersonType type) 
 	{
-		String query = "select * from person where username = ? AND password = ?";
+		if(username == null || username.isEmpty() || username == "" || username == null || username.isEmpty() || username == "")
+			return false;
+		
+		String query = "select * from person where username = ? AND password = ? AND persontype = ?";
 		try 
 		{
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setString(1, username);
 			ps.setString(2, password);
-			rs = ps.executeQuery(query);
+			ps.setString(3, type.name());
+			rs = ps.executeQuery();
 			if (rs.next()) {
 				return true;
 			}
@@ -74,6 +79,8 @@ public class PDBConnection {
 	
 	public Integer createPerson(Person person)
 	{
+		if(person == null)
+			return -1;
 		int rc = 0;
 		int personId = 0;
 		/*									1			2		3		4		5	  6	   7	8		  9		10		  		*/
@@ -116,6 +123,9 @@ public class PDBConnection {
 
 	public Person retrivePerson(Integer personId)
 	{
+		if(personId == -1)
+			return null;
+		
 		Person person = null;
 
 		String query = "select * from person where personId = ?";
@@ -154,6 +164,9 @@ public class PDBConnection {
 
 	public boolean updatePerson(Person person)
 	{
+		if(person == null)
+			return false;
+		
 		int rc = 0;
 
 		Integer personID = person.getPersonId();
@@ -211,6 +224,9 @@ public class PDBConnection {
 
 	public boolean deletePerson(Integer personId)
 	{
+		if(personId == -1)
+			return false;
+		
 		int rc = 0;
 
 		String query = "delete from person where personId = ?";
@@ -237,6 +253,9 @@ public class PDBConnection {
 
 	public boolean createCustomer(Customer customer)
 	{
+		if(customer == null)
+			return false;
+		
 		int rc = 0;
 
 		int personId = createPerson(customer.getPerson());
@@ -275,6 +294,9 @@ public class PDBConnection {
 
 	public Customer retriveCustomer(Integer customerId)
 	{
+		if(customerId < 0)
+			return null;
+		
 		Customer customer = null;
 
 		String query = "select * from customer where customerId = ?";
@@ -310,6 +332,9 @@ public class PDBConnection {
 
 	public boolean updateCustomer(Customer customer)
 	{
+		if(customer == null)
+			return false;
+		
 		int rc = 0;
 
 		Integer customerId = customer.getCustomerId();
@@ -350,6 +375,9 @@ public class PDBConnection {
 
 	public boolean deleteCustomer(Integer customerId)
 	{
+		if(customerId < 0)
+			return false;
+		
 		int rc = 0;
 
 		String query = "delete from customer where customerId = ?";
@@ -375,6 +403,10 @@ public class PDBConnection {
 	}
 
 	public boolean createEmployee(Employee employee) {
+		
+		if(employee == null)
+			return false;
+		
 		int rc = 0;
 
 		int personId = createPerson(employee.getPerson());
@@ -410,6 +442,9 @@ public class PDBConnection {
 
 	public Employee retriveEmployee(Integer employeeId)
 	{
+		if(employeeId < 0)
+			return null;
+		
 		Employee employee = null;
 
 		String query = "select * from employee where employeeId = ?";
@@ -445,6 +480,9 @@ public class PDBConnection {
 
 	public boolean updateEmployee(Employee employee)
 	{
+		if(employee == null)
+			return false;
+		
 		int rc = 0;
 
 		Integer employeeId = employee.getEmployeeId();
@@ -485,6 +523,9 @@ public class PDBConnection {
 
 	public boolean deleteEmployee(Integer employeeId)
 	{
+		if(employeeId < 0)
+			return false;
+		
 		int rc = 0;
 
 		String query = "delete from customer where employeeId = ?";
@@ -514,6 +555,9 @@ public class PDBConnection {
 
 	public boolean createReservation(Reservation reservation)
 	{
+		if(reservation == null)
+			return false;
+		
 		int rc = 0;
 		int reservationId = -1;
 		/*											1			2				3			4					*/
@@ -560,6 +604,9 @@ public class PDBConnection {
 	//retrive by reservationId
 	public Reservation retriveReservationbyResId(Integer reservationId)
 	{
+		if(reservationId < 0)
+			return null;
+		
 		Reservation reservation = null;
 
 		String query = "select * from reservation where reservationId = ?";
@@ -602,6 +649,9 @@ public class PDBConnection {
 	//retrive by customer Id
 	public Reservation retriveReservationByCustId(Integer customerId)
 	{
+		if(customerId < 0)
+			return null;
+		
 		Reservation reservation = null;
 
 		String query = "select * from reservation where customerId = ?";
@@ -641,6 +691,9 @@ public class PDBConnection {
 	//retrive by reservationNo
 	public Reservation retriveReservationbyResNo(String reservationNo)
 	{
+		if(reservationNo == null || reservationNo.isEmpty() || reservationNo == "")
+			return null;
+		
 		Reservation reservation = null;
 
 		String query = "select * from reservation where reservationNo = ?" ;
@@ -679,6 +732,9 @@ public class PDBConnection {
 
 	public boolean updateReservation(Reservation reservation)
 	{
+		if(reservation == null)
+			return false;
+		
 		int rc = 0;
 
 		Integer reservationId = reservation.getReservationId();
@@ -726,6 +782,9 @@ public class PDBConnection {
 
 	public boolean deleteReservation(Integer reservationId)
 	{
+		if(reservationId < 0)
+			return false;
+		
 		int rc = 0;
 
 		deleteTravellers(reservationId);
@@ -752,6 +811,9 @@ public class PDBConnection {
 
 	public boolean deleteReservationByCustomer(Integer customerId)
 	{
+		if(customerId < 0)
+			return false;
+		
 		int rc = 0;
 
 		String query = "delete from reservation where customerId = ?";
@@ -779,6 +841,9 @@ public class PDBConnection {
 
 	public boolean createTravller(Integer reservationId,Traveller traveller)
 	{
+		if(reservationId < 0 || traveller == null)
+			return false;
+		
 		int rc = 0;
 		/*											1		2			3	  4	  		*/
 		String query = "insert into traveller(firstName,lastName,age,sex,reservationId) " +
@@ -810,6 +875,9 @@ public class PDBConnection {
 
 	public Traveller[] retriveTravellers(Integer reservationId)
 	{
+		if(reservationId < 0)
+			return null;
+		
 		List<Traveller> travellerList = new ArrayList<Traveller>();
 		Traveller travelleritem = null;
 		Traveller[] travellers = null;
@@ -853,6 +921,9 @@ public class PDBConnection {
 
 	public boolean updateTravller(Traveller traveller)
 	{
+		if(traveller == null)
+			return false;
+		
 		int rc = 0;
 
 		Integer travellerId = traveller.getTravellerId();
@@ -894,6 +965,9 @@ public class PDBConnection {
 	//Delete on the basis of reservationId
 	public boolean deleteTravellers(Integer reservationId)
 	{
+		if(reservationId < 0)
+			return false;
+		
 		int rc = 0;
 
 		String query = "delete from traveller where reservationId = ?";
@@ -919,6 +993,9 @@ public class PDBConnection {
 	//Delete on the basis of travellerId
 	public boolean deleteTraveller(Integer travellerId)
 	{
+		if(travellerId < 0)
+			return false;
+		
 		int rc = 0;
 
 		String query = "delete from traveller where travellerId = ?";
@@ -944,6 +1021,9 @@ public class PDBConnection {
 
 	public boolean createLocation(Location location)
 	{
+		if(location == null)
+			return false;
+		
 		int rc = 0;
 		/*										1		  2		  3			4	*/
 		String query = "insert into location(locationId,state,stateCode,airportCode) " +
@@ -973,6 +1053,9 @@ public class PDBConnection {
 
 	public Location retriveLocation(Integer locationId)
 	{
+		if(locationId == null)
+			return null;
+		
 		Location location = null;
 
 		String query = "select * from location where locationId = ?";
@@ -1005,6 +1088,9 @@ public class PDBConnection {
 
 	public Location retriveLocationByStateCode(String stateCode)
 	{
+		if(stateCode == null || stateCode.isEmpty() || stateCode == "")
+			return null;
+		
 		Location location = null;
 
 		String query = "select * from location where stateCode = ?";
@@ -1037,6 +1123,9 @@ public class PDBConnection {
 
 	public Location retriveLocationByState(String state)
 	{
+		if(state == null || state.isEmpty() || state == "")
+			return null;
+		
 		Location location = null;
 
 		String query = "select * from location where state = ?";
@@ -1069,6 +1158,9 @@ public class PDBConnection {
 
 	public Location retriveLocationByAirportCode(String airportCode)
 	{
+		if(airportCode == null || airportCode.isEmpty() || airportCode == "")
+			return null;
+		
 		Location location = null;
 
 		String query = "select * from location where airportCode = ?";
@@ -1101,6 +1193,9 @@ public class PDBConnection {
 
 	public boolean updateLocation(Location location)
 	{
+		if(location == null)
+			return false;
+		
 		int rc = 0;
 
 		Integer locationId = location.getLocationId();
@@ -1138,6 +1233,9 @@ public class PDBConnection {
 
 	public boolean deleteLocation(Integer locationId)
 	{
+		if(locationId < 0)
+			return false;
+		
 		int rc = 0;
 
 		String query = "delete from location where locationId = ?";
@@ -1162,6 +1260,9 @@ public class PDBConnection {
 
 	public boolean createFlight(Flight flight)
 	{
+		if(flight == null)
+			return false;
+		
 		int rc = 0;
 		/*										1		2			3		4		5				*/
 		String query = "insert into flight(flightNo,airlineName,source,destination,noOfSeats) " +
@@ -1241,6 +1342,9 @@ public class PDBConnection {
 
 	public Flight retriveFlightsById(/*Get all flights*/Integer flightId)
 	{
+		if(flightId < 0)
+			return null;
+		
 		Flight flight = null;
 
 		String query = "select * from flight where flightId = ?";
@@ -1279,6 +1383,9 @@ public class PDBConnection {
 
 	public Flight retriveFlightsByNo(/*Get all flights*/String flightNo)
 	{
+		if(flightNo == null || flightNo.isEmpty() || flightNo == "")
+			return null;
+		
 		Flight flight = null;
 
 		String query = "select * from flight where flightNo = ?";
@@ -1317,6 +1424,9 @@ public class PDBConnection {
 
 	public boolean updateflight(Flight flight)
 	{
+		if(flight == null)
+			return false;
+		
 		int rc = 0;
 
 		Integer flightId = flight.getFlightId();
@@ -1364,6 +1474,9 @@ public class PDBConnection {
 
 	public boolean deleteFlight(Integer flightId)
 	{
+		if(flightId < 0)
+			return false;
+		
 		int rc = 0;
 
 		String query = "delete from flight where flightId = ?";
@@ -1391,6 +1504,9 @@ public class PDBConnection {
 
 	public boolean createFlightTime(Integer flightId,FlightTime flightTime)
 	{
+		if(flightId < 0 || flightTime == null)
+			return false;
+		
 		int rc = 0;
 		/*										1		2			3	*/
 		String query = "insert into flight(flightId ,flightDay,flightTime) " +
@@ -1418,6 +1534,9 @@ public class PDBConnection {
 
 	public FlightTime[] retriveFlightTimeByFlightId(/*Get times by flight Id*/Integer flightId)
 	{
+		if(flightId < 0)
+			return null;
+		
 		List<FlightTime> flightTime_list = new ArrayList<FlightTime>();
 		FlightTime flightTime = null;
 		FlightTime[] flightTimes = null;
@@ -1455,12 +1574,18 @@ public class PDBConnection {
 	//TODO
 	public boolean updateFlightTimes(FlightTime[] flightTimes)
 	{
+		if(flightTimes == null)
+			return false;
+		
 		return false;
 	}
 
 	//TODO
 	public boolean deleteFlightTimes(Integer flightId)
 	{
+		if(flightId < 0)
+			return false;
+		
 		return false;
 	}
 
@@ -1468,6 +1593,9 @@ public class PDBConnection {
 
 	public boolean createJourney(Integer reservationId,Journey journey)
 	{
+		if(reservationId < 0 || journey == null)
+			return false;
+		
 		int rc = 0;
 		/*										1		2			3			4			5	*/
 		String query = "insert into journey(FlightId ,boarding,destination,ReservationID,datetime) " +
@@ -1499,6 +1627,9 @@ public class PDBConnection {
 
 	public Journey[] retriveJourney(/*Reservation ID*/Integer reservationId)
 	{
+		if(reservationId < 0 )
+			return null;
+		
 		List<Journey> journeyList = new ArrayList<Journey>();
 		Journey journeyItem = null;
 

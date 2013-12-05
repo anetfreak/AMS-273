@@ -5,6 +5,7 @@ import javax.jws.WebService;
 import com.dao.PDBConnection;
 import com.domain.Customer;
 import com.domain.Employee;
+import com.domain.PersonType;
 
 @WebService
 public class AuthenticationService {
@@ -19,7 +20,8 @@ public class AuthenticationService {
 		dbcon = new PDBConnection();
 	}
 	public boolean signInCustomer(String username, String password) {
-		if(dbcon.signIn(username, password))
+		//TODO need to check person type too
+		if(dbcon.signIn(username, password, PersonType.CUSTOMER))
 			return true;
 		return false;
 	}
@@ -31,7 +33,8 @@ public class AuthenticationService {
 	}
 	
 	public boolean signInEmployee(String username, String password) {
-		if(dbcon.signIn(username, password))
+		//TODO need to check person type too
+		if(dbcon.signIn(username, password, PersonType.EMPLOYEE))
 			return true;
 		return false;
 	}
