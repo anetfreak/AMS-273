@@ -539,6 +539,12 @@ public class PDBConnection {
 
 		try 
 		{
+			con = pool.getConn();
+			if(con == null || con.isClosed())
+			{
+				System.out.println("No connection to DB");
+				return null;
+			}
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setInt(1, employeeId);
 			rs = ps.executeQuery(query);
@@ -555,14 +561,17 @@ public class PDBConnection {
 		}
 		catch (SQLException sqle) 
 		{
+			pool.closeConn(con);
 			sqle.printStackTrace();
 		}
 
 		if(employee != null)
 		{
+			pool.closeConn(con);
 			System.out.println("Retrive employee Successful");
 			return employee;
 		}
+		pool.closeConn(con);
 		return null;
 	}
 
@@ -588,6 +597,12 @@ public class PDBConnection {
 
 			try 
 			{
+				con = pool.getConn();
+				if(con == null || con.isClosed())
+				{
+					System.out.println("No connection to DB");
+					return false;
+				}
 				PreparedStatement ps = con.prepareStatement(query);
 				ps.setString(1, workDesc);
 				ps.setInt(2, position);
@@ -597,15 +612,17 @@ public class PDBConnection {
 			} 
 			catch (SQLException sqle) 
 			{
+				pool.closeConn(con);
 				sqle.printStackTrace();
 			}
 		}
 
 		if (rc > 0) {
+			pool.closeConn(con);
 			System.out.println("Update Employee Successful");
 			return true;
 		}
-
+		pool.closeConn(con);
 		return false;
 	}
 
@@ -620,20 +637,29 @@ public class PDBConnection {
 
 		try 
 		{
+			con = pool.getConn();
+			if(con == null || con.isClosed())
+			{
+				System.out.println("No connection to DB");
+				return false;
+			}
+			
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setInt(1, employeeId);
 			rc = ps.executeUpdate(query);
 		} 
 		catch (SQLException sqle) 
 		{
+			pool.closeConn(con);
 			sqle.printStackTrace();
 		}
 
 		if (rc > 0) {
+			pool.closeConn(con);
 			System.out.println("Delete employee Successful");
 			return true;
 		}
-
+		pool.closeConn(con);
 		return false;	
 	}
 
@@ -655,6 +681,12 @@ public class PDBConnection {
 
 		try 
 		{
+			con = pool.getConn();
+			if(con == null || con.isClosed())
+			{
+				System.out.println("No connection to DB");
+				return false;
+			}
 			PreparedStatement ps = con.prepareStatement(query);
 			//ps.setInt(1, null); //Auto Increment
 			ps.setString(1, reservation.getReservationNo());
@@ -671,6 +703,7 @@ public class PDBConnection {
 		} 
 		catch (SQLException sqle) 
 		{
+			pool.closeConn(con);
 			sqle.printStackTrace();
 		}
 
@@ -684,8 +717,10 @@ public class PDBConnection {
 
 		if (rc > 0) {
 			System.out.println("Create reservation Successful");
+			pool.closeConn(con);
 			return true;
 		}
+		pool.closeConn(con);
 		return false;
 	}
 
@@ -701,6 +736,12 @@ public class PDBConnection {
 
 		try 
 		{
+			con = pool.getConn();
+			if(con == null || con.isClosed())
+			{
+				System.out.println("No connection to DB");
+				return null;
+			}
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setInt(1, reservationId); 
 			
@@ -723,14 +764,17 @@ public class PDBConnection {
 		}
 		catch (SQLException sqle) 
 		{
+			pool.closeConn(con);
 			sqle.printStackTrace();
 		}
 
 		if(reservation != null)
 		{
 			System.out.println("Retrive reservation Successful");
+			pool.closeConn(con);
 			return reservation;
 		}
+		pool.closeConn(con);
 		return null;
 	}
 
@@ -746,6 +790,12 @@ public class PDBConnection {
 
 		try 
 		{
+			con = pool.getConn();
+			if(con == null || con.isClosed())
+			{
+				System.out.println("No connection to DB");
+				return null;
+			}
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setInt(1, customerId); 
 			
@@ -766,14 +816,17 @@ public class PDBConnection {
 		}
 		catch (SQLException sqle) 
 		{
+			pool.closeConn(con);
 			sqle.printStackTrace();
 		}
 
 		if(reservation != null)
 		{
 			System.out.println("Retrive reservation Successful");
+			pool.closeConn(con);
 			return reservation;
 		}
+		pool.closeConn(con);
 		return null;
 	}
 	//retrive by reservationNo
@@ -788,6 +841,12 @@ public class PDBConnection {
 
 		try 
 		{
+			con = pool.getConn();
+			if(con == null || con.isClosed())
+			{
+				System.out.println("No connection to DB");
+				return null;
+			}
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setString(1, reservationNo); 
 			rs = ps.executeQuery(query);
@@ -807,14 +866,17 @@ public class PDBConnection {
 		}
 		catch (SQLException sqle) 
 		{
+			pool.closeConn(con);
 			sqle.printStackTrace();
 		}
 
 		if(reservation != null)
 		{
+			pool.closeConn(con);
 			System.out.println("Retrive reservation Successful");
 			return reservation;
 		}
+		pool.closeConn(con);
 		return null;
 	}
 
@@ -842,6 +904,12 @@ public class PDBConnection {
 
 		try 
 		{
+			con = pool.getConn();
+			if(con == null || con.isClosed())
+			{
+				System.out.println("No connection to DB");
+				return false;
+			}
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setString(1, reservationNo);
 			ps.setInt(2, customerId);
@@ -853,6 +921,7 @@ public class PDBConnection {
 		} 
 		catch (SQLException sqle) 
 		{
+			pool.closeConn(con);
 			sqle.printStackTrace();
 		}
 
@@ -863,8 +932,10 @@ public class PDBConnection {
 
 		if (rc > 0) {
 			System.out.println("Update reservation Successful");
+			pool.closeConn(con);
 			return true;
 		}
+		pool.closeConn(con);
 		return false;
 	}
 
@@ -881,19 +952,28 @@ public class PDBConnection {
 
 		try 
 		{
+			con = pool.getConn();
+			if(con == null || con.isClosed())
+			{
+				System.out.println("No connection to DB");
+				return false;
+			}
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setInt(1, reservationId);
 			rc = ps.executeUpdate(query);
 		} 
 		catch (SQLException sqle) 
 		{
+			pool.closeConn(con);
 			sqle.printStackTrace();
 		}
 
 		if (rc > 0) {
 			System.out.println("Delete reservation Successful");
+			pool.closeConn(con);
 			return true;
 		}
+		pool.closeConn(con);
 		return false;
 	}
 
@@ -910,19 +990,28 @@ public class PDBConnection {
 		//TODO deleteJourney();
 		try 
 		{
+			con = pool.getConn();
+			if(con == null || con.isClosed())
+			{
+				System.out.println("No connection to DB");
+				return false;
+			}
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setInt(1, customerId);
 			rc = ps.executeUpdate(query);
 		} 
 		catch (SQLException sqle) 
 		{
+			pool.closeConn(con);
 			sqle.printStackTrace();
 		}
 
 		if (rc > 0) {
 			System.out.println("Delete reservation Successful");
+			pool.closeConn(con);
 			return true;
 		}
+		pool.closeConn(con);
 		return false;
 	}
 
@@ -940,6 +1029,12 @@ public class PDBConnection {
 
 		try 
 		{
+			con = pool.getConn();
+			if(con == null || con.isClosed())
+			{
+				System.out.println("No connection to DB");
+				return false;
+			}
 			PreparedStatement ps = con.prepareStatement(query);
 			//ps.setInt(1, travellerId); //auto Increment
 			ps.setString(1, traveller.getFirstName());
@@ -951,13 +1046,16 @@ public class PDBConnection {
 		} 
 		catch (SQLException sqle) 
 		{
+			pool.closeConn(con);
 			sqle.printStackTrace();
 		}
 
 		if (rc > 0) {
 			System.out.println("Create Traveller Successful");
+			pool.closeConn(con);
 			return true;
 		}
+		pool.closeConn(con);
 		return false;
 	}
 
@@ -973,6 +1071,12 @@ public class PDBConnection {
 
 		try 
 		{
+			con = pool.getConn();
+			if(con == null || con.isClosed())
+			{
+				System.out.println("No connection to DB");
+				return null;
+			}
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setInt(1, reservationId); 
 			rs = ps.executeQuery(query);
@@ -991,6 +1095,7 @@ public class PDBConnection {
 		}
 		catch (SQLException sqle) 
 		{
+			pool.closeConn(con);
 			sqle.printStackTrace();
 		}
 
@@ -1000,9 +1105,10 @@ public class PDBConnection {
 			travellers = travellerList.toArray(travellers);
 
 			System.out.println("Retrive traveller Successful");
+			pool.closeConn(con);
 			return travellers;
 		}
-
+		pool.closeConn(con);
 		return null;
 	}
 
@@ -1030,6 +1136,12 @@ public class PDBConnection {
 
 		try 
 		{
+			con = pool.getConn();
+			if(con == null || con.isClosed())
+			{
+				System.out.println("No connection to DB");
+				return false;
+			}
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setString(1,firstName);
 			ps.setString(2, lastName);
@@ -1040,13 +1152,16 @@ public class PDBConnection {
 		} 
 		catch (SQLException sqle) 
 		{
+			pool.closeConn(con);
 			sqle.printStackTrace();
 		}
 
 		if (rc > 0) {
 			System.out.println("Update traveller Successful");
+			pool.closeConn(con);
 			return true;
 		}
+		pool.closeConn(con);
 		return false;
 	}
 
@@ -1062,19 +1177,28 @@ public class PDBConnection {
 
 		try 
 		{
+			con = pool.getConn();
+			if(con == null || con.isClosed())
+			{
+				System.out.println("No connection to DB");
+				return false;
+			}
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setInt(1, reservationId);
 			rc = ps.executeUpdate(query);
 		} 
 		catch (SQLException sqle) 
 		{
+			pool.closeConn(con);
 			sqle.printStackTrace();
 		}
 
 		if (rc > 0) {
 			System.out.println("Delete travellers Successful");
+			pool.closeConn(con);
 			return true;
 		}
+		pool.closeConn(con);
 		return false;
 	}
 
@@ -1090,19 +1214,28 @@ public class PDBConnection {
 
 		try 
 		{
+			con = pool.getConn();
+			if(con == null || con.isClosed())
+			{
+				System.out.println("No connection to DB");
+				return false;
+			}
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setInt(1, travellerId);
 			rc = ps.executeUpdate(query);
 		} 
 		catch (SQLException sqle) 
 		{
+			pool.closeConn(con);
 			sqle.printStackTrace();
 		}
 
 		if (rc > 0) {
 			System.out.println("Delete traveller Successful");
+			pool.closeConn(con);
 			return true;
 		}
+		pool.closeConn(con);
 		return false;
 	}
 
@@ -1120,6 +1253,12 @@ public class PDBConnection {
 
 		try 
 		{
+			con = pool.getConn();
+			if(con == null || con.isClosed())
+			{
+				System.out.println("No connection to DB");
+				return false;
+			}
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setInt(1, location.getLocationId());
 			ps.setString(2, location.getState());
@@ -1129,13 +1268,16 @@ public class PDBConnection {
 		} 
 		catch (SQLException sqle) 
 		{
+			pool.closeConn(con);
 			sqle.printStackTrace();
 		}
 
 		if (rc > 0) {
 			System.out.println("Create location Successful");
+			pool.closeConn(con);
 			return true;
 		}
+		pool.closeConn(con);
 		return false;
 	}
 
@@ -1150,6 +1292,12 @@ public class PDBConnection {
 
 		try 
 		{
+			con = pool.getConn();
+			if(con == null || con.isClosed())
+			{
+				System.out.println("No connection to DB");
+				return null;
+			}
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setInt(1, locationId);
 			rs = ps.executeQuery(query);
@@ -1163,12 +1311,14 @@ public class PDBConnection {
 		}
 		catch (SQLException sqle) 
 		{
+			pool.closeConn(con);
 			sqle.printStackTrace();
 		}
 
 		if(location != null)
 		{
 			System.out.println("Retrive location Successful");
+			pool.closeConn(con);
 			return location;
 		}
 		return null;
@@ -1185,6 +1335,12 @@ public class PDBConnection {
 
 		try 
 		{
+			con = pool.getConn();
+			if(con == null || con.isClosed())
+			{
+				System.out.println("No connection to DB");
+				return null;
+			}
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setString(1, stateCode);
 			rs = ps.executeQuery(query);
@@ -1198,14 +1354,17 @@ public class PDBConnection {
 		}
 		catch (SQLException sqle) 
 		{
+			pool.closeConn(con);
 			sqle.printStackTrace();
 		}
 
 		if(location != null)
 		{
 			System.out.println("Retrive location Successful");
+			pool.closeConn(con);
 			return location;
 		}
+		pool.closeConn(con);
 		return null;
 	}
 
@@ -1220,6 +1379,12 @@ public class PDBConnection {
 
 		try 
 		{
+			con = pool.getConn();
+			if(con == null || con.isClosed())
+			{
+				System.out.println("No connection to DB");
+				return null;
+			}
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setString(1, state);
 			rs = ps.executeQuery(query);
@@ -1233,14 +1398,17 @@ public class PDBConnection {
 		}
 		catch (SQLException sqle) 
 		{
+			pool.closeConn(con);
 			sqle.printStackTrace();
 		}
 
 		if(location != null)
 		{
 			System.out.println("Retrive location Successful");
+			pool.closeConn(con);
 			return location;
 		}
+		pool.closeConn(con);
 		return null;
 	}
 
@@ -1255,6 +1423,12 @@ public class PDBConnection {
 
 		try 
 		{
+			con = pool.getConn();
+			if(con == null || con.isClosed())
+			{
+				System.out.println("No connection to DB");
+				return null;
+			}
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setString(1, airportCode);
 			rs = ps.executeQuery(query);
@@ -1268,14 +1442,17 @@ public class PDBConnection {
 		}
 		catch (SQLException sqle) 
 		{
+			pool.closeConn(con);
 			sqle.printStackTrace();
 		}
 
 		if(location != null)
 		{
 			System.out.println("Retrive location Successful");
+			pool.closeConn(con);
 			return location;
 		}
+		pool.closeConn(con);
 		return null;
 	}
 
@@ -1300,6 +1477,12 @@ public class PDBConnection {
 
 		try 
 		{
+			con = pool.getConn();
+			if(con == null || con.isClosed())
+			{
+				System.out.println("No connection to DB");
+				return false;
+			}
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setString(1, state);
 			ps.setString(2, stateCode);
@@ -1309,13 +1492,16 @@ public class PDBConnection {
 		} 
 		catch (SQLException sqle) 
 		{
+			pool.closeConn(con);
 			sqle.printStackTrace();
 		}
 
 		if (rc > 0) {
 			System.out.println("Update location Successful");
+			pool.closeConn(con);
 			return true;
 		}
+		pool.closeConn(con);
 		return false;
 	}
 
@@ -1330,19 +1516,28 @@ public class PDBConnection {
 
 		try 
 		{
+			con = pool.getConn();
+			if(con == null || con.isClosed())
+			{
+				System.out.println("No connection to DB");
+				return false;
+			}
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setInt(1, locationId);
 			rc = ps.executeUpdate(query);
 		} 
 		catch (SQLException sqle) 
 		{
+			pool.closeConn(con);
 			sqle.printStackTrace();
 		}
 
 		if (rc > 0) {
 			System.out.println("Delete location Successful");
+			pool.closeConn(con);
 			return true;
 		}
+		pool.closeConn(con);
 		return false;
 	}
 
@@ -1359,6 +1554,12 @@ public class PDBConnection {
 
 		try 
 		{
+			con = pool.getConn();
+			if(con == null || con.isClosed())
+			{
+				System.out.println("No connection to DB");
+				return false;
+			}
 			PreparedStatement ps = con.prepareStatement(query);
 			//ps.setInt(1, flight.getFlightId());
 			ps.setString(1, flight.getFlightNo());
@@ -1370,6 +1571,7 @@ public class PDBConnection {
 		} 
 		catch (SQLException sqle) 
 		{
+			pool.closeConn(con);
 			sqle.printStackTrace();
 		}
 
@@ -1380,8 +1582,10 @@ public class PDBConnection {
 				createFlightTime(flight.getFlightId(),flighttimes[i]);
 			}
 			System.out.println("Create Flight Successful");
+			pool.closeConn(con);
 			return true;
 		}
+		pool.closeConn(con);
 		return false;
 	}
 
@@ -1395,7 +1599,12 @@ public class PDBConnection {
 
 		try 
 		{
-
+			con = pool.getConn();
+			if(con == null || con.isClosed())
+			{
+				System.out.println("No connection to DB");
+				return null;
+			}
 			rs = s.executeQuery(query);
 			while (rs.next()) {
 				flight = new Flight();
@@ -1415,6 +1624,7 @@ public class PDBConnection {
 		}
 		catch (SQLException sqle) 
 		{
+			pool.closeConn(con);
 			sqle.printStackTrace();
 		}
 
@@ -1423,8 +1633,10 @@ public class PDBConnection {
 			System.out.println("Retrive flights Successful");
 			flights = new Flight[flight_list.size()];
 			flights = flight_list.toArray(flights);
+			pool.closeConn(con);
 			return flights;
 		}
+		pool.closeConn(con);
 		return null;
 	}
 
@@ -1439,6 +1651,12 @@ public class PDBConnection {
 
 		try 
 		{
+			con = pool.getConn();
+			if(con == null || con.isClosed())
+			{
+				System.out.println("No connection to DB");
+				return null;
+			}
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setInt(1, flightId);
 			rs = ps.executeQuery(query);
@@ -1458,14 +1676,17 @@ public class PDBConnection {
 		}
 		catch (SQLException sqle) 
 		{
+			pool.closeConn(con);
 			sqle.printStackTrace();
 		}
 
 		if(flight != null)
 		{
 			System.out.println("Retrive flight by id Successful");
+			pool.closeConn(con);
 			return flight;
 		}
+		pool.closeConn(con);
 		return null;
 	}
 
@@ -1480,6 +1701,12 @@ public class PDBConnection {
 
 		try 
 		{
+			con = pool.getConn();
+			if(con == null || con.isClosed())
+			{
+				System.out.println("No connection to DB");
+				return null;
+			}
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setString(1, flightNo);
 			rs = ps.executeQuery(query);
@@ -1499,14 +1726,17 @@ public class PDBConnection {
 		}
 		catch (SQLException sqle) 
 		{
+			pool.closeConn(con);
 			sqle.printStackTrace();
 		}
 
 		if(flight != null)
 		{
 			System.out.println("Retrive FlightbyNo Successful");
+			pool.closeConn(con);
 			return flight;
 		}
+		pool.closeConn(con);
 		return null;
 	}
 
@@ -1538,6 +1768,12 @@ public class PDBConnection {
 
 		try 
 		{
+			con = pool.getConn();
+			if(con == null || con.isClosed())
+			{
+				System.out.println("No connection to DB");
+				return false;
+			}
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setString(1, flightNo);
 			ps.setString(2, airlineName);
@@ -1549,14 +1785,17 @@ public class PDBConnection {
 		} 
 		catch (SQLException sqle) 
 		{
+			pool.closeConn(con);
 			sqle.printStackTrace();
 		}
 
 		if (rc > 0) {
 			updateFlightTimes(flightTimes);
 			System.out.println("Update flight Successful");
+			pool.closeConn(con);
 			return true;
 		}
+		pool.closeConn(con);
 		return false;
 	}
 
@@ -1571,19 +1810,28 @@ public class PDBConnection {
 
 		try 
 		{
+			con = pool.getConn();
+			if(con == null || con.isClosed())
+			{
+				System.out.println("No connection to DB");
+				return false;
+			}
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setInt(1, flightId);
 			rc = ps.executeUpdate(query);
 		} 
 		catch (SQLException sqle) 
 		{
+			pool.closeConn(con);
 			sqle.printStackTrace();
 		}
 
 		if (rc > 0) {
 			System.out.println("Delete flight Successful");
+			pool.closeConn(con);
 			return true;
 		}
+		pool.closeConn(con);
 		return false;
 	}
 
@@ -1602,6 +1850,12 @@ public class PDBConnection {
 
 		try 
 		{
+			con = pool.getConn();
+			if(con == null || con.isClosed())
+			{
+				System.out.println("No connection to DB");
+				return false;
+			}
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setInt(1, flightId);
 			ps.setString(2, flightTime.getFlightDay());
@@ -1610,13 +1864,16 @@ public class PDBConnection {
 		} 
 		catch (SQLException sqle) 
 		{
+			pool.closeConn(con);
 			sqle.printStackTrace();
 		}
 
 		if (rc > 0) {
 			System.out.println("Create FlightTime Successful");
+			pool.closeConn(con);
 			return true;
 		}
+		pool.closeConn(con);
 		return false;
 	}
 
@@ -1633,6 +1890,12 @@ public class PDBConnection {
 
 		try 
 		{
+			con = pool.getConn();
+			if(con == null || con.isClosed())
+			{
+				System.out.println("No connection to DB");
+				return null;
+			}
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setInt(1, flightId);
 			rs = ps.executeQuery(query);
@@ -1647,6 +1910,7 @@ public class PDBConnection {
 		}
 		catch (SQLException sqle) 
 		{
+			pool.closeConn(con);
 			sqle.printStackTrace();
 		}
 
@@ -1655,8 +1919,10 @@ public class PDBConnection {
 			System.out.println("Retrive flighttimebyFlightId Successful");
 			flightTimes = new FlightTime[flightTime_list.size()];
 			flightTimes = flightTime_list.toArray(flightTimes);
+			pool.closeConn(con);
 			return flightTimes;
 		}
+		pool.closeConn(con);
 		return null;
 	}
 	//TODO
@@ -1692,6 +1958,12 @@ public class PDBConnection {
 
 		try 
 		{
+			con = pool.getConn();
+			if(con == null || con.isClosed())
+			{
+				System.out.println("No connection to DB");
+				return false;
+			}
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setInt(1, journey.getFlightId());
 			ps.setString(2, journey.getSource());
@@ -1702,13 +1974,16 @@ public class PDBConnection {
 		} 
 		catch (SQLException sqle) 
 		{
+			pool.closeConn(con);
 			sqle.printStackTrace();
 		}
 
 		if (rc > 0) {
 			System.out.println("Create location Successful");
+			pool.closeConn(con);
 			return true;
 		}
+		pool.closeConn(con);
 		return false;
 	}
 
@@ -1728,6 +2003,12 @@ public class PDBConnection {
 
 		try 
 		{
+			con = pool.getConn();
+			if(con == null || con.isClosed())
+			{
+				System.out.println("No connection to DB");
+				return null;
+			}
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setInt(1, reservationId);
 			rs = ps.executeQuery(query);
@@ -1743,6 +2024,7 @@ public class PDBConnection {
 		}
 		catch (SQLException sqle) 
 		{
+			pool.closeConn(con);
 			sqle.printStackTrace();
 		}
 
@@ -1751,8 +2033,10 @@ public class PDBConnection {
 			journey = new Journey[journeyList.size()];
 			journey = journeyList.toArray(journey);
 			System.out.println("Retrive journey Successful");
+			pool.closeConn(con);
 			return journey;
 		}
+		pool.closeConn(con);
 		return null;
 	}
 
