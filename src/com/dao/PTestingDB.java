@@ -18,7 +18,7 @@ int customerId = 0;
 		PDBConnection dbcon = new PDBConnection();
 		PTestingDB t = new PTestingDB();
 		
-		
+		/*
 		Customer customer = t.createCustomer();
 		if(dbcon.createCustomer(customer))
 			System.out.println("Create Customer Success");
@@ -34,7 +34,7 @@ int customerId = 0;
 		Reservation res = t.createReservation();
 		if(dbcon.createReservation(res))
 			System.out.println("Create reservation Success");
-		
+		*/
 		
 		if(dbcon.signIn("username", "password", PersonType.CUSTOMER))
 			System.out.println("Customer signIn Success");

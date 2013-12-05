@@ -22,12 +22,14 @@ import com.domain.Traveller;
 
 
 public class PDBConnection {
+	SQLConnectionPool pool = SQLConnectionPool.getPool();
 	Connection con = null;
 	Statement s = null;
 	ResultSet rs = null;
 
 	public PDBConnection()
 	{
+		/*
 		try {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
 			con = DriverManager.getConnection("jdbc:mysql://localhost/ams_schema",
@@ -40,7 +42,7 @@ public class PDBConnection {
 			}
 
 			s = con.createStatement();
-
+			 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (InstantiationException e) {
@@ -50,6 +52,7 @@ public class PDBConnection {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
+		*/
 	}
 
 	public boolean signIn(String username, String password, PersonType type) 
@@ -60,20 +63,30 @@ public class PDBConnection {
 		String query = "select * from person where username = ? AND password = ? AND persontype = ?";
 		try 
 		{
+			con = pool.getConn();
+			if(con == null || con.isClosed())
+			{
+				System.out.println("No connection to DB");
+				return false;
+			}
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setString(1, username);
 			ps.setString(2, password);
 			ps.setString(3, type.name());
 			rs = ps.executeQuery();
 			if (rs.next()) {
+				pool.closeConn(con);
 				return true;
 			}
+			
+			
 		}
 		catch (SQLException sqle) 
 		{
+			pool.closeConn(con);
 			sqle.printStackTrace();
 		}
-		
+		pool.closeConn(con);
 		return false;
 	}
 	
@@ -87,6 +100,12 @@ public class PDBConnection {
 		String query = "insert into person(firstName,lastName,address,city,state,zip,personType,DOB,username,password) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		try 
 		{	
+			con = pool.getConn();
+			if(con == null || con.isClosed())
+			{
+				System.out.println("No connection to DB");
+				return -1;
+			}
 			PreparedStatement ps = con.prepareStatement(query,Statement.RETURN_GENERATED_KEYS);
 					
 			//ps.setInt(1,3456789);			
@@ -110,14 +129,16 @@ public class PDBConnection {
 		} 
 		catch (SQLException sqle) 
 		{
+			pool.closeConn(con);
 			sqle.printStackTrace();
 		}
 
 		if (rc > 0) {
 			System.out.println("Create Person Successful");
+			pool.closeConn(con);
 			return personId;
 		}
-
+		pool.closeConn(con);
 		return -1;	
 	}
 
@@ -131,6 +152,12 @@ public class PDBConnection {
 		String query = "select * from person where personId = ?";
 		try 
 		{
+			con = pool.getConn();
+			if(con == null || con.isClosed())
+			{
+				System.out.println("No connection to DB");
+				return null;
+			}
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setInt(1, personId);
 			rs = ps.executeQuery(query);
@@ -151,14 +178,17 @@ public class PDBConnection {
 		}
 		catch (SQLException sqle) 
 		{
+			pool.closeConn(con);
 			sqle.printStackTrace();
 		}
 
 		if(person != null)
 		{
 			System.out.println("Retrive Person Successful");
+			pool.closeConn(con);
 			return person;
 		}
+		pool.closeConn(con);
 		return null;
 	}
 
@@ -195,6 +225,12 @@ public class PDBConnection {
 		"where personID = ?";	//11
 		try 
 		{
+			con = pool.getConn();
+			if(con == null || con.isClosed())
+			{
+				System.out.println("No connection to DB");
+				return false;
+			}
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setString(1, firstName);
 			ps.setString(2, lastName);
@@ -212,13 +248,16 @@ public class PDBConnection {
 		} 
 		catch (SQLException sqle) 
 		{
+			pool.closeConn(con);
 			sqle.printStackTrace();
 		}
 
 		if (rc > 0) {
 			System.out.println("Update Person Successful");
+			pool.closeConn(con);
 			return true;
 		}
+		pool.closeConn(con);
 		return false;
 	}
 
@@ -233,20 +272,28 @@ public class PDBConnection {
 
 		try 
 		{	
+			con = pool.getConn();
+			if(con == null || con.isClosed())
+			{
+				System.out.println("No connection to DB");
+				return false;
+			}
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setInt(11, personId);
 			rc = ps.executeUpdate(query);
 		} 
 		catch (SQLException sqle) 
 		{
+			pool.closeConn(con);
 			sqle.printStackTrace();
 		}
 
 		if (rc > 0) {
 			System.out.println("Delete Person Successful");
+			pool.closeConn(con);
 			return true;
 		}
-
+		pool.closeConn(con);
 		return false;	
 	}
 
@@ -269,6 +316,12 @@ public class PDBConnection {
 
 			try 
 			{
+				con = pool.getConn();
+				if(con == null || con.isClosed())
+				{
+					System.out.println("No connection to DB");
+					return false;
+				}
 				PreparedStatement ps = con.prepareStatement(query);
 				ps.setInt(1, customer.getCustomerId());
 				ps.setInt(2, personId);
@@ -279,6 +332,7 @@ public class PDBConnection {
 			} 
 			catch (SQLException sqle) 
 			{
+				pool.closeConn(con);
 				sqle.printStackTrace();
 			}
 
@@ -286,9 +340,10 @@ public class PDBConnection {
 		}
 		if (rc > 0) {
 			System.out.println("Create Customer Successful");
+			pool.closeConn(con);
 			return true;
 		}
-
+		pool.closeConn(con);
 		return false;
 	}
 
@@ -303,6 +358,12 @@ public class PDBConnection {
 
 		try 
 		{
+			con = pool.getConn();
+			if(con == null || con.isClosed())
+			{
+				System.out.println("No connection to DB");
+				return null;
+			}
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setInt(1, customerId);
 			rs = ps.executeQuery(query);
@@ -319,14 +380,17 @@ public class PDBConnection {
 		}
 		catch (SQLException sqle) 
 		{
+			pool.closeConn(con);
 			sqle.printStackTrace();
 		}
 
 		if(customer != null)
 		{
 			System.out.println("Retrive customer Successful");
+			pool.closeConn(con);
 			return customer;
 		}
+		pool.closeConn(con);
 		return null;
 	}
 
@@ -350,6 +414,12 @@ public class PDBConnection {
 
 			try 
 			{
+				con = pool.getConn();
+				if(con == null || con.isClosed())
+				{
+					System.out.println("No connection to DB");
+					return false;
+				}
 				PreparedStatement ps = con.prepareStatement(query);
 				ps.setString(1, passportNumber);
 				ps.setString(2, nationality);
@@ -359,6 +429,7 @@ public class PDBConnection {
 			} 
 			catch (SQLException sqle) 
 			{
+				pool.closeConn(con);
 				sqle.printStackTrace();
 			}
 
@@ -367,9 +438,10 @@ public class PDBConnection {
 
 		if (rc > 0) {
 			System.out.println("Update Customer Successful");
+			pool.closeConn(con);
 			return true;
 		}
-
+		pool.closeConn(con);
 		return false;
 	}
 
@@ -384,21 +456,29 @@ public class PDBConnection {
 
 		try 
 		{
+			con = pool.getConn();
+			if(con == null || con.isClosed())
+			{
+				System.out.println("No connection to DB");
+				return false;
+			}
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setInt(1, customerId);
 			rc = ps.executeUpdate(query);
 		} 
 		catch (SQLException sqle) 
 		{
+			pool.closeConn(con);
 			sqle.printStackTrace();
 		}
 
 		if (rc > 0) {
 			//TODO deletePerson(personId);
 			System.out.println("Delete Customer Successful");
+			pool.closeConn(con);
 			return true;
 		}
-
+		pool.closeConn(con);
 		return false;	
 	}
 
@@ -418,6 +498,12 @@ public class PDBConnection {
 
 			try 
 			{
+				con = pool.getConn();
+				if(con == null || con.isClosed())
+				{
+					System.out.println("No connection to DB");
+					return false;
+				}
 				PreparedStatement ps = con.prepareStatement(query);
 				ps.setInt(1, employee.getEmployeeId());
 				ps.setInt(2, personId);
@@ -428,15 +514,17 @@ public class PDBConnection {
 			} 
 			catch (SQLException sqle) 
 			{
+				pool.closeConn(con);
 				sqle.printStackTrace();
 			}
 		}
 
 		if (rc > 0) {
 			System.out.println("Create Employee Successful");
+			pool.closeConn(con);
 			return true;
 		}
-
+		pool.closeConn(con);
 		return false;
 	}
 
