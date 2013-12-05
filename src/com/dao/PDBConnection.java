@@ -42,7 +42,7 @@ public class PDBConnection {
 			}
 
 			s = con.createStatement();
-			 
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (InstantiationException e) {
@@ -52,14 +52,14 @@ public class PDBConnection {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		*/
+		 */
 	}
 
 	public boolean signIn(String username, String password, PersonType type) 
 	{
 		if(username == null || username.isEmpty() || username == "" || username == null || username.isEmpty() || username == "")
 			return false;
-		
+
 		String query = "select * from person where username = ? AND password = ? AND persontype = ?";
 		try 
 		{
@@ -78,8 +78,8 @@ public class PDBConnection {
 				pool.closeConn(con);
 				return true;
 			}
-			
-			
+
+
 		}
 		catch (SQLException sqle) 
 		{
@@ -89,8 +89,8 @@ public class PDBConnection {
 		pool.closeConn(con);
 		return false;
 	}
-	
-	public Integer createPerson(Person person)
+
+	public Integer createPerson(Person person,Connection con)
 	{
 		if(person == null)
 			return -1;
@@ -100,14 +100,15 @@ public class PDBConnection {
 		String query = "insert into person(firstName,lastName,address,city,state,zip,personType,DOB,username,password) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		try 
 		{	
+			/*
 			con = pool.getConn();
 			if(con == null || con.isClosed())
 			{
 				System.out.println("No connection to DB");
 				return -1;
-			}
+			}*/
 			PreparedStatement ps = con.prepareStatement(query,Statement.RETURN_GENERATED_KEYS);
-					
+
 			//ps.setInt(1,3456789);			
 			ps.setString(1, person.getFirstName());
 			ps.setString(2,person.getLastName());
@@ -119,7 +120,7 @@ public class PDBConnection {
 			ps.setString(8,person.getDOB());
 			ps.setString(9,person.getUsername());
 			ps.setString(10,person.getPassword());
-			
+
 			rc = ps.executeUpdate();
 
 			rs = ps.getGeneratedKeys();
@@ -129,16 +130,22 @@ public class PDBConnection {
 		} 
 		catch (SQLException sqle) 
 		{
-			pool.closeConn(con);
+			try {
+				System.err.print("Transaction is being rolled back");
+				con.rollback();
+			} catch(SQLException excep) {
+				excep.printStackTrace();
+			}
+			//pool.closeConn(con);
 			sqle.printStackTrace();
 		}
 
 		if (rc > 0) {
 			System.out.println("Create Person Successful");
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			return personId;
 		}
-		pool.closeConn(con);
+		//pool.closeConn(con);
 		return -1;	
 	}
 
@@ -146,7 +153,7 @@ public class PDBConnection {
 	{
 		if(personId == -1)
 			return null;
-		
+
 		Person person = null;
 
 		String query = "select * from person where personId = ?";
@@ -192,11 +199,11 @@ public class PDBConnection {
 		return null;
 	}
 
-	public boolean updatePerson(Person person)
+	public boolean updatePerson(Person person,Connection con)
 	{
 		if(person == null)
 			return false;
-		
+
 		int rc = 0;
 
 		Integer personID = person.getPersonId();
@@ -225,12 +232,14 @@ public class PDBConnection {
 		"where personID = ?";	//11
 		try 
 		{
+			/*
 			con = pool.getConn();
 			if(con == null || con.isClosed())
 			{
 				System.out.println("No connection to DB");
 				return false;
 			}
+			 */
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setString(1, firstName);
 			ps.setString(2, lastName);
@@ -243,57 +252,71 @@ public class PDBConnection {
 			ps.setString(9, username);
 			ps.setString(10, password);
 			ps.setInt(11, personID);
-			
+
 			rc = ps.executeUpdate(query);
 		} 
 		catch (SQLException sqle) 
 		{
-			pool.closeConn(con);
+			try {
+				System.err.print("Transaction is being rolled back");
+				con.rollback();
+			} catch(SQLException excep) {
+				excep.printStackTrace();
+			}
+			//pool.closeConn(con);
 			sqle.printStackTrace();
 		}
 
 		if (rc > 0) {
 			System.out.println("Update Person Successful");
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			return true;
 		}
-		pool.closeConn(con);
+		//pool.closeConn(con);
 		return false;
 	}
 
-	public boolean deletePerson(Integer personId)
+	public boolean deletePerson(Integer personId,Connection con)
 	{
 		if(personId == -1)
 			return false;
-		
+
 		int rc = 0;
 
 		String query = "delete from person where personId = ?";
 
 		try 
 		{	
+			/*
 			con = pool.getConn();
 			if(con == null || con.isClosed())
 			{
 				System.out.println("No connection to DB");
 				return false;
 			}
+			 */
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setInt(11, personId);
 			rc = ps.executeUpdate(query);
 		} 
 		catch (SQLException sqle) 
 		{
-			pool.closeConn(con);
+			try {
+				System.err.print("Transaction is being rolled back");
+				con.rollback();
+			} catch(SQLException excep) {
+				excep.printStackTrace();
+			}
+			//pool.closeConn(con);
 			sqle.printStackTrace();
 		}
 
 		if (rc > 0) {
 			System.out.println("Delete Person Successful");
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			return true;
 		}
-		pool.closeConn(con);
+		//pool.closeConn(con);
 		return false;	
 	}
 
@@ -302,42 +325,70 @@ public class PDBConnection {
 	{
 		if(customer == null)
 			return false;
-		
+
 		int rc = 0;
-
-		int personId = createPerson(customer.getPerson());
-		if(personId > 0)
+		try 
 		{
-			/*										1			2		3				4	*/
-			String query = "insert into customer(customerId,personId,passportNumber,nationality) " +
-			"values (?, ?, ?, ?)";
-			
-
-
-			try 
+			con = pool.getConn();
+			if(con == null || con.isClosed())
 			{
-				con = pool.getConn();
-				if(con == null || con.isClosed())
-				{
-					System.out.println("No connection to DB");
-					return false;
-				}
+				System.out.println("No connection to DB");
+				return false;
+			}
+			//setting autocommit false for transaction support
+			con.setAutoCommit(false);
+			int personId = createPerson(customer.getPerson(),con);
+			if(personId > 0)
+			{
+				/*										1			2		3				4	*/
+				String query = "insert into customer(customerId,personId,passportNumber,nationality) " +
+				"values (?, ?, ?, ?)";
+
 				PreparedStatement ps = con.prepareStatement(query);
 				ps.setInt(1, customer.getCustomerId());
 				ps.setInt(2, personId);
 				ps.setString(3, customer.getPassportNumber());
 				ps.setString(4, customer.getNationality());
-				
-				rc = ps.executeUpdate();
-			} 
-			catch (SQLException sqle) 
-			{
-				pool.closeConn(con);
-				sqle.printStackTrace();
-			}
 
-			//createReservation(customer.getCustomerId(),customer.getReservation());
+				rc = ps.executeUpdate();
+				if(rc > 0)
+				{
+					con.commit();
+				}
+				else
+				{
+					try {
+						System.err.print("Transaction is being rolled back");
+						con.rollback();
+					} catch(SQLException excep) {
+						excep.printStackTrace();
+					}
+				}
+			} 
+			else
+			{
+				try {
+					System.err.print("Transaction is being rolled back");
+					con.rollback();
+				} catch(SQLException excep) {
+					excep.printStackTrace();
+				}
+			}
 		}
+		catch (SQLException sqle) 
+		{
+			try {
+				System.err.print("Transaction is being rolled back");
+				con.rollback();
+			} catch(SQLException excep) {
+				excep.printStackTrace();
+			}
+			pool.closeConn(con);
+			sqle.printStackTrace();
+		}
+
+		//createReservation(customer.getCustomerId(),customer.getReservation());
+
 		if (rc > 0) {
 			System.out.println("Create Customer Successful");
 			pool.closeConn(con);
@@ -351,7 +402,7 @@ public class PDBConnection {
 	{
 		if(customerId < 0)
 			return null;
-		
+
 		Customer customer = null;
 
 		String query = "select * from customer where customerId = ?";
@@ -398,43 +449,74 @@ public class PDBConnection {
 	{
 		if(customer == null)
 			return false;
-		
+
 		int rc = 0;
 
 		Integer customerId = customer.getCustomerId();
 		String passportNumber = customer.getPassportNumber();
 		String nationality = customer.getNationality();
-
-		if(updatePerson(customer.getPerson()))
+		try 
 		{
-			String query = "update customer set " +
-			"passportNumber = ? ," +		//1
-			"nationality = ? " +			//2
-			"where customerId = ?";			//3
-
-			try 
+			con = pool.getConn();
+			if(con == null || con.isClosed())
 			{
-				con = pool.getConn();
-				if(con == null || con.isClosed())
-				{
-					System.out.println("No connection to DB");
-					return false;
-				}
+				System.out.println("No connection to DB");
+				return false;
+			}
+			//setting autocommit false for transaction support
+			con.setAutoCommit(false);
+			if(updatePerson(customer.getPerson(),con))
+			{
+				String query = "update customer set " +
+				"passportNumber = ? ," +		//1
+				"nationality = ? " +			//2
+				"where customerId = ?";			//3
+
+
 				PreparedStatement ps = con.prepareStatement(query);
 				ps.setString(1, passportNumber);
 				ps.setString(2, nationality);
 				ps.setInt(3, customerId);
-				
-				rc = ps.executeUpdate(query);
-			} 
-			catch (SQLException sqle) 
-			{
-				pool.closeConn(con);
-				sqle.printStackTrace();
-			}
 
-			//updateReservation(customer.getReservation());
+				rc = ps.executeUpdate(query);
+				if(rc > 0)
+				{
+					con.commit();
+				}
+				else
+				{
+					try {
+						System.err.print("Transaction is being rolled back");
+						con.rollback();
+					} catch(SQLException excep) {
+						excep.printStackTrace();
+					}
+				}
+			}
+			else
+			{
+				try {
+					System.err.print("Transaction is being rolled back");
+					con.rollback();
+				} catch(SQLException excep) {
+					excep.printStackTrace();
+				}
+			}
 		}
+		catch (SQLException sqle) 
+		{
+			try {
+				System.err.print("Transaction is being rolled back");
+				con.rollback();
+			} catch(SQLException excep) {
+				excep.printStackTrace();
+			}
+			pool.closeConn(con);
+			sqle.printStackTrace();
+		}
+
+		//updateReservation(customer.getReservation());
+
 
 		if (rc > 0) {
 			System.out.println("Update Customer Successful");
@@ -449,11 +531,11 @@ public class PDBConnection {
 	{
 		if(customerId < 0)
 			return false;
-		
+
 		int rc = 0;
-
+		int personId = -1;
 		String query = "delete from customer where customerId = ?";
-
+		String query1 = "select personId from customer where customerId = ?";
 		try 
 		{
 			con = pool.getConn();
@@ -462,18 +544,57 @@ public class PDBConnection {
 				System.out.println("No connection to DB");
 				return false;
 			}
+			con.setAutoCommit(false);
+			PreparedStatement ps1 = con.prepareStatement(query1);
+			ps1.setInt(1, customerId);
+			rs = ps1.executeQuery();
+			if(rs.next())
+				personId = rs.getInt("personId");
+
+
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setInt(1, customerId);
 			rc = ps.executeUpdate(query);
+			if(rc > 0 && personId > -1)
+			{
+				if(deletePerson(personId,con))
+				{
+					con.commit();
+				}
+				else
+				{
+					try {
+						System.err.print("Transaction is being rolled back");
+						con.rollback();
+					} catch(SQLException excep) {
+						excep.printStackTrace();
+					}
+				}
+			}
+			else
+			{
+				try {
+					System.err.print("Transaction is being rolled back");
+					con.rollback();
+				} catch(SQLException excep) {
+					excep.printStackTrace();
+				}
+			}
+
 		} 
 		catch (SQLException sqle) 
 		{
+			try {
+				System.err.print("Transaction is being rolled back");
+				con.rollback();
+			} catch(SQLException excep) {
+				excep.printStackTrace();
+			}
 			pool.closeConn(con);
 			sqle.printStackTrace();
 		}
 
 		if (rc > 0) {
-			//TODO deletePerson(personId);
 			System.out.println("Delete Customer Successful");
 			pool.closeConn(con);
 			return true;
@@ -483,27 +604,28 @@ public class PDBConnection {
 	}
 
 	public boolean createEmployee(Employee employee) {
-		
+
 		if(employee == null)
 			return false;
-		
+
 		int rc = 0;
-
-		int personId = createPerson(employee.getPerson());
-		if(personId > 0)
+		try 
 		{
-			/*										1			2		3		4		5	*/
-			String query = "insert into employee(employeeId,personId,workDesc,position,hireDate) " +
-			"values (?, ?, ?, ?, ?)";
-
-			try 
+			con = pool.getConn();
+			if(con == null || con.isClosed())
 			{
-				con = pool.getConn();
-				if(con == null || con.isClosed())
-				{
-					System.out.println("No connection to DB");
-					return false;
-				}
+				System.out.println("No connection to DB");
+				return false;
+			}
+			con.setAutoCommit(false);
+			int personId = createPerson(employee.getPerson(),con);
+			if(personId > 0)
+			{
+				/*										1			2		3		4		5	*/
+				String query = "insert into employee(employeeId,personId,workDesc,position,hireDate) " +
+				"values (?, ?, ?, ?, ?)";
+
+
 				PreparedStatement ps = con.prepareStatement(query);
 				ps.setInt(1, employee.getEmployeeId());
 				ps.setInt(2, personId);
@@ -511,13 +633,42 @@ public class PDBConnection {
 				ps.setInt(4, employee.getPosition());
 				ps.setString(5,employee.getHireDate());
 				rc = ps.executeUpdate();
+				if(rc > 0)
+				{
+					con.commit();
+				}
+				else
+				{
+					try {
+						System.err.print("Transaction is being rolled back");
+						con.rollback();
+					} catch(SQLException excep) {
+						excep.printStackTrace();
+					}
+				}
 			} 
-			catch (SQLException sqle) 
+			else
 			{
-				pool.closeConn(con);
-				sqle.printStackTrace();
+				try {
+					System.err.print("Transaction is being rolled back");
+					con.rollback();
+				} catch(SQLException excep) {
+					excep.printStackTrace();
+				}
 			}
 		}
+		catch (SQLException sqle) 
+		{
+			try {
+				System.err.print("Transaction is being rolled back");
+				con.rollback();
+			} catch(SQLException excep) {
+				excep.printStackTrace();
+			}
+			pool.closeConn(con);
+			sqle.printStackTrace();
+		}
+
 
 		if (rc > 0) {
 			System.out.println("Create Employee Successful");
@@ -532,7 +683,7 @@ public class PDBConnection {
 	{
 		if(employeeId < 0)
 			return null;
-		
+
 		Employee employee = null;
 
 		String query = "select * from employee where employeeId = ?";
@@ -579,43 +730,64 @@ public class PDBConnection {
 	{
 		if(employee == null)
 			return false;
-		
+
 		int rc = 0;
 
 		Integer employeeId = employee.getEmployeeId();
 		String workDesc = employee.getWorkDesc();
 		Integer position = employee.getPosition();
 		String hireDate = employee.getHireDate();
-
-		if(updatePerson(employee.getPerson()))
+		try 
 		{
-			String query = "update employee set " +
-			"workDesc = ? ," +			//1
-			"position = ? ," +			//2
-			"hireDate = ? " +			//3
-			"where employeeId = ?";		//4
-
-			try 
+			con = pool.getConn();
+			if(con == null || con.isClosed())
 			{
-				con = pool.getConn();
-				if(con == null || con.isClosed())
-				{
-					System.out.println("No connection to DB");
-					return false;
-				}
+				System.out.println("No connection to DB");
+				return false;
+			}
+			con.setAutoCommit(false);
+			if(updatePerson(employee.getPerson(),con))
+			{
+				String query = "update employee set " +
+				"workDesc = ? ," +			//1
+				"position = ? ," +			//2
+				"hireDate = ? " +			//3
+				"where employeeId = ?";		//4
+
+
 				PreparedStatement ps = con.prepareStatement(query);
 				ps.setString(1, workDesc);
 				ps.setInt(2, position);
 				ps.setString(3, hireDate);
 				ps.setInt(4, employeeId);
 				rc = ps.executeUpdate(query);
-			} 
-			catch (SQLException sqle) 
-			{
-				pool.closeConn(con);
-				sqle.printStackTrace();
+				if(rc > 0)
+				{
+					con.commit();
+				}
+				else
+				{
+					try {
+						System.err.print("Transaction is being rolled back");
+						con.rollback();
+					} catch(SQLException excep) {
+						excep.printStackTrace();
+					}
+				}
 			}
 		}
+		catch (SQLException sqle) 
+		{
+			try {
+				System.err.print("Transaction is being rolled back");
+				con.rollback();
+			} catch(SQLException excep) {
+				excep.printStackTrace();
+			}
+			pool.closeConn(con);
+			sqle.printStackTrace();
+		}
+
 
 		if (rc > 0) {
 			pool.closeConn(con);
@@ -630,11 +802,11 @@ public class PDBConnection {
 	{
 		if(employeeId < 0)
 			return false;
-		
+
 		int rc = 0;
-
+		int personId = -1;
 		String query = "delete from customer where employeeId = ?";
-
+		String query1 = "select personId from employee where employeeId = ?";
 		try 
 		{
 			con = pool.getConn();
@@ -643,13 +815,51 @@ public class PDBConnection {
 				System.out.println("No connection to DB");
 				return false;
 			}
-			
+			con.setAutoCommit(false);
+			PreparedStatement ps1 = con.prepareStatement(query1);
+			ps1.setInt(1, employeeId);
+			rs = ps1.executeQuery();
+			if(rs.next())
+				personId = rs.getInt("personId");
+
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setInt(1, employeeId);
 			rc = ps.executeUpdate(query);
+			if(rc > 0 && personId > -1)
+			{
+				if(deletePerson(personId,con))
+				{
+					con.commit();
+				}
+				else
+				{
+					try {
+						System.err.print("Transaction is being rolled back");
+						con.rollback();
+					} catch(SQLException excep) {
+						excep.printStackTrace();
+					}
+				}
+			}
+			else
+			{
+				try {
+					System.err.print("Transaction is being rolled back");
+					con.rollback();
+				} catch(SQLException excep) {
+					excep.printStackTrace();
+				}
+			}
+
 		} 
 		catch (SQLException sqle) 
 		{
+			try {
+				System.err.print("Transaction is being rolled back");
+				con.rollback();
+			} catch(SQLException excep) {
+				excep.printStackTrace();
+			}
 			pool.closeConn(con);
 			sqle.printStackTrace();
 		}
@@ -671,7 +881,7 @@ public class PDBConnection {
 	{
 		if(reservation == null)
 			return false;
-		
+
 		int rc = 0;
 		int reservationId = -1;
 		/*											1			2				3			4					*/
@@ -687,33 +897,81 @@ public class PDBConnection {
 				System.out.println("No connection to DB");
 				return false;
 			}
+			con.setAutoCommit(false);
 			PreparedStatement ps = con.prepareStatement(query);
 			//ps.setInt(1, null); //Auto Increment
 			ps.setString(1, reservation.getReservationNo());
 			ps.setInt(2, reservation.getCustomerId());
 			ps.setInt(3, reservation.getReservationStatus());
 			ps.setInt(4, reservation.getSeatsBooked());
-			
+
 			rc = ps.executeUpdate();
 			rs = ps.getGeneratedKeys();
-			
+
 			if(rs.next())
 				reservationId = rs.getInt(1);
 			System.out.println("reservationId = " + reservationId);
+
+			if(rc > 0 && reservationId > 0)
+			{
+				Traveller[] travellers =  reservation.getTravellers();
+				for(int i = 0; i< travellers.length;i++)
+				{
+					if(!createTravller(reservationId,travellers[i],con))
+					{
+						try {
+							System.err.print("Transaction is being rolled back");
+							con.rollback();
+							pool.closeConn(con);
+							return false;
+						} catch(SQLException excep) {
+							excep.printStackTrace();
+						}
+					}
+				}
+				Journey[] journey = reservation.getJourney();
+				for(int j = 0; j<journey.length;j++)
+				{
+					if(!createJourney(reservationId,journey[j],con))
+
+					{
+						try {
+							System.err.print("Transaction is being rolled back");
+							con.rollback();
+							pool.closeConn(con);
+							return false;
+						} catch(SQLException excep) {
+							excep.printStackTrace();
+						}
+					}
+				}
+				con.commit();
+			}
+			else
+			{
+				try {
+					System.err.print("Transaction is being rolled back");
+					con.rollback();
+				} catch(SQLException excep) {
+					excep.printStackTrace();
+				}
+			}
 		} 
 		catch (SQLException sqle) 
 		{
+			try {
+				System.err.print("Transaction is being rolled back");
+				con.rollback();
+				pool.closeConn(con);
+				return false;
+			} catch(SQLException excep) {
+				excep.printStackTrace();
+			}
 			pool.closeConn(con);
 			sqle.printStackTrace();
 		}
 
-		Traveller[] travellers =  reservation.getTravellers();
-		for(int i = 0; i< travellers.length;i++)
-			createTravller(reservationId,travellers[i]);	
 
-		Journey[] journey = reservation.getJourney();
-		for(int j = 0; j<journey.length;j++)
-			createJourney(reservationId,journey[j]);
 
 		if (rc > 0) {
 			System.out.println("Create reservation Successful");
@@ -729,7 +987,7 @@ public class PDBConnection {
 	{
 		if(reservationId < 0)
 			return null;
-		
+
 		Reservation reservation = null;
 
 		String query = "select * from reservation where reservationId = ?";
@@ -744,7 +1002,7 @@ public class PDBConnection {
 			}
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setInt(1, reservationId); 
-			
+
 			rs = ps.executeQuery(query);
 			if (rs.next()) {
 				reservation = new Reservation();
@@ -783,7 +1041,7 @@ public class PDBConnection {
 	{
 		if(customerId < 0)
 			return null;
-		
+
 		Reservation reservation = null;
 
 		String query = "select * from reservation where customerId = ?";
@@ -798,7 +1056,7 @@ public class PDBConnection {
 			}
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setInt(1, customerId); 
-			
+
 			rs = ps.executeQuery(query);
 			if (rs.next()) {
 				reservation = new Reservation();
@@ -834,7 +1092,7 @@ public class PDBConnection {
 	{
 		if(reservationNo == null || reservationNo.isEmpty() || reservationNo == "")
 			return null;
-		
+
 		Reservation reservation = null;
 
 		String query = "select * from reservation where reservationNo = ?" ;
@@ -884,7 +1142,7 @@ public class PDBConnection {
 	{
 		if(reservation == null)
 			return false;
-		
+
 		int rc = 0;
 
 		Integer reservationId = reservation.getReservationId();
@@ -893,7 +1151,7 @@ public class PDBConnection {
 		Integer reservationStatus = reservation.getReservationStatus();
 		Integer seatsBooked = reservation.getSeatsBooked();
 		Traveller[] travellers = reservation.getTravellers();
-
+		Journey[] journey = reservation.getJourney();
 
 		String query = "update reservation set " +
 		"reservationNo = ? ," +
@@ -910,23 +1168,49 @@ public class PDBConnection {
 				System.out.println("No connection to DB");
 				return false;
 			}
+			con.setAutoCommit(false);
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setString(1, reservationNo);
 			ps.setInt(2, customerId);
 			ps.setInt(3, reservationStatus);
 			ps.setInt(4, seatsBooked);
 			ps.setInt(5, reservationId);
-			
+
 			rc = ps.executeUpdate(query);
+			for(int i = 0; i< travellers.length;i++)
+				if(!updateTravller(travellers[i],con))
+				{
+					try {
+						System.err.print("Transaction is being rolled back");
+						con.rollback();
+					} catch(SQLException excep) {
+						excep.printStackTrace();
+					}
+				}
+			if(!updateJourney(reservationId,journey,con))
+			{
+				try {
+					System.err.print("Transaction is being rolled back");
+					con.rollback();
+				} catch(SQLException excep) {
+					excep.printStackTrace();
+				}
+			}
+			con.commit();
 		} 
 		catch (SQLException sqle) 
 		{
+			try {
+				System.err.print("Transaction is being rolled back");
+				con.rollback();
+			} catch(SQLException excep) {
+				excep.printStackTrace();
+			}	
 			pool.closeConn(con);
 			sqle.printStackTrace();
 		}
 
-		for(int i = 0; i< travellers.length;i++)
-			updateTravller(travellers[i]);
+
 
 
 
@@ -943,13 +1227,8 @@ public class PDBConnection {
 	{
 		if(reservationId < 0)
 			return false;
-		
+
 		int rc = 0;
-
-		deleteTravellers(reservationId);
-		//TODO deleteJourney();
-		String query = "delete from reservation where reservationId = ?";
-
 		try 
 		{
 			con = pool.getConn();
@@ -958,12 +1237,53 @@ public class PDBConnection {
 				System.out.println("No connection to DB");
 				return false;
 			}
+			con.setAutoCommit(false);
+			if(!deleteTravellers(reservationId,con))
+			{
+				try {
+					System.err.print("Transaction is being rolled back");
+					con.rollback();
+				} catch(SQLException excep) {
+					excep.printStackTrace();
+				}
+			}
+			if(!deleteJourney(reservationId,con))
+			{
+				try {
+					System.err.print("Transaction is being rolled back");
+					con.rollback();
+				} catch(SQLException excep) {
+					excep.printStackTrace();
+				}
+			}
+			String query = "delete from reservation where reservationId = ?";
+
+
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setInt(1, reservationId);
 			rc = ps.executeUpdate(query);
+			if(rc > 0)
+			{
+				con.commit();
+			}
+			else
+			{
+				try {
+					System.err.print("Transaction is being rolled back");
+					con.rollback();
+				} catch(SQLException excep) {
+					excep.printStackTrace();
+				}
+			}
 		} 
 		catch (SQLException sqle) 
 		{
+			try {
+				System.err.print("Transaction is being rolled back");
+				con.rollback();
+			} catch(SQLException excep) {
+				excep.printStackTrace();
+			}
 			pool.closeConn(con);
 			sqle.printStackTrace();
 		}
@@ -981,7 +1301,7 @@ public class PDBConnection {
 	{
 		if(customerId < 0)
 			return false;
-		
+
 		int rc = 0;
 
 		String query = "delete from reservation where customerId = ?";
@@ -1016,25 +1336,27 @@ public class PDBConnection {
 	}
 
 
-	public boolean createTravller(Integer reservationId,Traveller traveller)
+	public boolean createTravller(Integer reservationId,Traveller traveller,Connection con)
 	{
 		if(reservationId < 0 || traveller == null)
 			return false;
-		
+
 		int rc = 0;
-		/*											1		2			3	  4	  		*/
+		/*											1		2	 3	  4	  	5	*/
 		String query = "insert into traveller(firstName,lastName,age,sex,reservationId) " +
 		"values (?,?,?,?,?)";
 
 
 		try 
 		{
+			/*
 			con = pool.getConn();
 			if(con == null || con.isClosed())
 			{
 				System.out.println("No connection to DB");
 				return false;
 			}
+			 */
 			PreparedStatement ps = con.prepareStatement(query);
 			//ps.setInt(1, travellerId); //auto Increment
 			ps.setString(1, traveller.getFirstName());
@@ -1046,16 +1368,22 @@ public class PDBConnection {
 		} 
 		catch (SQLException sqle) 
 		{
-			pool.closeConn(con);
+			try {
+				System.err.print("Transaction is being rolled back");
+				con.rollback();
+			} catch(SQLException excep) {
+				excep.printStackTrace();
+			}
+			//pool.closeConn(con);
 			sqle.printStackTrace();
 		}
 
 		if (rc > 0) {
 			System.out.println("Create Traveller Successful");
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			return true;
 		}
-		pool.closeConn(con);
+		//pool.closeConn(con);
 		return false;
 	}
 
@@ -1063,7 +1391,7 @@ public class PDBConnection {
 	{
 		if(reservationId < 0)
 			return null;
-		
+
 		List<Traveller> travellerList = new ArrayList<Traveller>();
 		Traveller travelleritem = null;
 		Traveller[] travellers = null;
@@ -1080,7 +1408,7 @@ public class PDBConnection {
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setInt(1, reservationId); 
 			rs = ps.executeQuery(query);
-			
+
 			while (rs.next()) {
 				travelleritem = new Traveller();
 
@@ -1113,11 +1441,11 @@ public class PDBConnection {
 	}
 
 
-	public boolean updateTravller(Traveller traveller)
+	public boolean updateTravller(Traveller traveller,Connection con)
 	{
 		if(traveller == null)
 			return false;
-		
+
 		int rc = 0;
 
 		Integer travellerId = traveller.getTravellerId();
@@ -1136,12 +1464,14 @@ public class PDBConnection {
 
 		try 
 		{
+			/*
 			con = pool.getConn();
 			if(con == null || con.isClosed())
 			{
 				System.out.println("No connection to DB");
 				return false;
 			}
+			 */
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setString(1,firstName);
 			ps.setString(2, lastName);
@@ -1152,53 +1482,67 @@ public class PDBConnection {
 		} 
 		catch (SQLException sqle) 
 		{
-			pool.closeConn(con);
+			try {
+				System.err.print("Transaction is being rolled back");
+				con.rollback();
+			} catch(SQLException excep) {
+				excep.printStackTrace();
+			}
+			//pool.closeConn(con);
 			sqle.printStackTrace();
 		}
 
 		if (rc > 0) {
 			System.out.println("Update traveller Successful");
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			return true;
 		}
-		pool.closeConn(con);
+		//pool.closeConn(con);
 		return false;
 	}
 
 	//Delete on the basis of reservationId
-	public boolean deleteTravellers(Integer reservationId)
+	public boolean deleteTravellers(Integer reservationId,Connection con)
 	{
 		if(reservationId < 0)
 			return false;
-		
+
 		int rc = 0;
 
 		String query = "delete from traveller where reservationId = ?";
 
 		try 
 		{
+			/*
 			con = pool.getConn();
 			if(con == null || con.isClosed())
 			{
 				System.out.println("No connection to DB");
 				return false;
 			}
+			 */
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setInt(1, reservationId);
 			rc = ps.executeUpdate(query);
 		} 
 		catch (SQLException sqle) 
 		{
-			pool.closeConn(con);
+			try {
+				System.err.print("Transaction is being rolled back");
+				con.rollback();
+			} catch(SQLException excep) {
+				excep.printStackTrace();
+			}
+			//pool.closeConn(con);
 			sqle.printStackTrace();
 		}
 
 		if (rc > 0) {
 			System.out.println("Delete travellers Successful");
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			return true;
 		}
-		pool.closeConn(con);
+		//pool.closeConn(con);
 		return false;
 	}
 
@@ -1207,7 +1551,7 @@ public class PDBConnection {
 	{
 		if(travellerId < 0)
 			return false;
-		
+
 		int rc = 0;
 
 		String query = "delete from traveller where travellerId = ?";
@@ -1244,7 +1588,7 @@ public class PDBConnection {
 	{
 		if(location == null)
 			return false;
-		
+
 		int rc = 0;
 		/*										1		  2		  3			4	*/
 		String query = "insert into location(locationId,state,stateCode,airportCode) " +
@@ -1285,7 +1629,7 @@ public class PDBConnection {
 	{
 		if(locationId == null)
 			return null;
-		
+
 		Location location = null;
 
 		String query = "select * from location where locationId = ?";
@@ -1328,7 +1672,7 @@ public class PDBConnection {
 	{
 		if(stateCode == null || stateCode.isEmpty() || stateCode == "")
 			return null;
-		
+
 		Location location = null;
 
 		String query = "select * from location where stateCode = ?";
@@ -1372,7 +1716,7 @@ public class PDBConnection {
 	{
 		if(state == null || state.isEmpty() || state == "")
 			return null;
-		
+
 		Location location = null;
 
 		String query = "select * from location where state = ?";
@@ -1416,7 +1760,7 @@ public class PDBConnection {
 	{
 		if(airportCode == null || airportCode.isEmpty() || airportCode == "")
 			return null;
-		
+
 		Location location = null;
 
 		String query = "select * from location where airportCode = ?";
@@ -1460,7 +1804,7 @@ public class PDBConnection {
 	{
 		if(location == null)
 			return false;
-		
+
 		int rc = 0;
 
 		Integer locationId = location.getLocationId();
@@ -1509,7 +1853,7 @@ public class PDBConnection {
 	{
 		if(locationId < 0)
 			return false;
-		
+
 		int rc = 0;
 
 		String query = "delete from location where locationId = ?";
@@ -1545,7 +1889,7 @@ public class PDBConnection {
 	{
 		if(flight == null)
 			return false;
-		
+
 		int rc = 0;
 		/*										1		2			3		4		5				*/
 		String query = "insert into flight(flightNo,airlineName,source,destination,noOfSeats) " +
@@ -1644,7 +1988,7 @@ public class PDBConnection {
 	{
 		if(flightId < 0)
 			return null;
-		
+
 		Flight flight = null;
 
 		String query = "select * from flight where flightId = ?";
@@ -1694,7 +2038,7 @@ public class PDBConnection {
 	{
 		if(flightNo == null || flightNo.isEmpty() || flightNo == "")
 			return null;
-		
+
 		Flight flight = null;
 
 		String query = "select * from flight where flightNo = ?";
@@ -1744,7 +2088,7 @@ public class PDBConnection {
 	{
 		if(flight == null)
 			return false;
-		
+
 		int rc = 0;
 
 		Integer flightId = flight.getFlightId();
@@ -1803,7 +2147,7 @@ public class PDBConnection {
 	{
 		if(flightId < 0)
 			return false;
-		
+
 		int rc = 0;
 
 		String query = "delete from flight where flightId = ?";
@@ -1842,7 +2186,7 @@ public class PDBConnection {
 	{
 		if(flightId < 0 || flightTime == null)
 			return false;
-		
+
 		int rc = 0;
 		/*										1		2			3	*/
 		String query = "insert into flight(flightId ,flightDay,flightTime) " +
@@ -1881,7 +2225,7 @@ public class PDBConnection {
 	{
 		if(flightId < 0)
 			return null;
-		
+
 		List<FlightTime> flightTime_list = new ArrayList<FlightTime>();
 		FlightTime flightTime = null;
 		FlightTime[] flightTimes = null;
@@ -1930,7 +2274,7 @@ public class PDBConnection {
 	{
 		if(flightTimes == null)
 			return false;
-		
+
 		return false;
 	}
 
@@ -1939,17 +2283,17 @@ public class PDBConnection {
 	{
 		if(flightId < 0)
 			return false;
-		
+
 		return false;
 	}
 
 
 
-	public boolean createJourney(Integer reservationId,Journey journey)
+	public boolean createJourney(Integer reservationId,Journey journey,Connection con)
 	{
 		if(reservationId < 0 || journey == null)
 			return false;
-		
+
 		int rc = 0;
 		/*										1		2			3			4			5	*/
 		String query = "insert into journey(FlightId ,boarding,destination,ReservationID,datetime) " +
@@ -1958,12 +2302,14 @@ public class PDBConnection {
 
 		try 
 		{
+			/*
 			con = pool.getConn();
 			if(con == null || con.isClosed())
 			{
 				System.out.println("No connection to DB");
 				return false;
 			}
+			 */
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setInt(1, journey.getFlightId());
 			ps.setString(2, journey.getSource());
@@ -1974,16 +2320,22 @@ public class PDBConnection {
 		} 
 		catch (SQLException sqle) 
 		{
-			pool.closeConn(con);
+			try {
+				System.err.print("Transaction is being rolled back");
+				con.rollback();
+			} catch(SQLException excep) {
+				excep.printStackTrace();
+			}
+			//pool.closeConn(con);
 			sqle.printStackTrace();
 		}
 
 		if (rc > 0) {
 			System.out.println("Create location Successful");
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			return true;
 		}
-		pool.closeConn(con);
+		//pool.closeConn(con);
 		return false;
 	}
 
@@ -1992,7 +2344,7 @@ public class PDBConnection {
 	{
 		if(reservationId < 0 )
 			return null;
-		
+
 		List<Journey> journeyList = new ArrayList<Journey>();
 		Journey journeyItem = null;
 
@@ -2040,8 +2392,125 @@ public class PDBConnection {
 		return null;
 	}
 
+	public boolean updateJourney(Integer reservationId,Journey[] journey,Connection con)
+	{
+		if(reservationId < 0)
+			return false;
+
+		int rc = 0;
+
+		//try 
+		//{
+		/*
+			con = pool.getConn();
+			if(con == null || con.isClosed())
+			{
+				System.out.println("No connection to DB");
+				return false;
+			}
+		 */
+		if(deleteJourney(reservationId,con))
+		{
+			for(int j = 0; j<journey.length;j++)
+			{
+				if(!createJourney(reservationId,journey[j],con))
+
+				{
+					try {
+						System.err.print("Transaction is being rolled back");
+						con.rollback();
+						pool.closeConn(con);
+						return false;
+					} catch(SQLException excep) {
+						excep.printStackTrace();
+					}
+				}
+			}
+		}
+		else
+		{
+			try {
+				System.err.print("Transaction is being rolled back");
+				con.rollback();
+			} catch(SQLException excep) {
+				excep.printStackTrace();
+			}
+		}
+
+		//String query = "update from Journey where reservationId = ?";
 
 
+		//PreparedStatement ps = con.prepareStatement(query);
+		//ps.setInt(1, reservationId);
+		//rc = ps.executeUpdate(query);
+		/*} 
+		catch (SQLException sqle) 
+		{
+			try {
+				System.err.print("Transaction is being rolled back");
+				con.rollback();
+			} catch(SQLException excep) {
+				excep.printStackTrace();
+			}
+			//pool.closeConn(con);
+			sqle.printStackTrace();
+		}*/
+
+		if (rc > 0) {
+			System.out.println("Delete Journey Successful");
+			//pool.closeConn(con);
+			return true;
+		}
+		//pool.closeConn(con);
+		return false;
+	}
+
+	public boolean deleteJourney(Integer reservationId,Connection con)
+	{
+		if(reservationId < 0)
+			return false;
+
+		int rc = 0;
+
+		String query = "delete from Journey where reservationId = ?";
+
+		try 
+		{
+			/*
+			con = pool.getConn();
+			if(con == null || con.isClosed())
+			{
+				System.out.println("No connection to DB");
+				return false;
+			}
+			 */
+			PreparedStatement ps = con.prepareStatement(query);
+			ps.setInt(1, reservationId);
+			rc = ps.executeUpdate(query);
+		} 
+		catch (SQLException sqle) 
+		{
+			try {
+				System.err.print("Transaction is being rolled back");
+				con.rollback();
+			} catch(SQLException excep) {
+				excep.printStackTrace();
+			}
+			//pool.closeConn(con);
+			sqle.printStackTrace();
+		}
+
+		if (rc > 0) {
+			System.out.println("Delete Journey Successful");
+			//pool.closeConn(con);
+			return true;
+		}
+		//pool.closeConn(con);
+		return false;
+	}
 
 
 }
+
+
+
