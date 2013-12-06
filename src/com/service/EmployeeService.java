@@ -1,6 +1,7 @@
 package com.service;
 
 import com.dao.PDBConnection;
+import com.domain.Customer;
 import com.domain.Employee;
 
 public class EmployeeService {
@@ -12,6 +13,10 @@ public class EmployeeService {
 	}
 	public Employee getEmployee(Integer employeeId) {
 		return dbcon.retriveEmployee(employeeId);
+	}
+	
+	public Employee retriveEmployeebypId(Integer personId) {
+		return dbcon.retriveEmployeebypId(personId);
 	}
 	
 	public boolean insertEmployee(Employee employee) {

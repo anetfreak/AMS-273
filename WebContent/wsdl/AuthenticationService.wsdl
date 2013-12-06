@@ -19,39 +19,6 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
      </sequence>
     </complexType>
    </element>
-   <element name="employeeSignUp">
-    <complexType>
-     <sequence>
-      <element name="employee" type="tns1:Employee"/>
-     </sequence>
-    </complexType>
-   </element>
-   <element name="employeeSignUpResponse">
-    <complexType>
-     <sequence>
-      <element name="employeeSignUpReturn" type="xsd:boolean"/>
-     </sequence>
-    </complexType>
-   </element>
-   <element name="customerSignUp">
-    <complexType>
-     <sequence>
-      <element name="customer" type="tns1:Customer"/>
-     </sequence>
-    </complexType>
-   </element>
-   <complexType name="ArrayOf_tns1_Traveller">
-    <sequence>
-     <element maxOccurs="unbounded" minOccurs="0" name="item" type="tns1:Traveller"/>
-    </sequence>
-   </complexType>
-   <element name="customerSignUpResponse">
-    <complexType>
-     <sequence>
-      <element name="customerSignUpReturn" type="xsd:boolean"/>
-     </sequence>
-    </complexType>
-   </element>
    <element name="updateCustInformation">
     <complexType>
      <sequence>
@@ -66,7 +33,21 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
      </sequence>
     </complexType>
    </element>
-   <element name="signIn">
+   <element name="employeeSignUp">
+    <complexType>
+     <sequence>
+      <element name="employee" type="tns1:Employee"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="employeeSignUpResponse">
+    <complexType>
+     <sequence>
+      <element name="employeeSignUpReturn" type="xsd:boolean"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="signInEmployee">
     <complexType>
      <sequence>
       <element name="username" type="xsd:string"/>
@@ -74,18 +55,47 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
      </sequence>
     </complexType>
    </element>
-   <element name="signInResponse">
+   <element name="signInEmployeeResponse">
     <complexType>
      <sequence>
-      <element name="signInReturn" type="xsd:boolean"/>
+      <element name="signInEmployeeReturn" type="xsd:int"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="signInCustomer">
+    <complexType>
+     <sequence>
+      <element name="username" type="xsd:string"/>
+      <element name="password" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="signInCustomerResponse">
+    <complexType>
+     <sequence>
+      <element name="signInCustomerReturn" type="xsd:int"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="customerSignUp">
+    <complexType>
+     <sequence>
+      <element name="customer" type="tns1:Customer"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="customerSignUpResponse">
+    <complexType>
+     <sequence>
+      <element name="customerSignUpReturn" type="xsd:boolean"/>
      </sequence>
     </complexType>
    </element>
   </schema>
   <schema elementFormDefault="qualified" targetNamespace="http://domain.com" xmlns="http://www.w3.org/2001/XMLSchema">
-   <import namespace="http://service.com"/>
    <complexType name="Person">
     <sequence>
+     <element name="DOB" nillable="true" type="xsd:string"/>
      <element name="address" nillable="true" type="xsd:string"/>
      <element name="city" nillable="true" type="xsd:string"/>
      <element name="firstName" nillable="true" type="xsd:string"/>
@@ -103,26 +113,8 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
      <element name="employeeId" nillable="true" type="xsd:int"/>
      <element name="hireDate" nillable="true" type="xsd:string"/>
      <element name="person" nillable="true" type="tns1:Person"/>
-     <element name="position" nillable="true" type="xsd:int"/>
+     <element name="position" nillable="true" type="xsd:string"/>
      <element name="workDesc" nillable="true" type="xsd:string"/>
-    </sequence>
-   </complexType>
-   <complexType name="Traveller">
-    <sequence>
-     <element name="age" nillable="true" type="xsd:int"/>
-     <element name="firstName" nillable="true" type="xsd:string"/>
-     <element name="lastName" nillable="true" type="xsd:string"/>
-     <element name="sex" nillable="true" type="xsd:string"/>
-     <element name="travellerId" nillable="true" type="xsd:int"/>
-    </sequence>
-   </complexType>
-   <complexType name="Reservation">
-    <sequence>
-     <element name="reservationId" nillable="true" type="xsd:int"/>
-     <element name="reservationNo" nillable="true" type="xsd:string"/>
-     <element name="reservationStatus" nillable="true" type="xsd:int"/>
-     <element name="seatsBooked" nillable="true" type="xsd:int"/>
-     <element name="travellers" nillable="true" type="impl:ArrayOf_tns1_Traveller"/>
     </sequence>
    </complexType>
    <complexType name="Customer">
@@ -131,19 +123,10 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
      <element name="nationality" nillable="true" type="xsd:string"/>
      <element name="passportNumber" nillable="true" type="xsd:string"/>
      <element name="person" nillable="true" type="tns1:Person"/>
-     <element name="reservation" nillable="true" type="tns1:Reservation"/>
     </sequence>
    </complexType>
   </schema>
  </wsdl:types>
-
-   <wsdl:message name="updateCustInformationRequest">
-
-      <wsdl:part element="impl:updateCustInformation" name="parameters">
-
-      </wsdl:part>
-
-   </wsdl:message>
 
    <wsdl:message name="employeeSignUpResponse">
 
@@ -161,6 +144,22 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
    </wsdl:message>
 
+   <wsdl:message name="updateCustInformationRequest">
+
+      <wsdl:part element="impl:updateCustInformation" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="signInCustomerRequest">
+
+      <wsdl:part element="impl:signInCustomer" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
    <wsdl:message name="customerSignUpRequest">
 
       <wsdl:part element="impl:customerSignUp" name="parameters">
@@ -169,17 +168,17 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
    </wsdl:message>
 
-   <wsdl:message name="signInRequest">
+   <wsdl:message name="signInCustomerResponse">
 
-      <wsdl:part element="impl:signIn" name="parameters">
+      <wsdl:part element="impl:signInCustomerResponse" name="parameters">
 
       </wsdl:part>
 
    </wsdl:message>
 
-   <wsdl:message name="signInResponse">
+   <wsdl:message name="signInEmployeeRequest">
 
-      <wsdl:part element="impl:signInResponse" name="parameters">
+      <wsdl:part element="impl:signInEmployee" name="parameters">
 
       </wsdl:part>
 
@@ -188,6 +187,14 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
    <wsdl:message name="customerSignUpResponse">
 
       <wsdl:part element="impl:customerSignUpResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="signInEmployeeResponse">
+
+      <wsdl:part element="impl:signInEmployeeResponse" name="parameters">
 
       </wsdl:part>
 
@@ -231,30 +238,6 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       </wsdl:operation>
 
-      <wsdl:operation name="employeeSignUp">
-
-         <wsdl:input message="impl:employeeSignUpRequest" name="employeeSignUpRequest">
-
-       </wsdl:input>
-
-         <wsdl:output message="impl:employeeSignUpResponse" name="employeeSignUpResponse">
-
-       </wsdl:output>
-
-      </wsdl:operation>
-
-      <wsdl:operation name="customerSignUp">
-
-         <wsdl:input message="impl:customerSignUpRequest" name="customerSignUpRequest">
-
-       </wsdl:input>
-
-         <wsdl:output message="impl:customerSignUpResponse" name="customerSignUpResponse">
-
-       </wsdl:output>
-
-      </wsdl:operation>
-
       <wsdl:operation name="updateCustInformation">
 
          <wsdl:input message="impl:updateCustInformationRequest" name="updateCustInformationRequest">
@@ -267,13 +250,49 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       </wsdl:operation>
 
-      <wsdl:operation name="signIn">
+      <wsdl:operation name="employeeSignUp">
 
-         <wsdl:input message="impl:signInRequest" name="signInRequest">
+         <wsdl:input message="impl:employeeSignUpRequest" name="employeeSignUpRequest">
 
        </wsdl:input>
 
-         <wsdl:output message="impl:signInResponse" name="signInResponse">
+         <wsdl:output message="impl:employeeSignUpResponse" name="employeeSignUpResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="signInEmployee">
+
+         <wsdl:input message="impl:signInEmployeeRequest" name="signInEmployeeRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:signInEmployeeResponse" name="signInEmployeeResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="signInCustomer">
+
+         <wsdl:input message="impl:signInCustomerRequest" name="signInCustomerRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:signInCustomerResponse" name="signInCustomerResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="customerSignUp">
+
+         <wsdl:input message="impl:customerSignUpRequest" name="customerSignUpRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:customerSignUpResponse" name="customerSignUpResponse">
 
        </wsdl:output>
 
@@ -303,42 +322,6 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       </wsdl:operation>
 
-      <wsdl:operation name="employeeSignUp">
-
-         <wsdlsoap:operation soapAction=""/>
-
-         <wsdl:input name="employeeSignUpRequest">
-
-            <wsdlsoap:body use="literal"/>
-
-         </wsdl:input>
-
-         <wsdl:output name="employeeSignUpResponse">
-
-            <wsdlsoap:body use="literal"/>
-
-         </wsdl:output>
-
-      </wsdl:operation>
-
-      <wsdl:operation name="customerSignUp">
-
-         <wsdlsoap:operation soapAction=""/>
-
-         <wsdl:input name="customerSignUpRequest">
-
-            <wsdlsoap:body use="literal"/>
-
-         </wsdl:input>
-
-         <wsdl:output name="customerSignUpResponse">
-
-            <wsdlsoap:body use="literal"/>
-
-         </wsdl:output>
-
-      </wsdl:operation>
-
       <wsdl:operation name="updateCustInformation">
 
          <wsdlsoap:operation soapAction=""/>
@@ -357,17 +340,71 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       </wsdl:operation>
 
-      <wsdl:operation name="signIn">
+      <wsdl:operation name="employeeSignUp">
 
          <wsdlsoap:operation soapAction=""/>
 
-         <wsdl:input name="signInRequest">
+         <wsdl:input name="employeeSignUpRequest">
 
             <wsdlsoap:body use="literal"/>
 
          </wsdl:input>
 
-         <wsdl:output name="signInResponse">
+         <wsdl:output name="employeeSignUpResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="signInEmployee">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="signInEmployeeRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="signInEmployeeResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="signInCustomer">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="signInCustomerRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="signInCustomerResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="customerSignUp">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="customerSignUpRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="customerSignUpResponse">
 
             <wsdlsoap:body use="literal"/>
 

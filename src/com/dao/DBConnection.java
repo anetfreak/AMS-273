@@ -389,7 +389,7 @@ public class DBConnection {
 				employee = new Employee();
 				employee.setEmployeeId(rs.getInt("employeeId"));
 				employee.setWorkDesc(rs.getString("workDesc"));
-				employee.setPosition(rs.getInt("position"));
+				employee.setPosition(rs.getString("position"));
 				employee.setHireDate(rs.getString("hireDate"));
 
 				Person person = retrivePerson(rs.getInt("personId")); 
@@ -415,7 +415,7 @@ public class DBConnection {
 
 		Integer employeeId = employee.getEmployeeId();
 		String workDesc = employee.getWorkDesc();
-		Integer position = employee.getPosition();
+		String position = employee.getPosition();
 		String hireDate = employee.getHireDate();
 
 		if(updatePerson(employee.getPerson()))

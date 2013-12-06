@@ -1,7 +1,6 @@
 package com.dao;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -55,10 +54,10 @@ public class PDBConnection {
 		 */
 	}
 
-	public boolean signIn(String username, String password, PersonType type) 
+	public int signIn(String username, String password, Integer type) 
 	{
 		if(username == null || username.isEmpty() || username == "" || username == null || username.isEmpty() || username == "")
-			return false;
+			return -1;
 
 		String query = "select * from person where username = ? AND password = ? AND persontype = ?";
 		try 
@@ -67,16 +66,16 @@ public class PDBConnection {
 			if(con == null || con.isClosed())
 			{
 				System.out.println("No connection to DB");
-				return false;
+				return -1;
 			}
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setString(1, username);
 			ps.setString(2, password);
-			ps.setString(3, type.name());
+			ps.setInt(3, type);
 			rs = ps.executeQuery();
 			if (rs.next()) {
 				pool.closeConn(con);
-				return true;
+				return (rs.getInt("personId"));
 			}
 
 
@@ -87,7 +86,7 @@ public class PDBConnection {
 			sqle.printStackTrace();
 		}
 		pool.closeConn(con);
-		return false;
+		return -1;
 	}
 
 	public Integer createPerson(Person person,Connection con)
@@ -167,7 +166,7 @@ public class PDBConnection {
 			}
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setInt(1, personId);
-			rs = ps.executeQuery(query);
+			rs = ps.executeQuery();
 			if (rs.next()) {
 				person = new Person();
 				person.setPersonId(rs.getInt("personId"));
@@ -253,7 +252,7 @@ public class PDBConnection {
 			ps.setString(10, password);
 			ps.setInt(11, personID);
 
-			rc = ps.executeUpdate(query);
+			rc = ps.executeUpdate();
 		} 
 		catch (SQLException sqle) 
 		{
@@ -297,7 +296,7 @@ public class PDBConnection {
 			 */
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setInt(11, personId);
-			rc = ps.executeUpdate(query);
+			rc = ps.executeUpdate();
 		} 
 		catch (SQLException sqle) 
 		{
@@ -417,7 +416,7 @@ public class PDBConnection {
 			}
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setInt(1, customerId);
-			rs = ps.executeQuery(query);
+			rs = ps.executeQuery();
 			if (rs.next()) {
 				customer = new Customer();
 				customer.setCustomerId(rs.getInt("customerId"));
@@ -445,6 +444,53 @@ public class PDBConnection {
 		return null;
 	}
 
+	public Customer retriveCustomerbypId(Integer personId)
+	{
+		if(personId < 0)
+			return null;
+
+		Customer customer = null;
+
+		String query = "select * from customer where personId = ?";
+
+		try 
+		{
+			con = pool.getConn();
+			if(con == null || con.isClosed())
+			{
+				System.out.println("No connection to DB");
+				return null;
+			}
+			PreparedStatement ps = con.prepareStatement(query);
+			ps.setInt(1, personId);
+			rs = ps.executeQuery();
+			if (rs.next()) {
+				customer = new Customer();
+				customer.setCustomerId(rs.getInt("customerId"));
+				customer.setPassportNumber(rs.getString("passportNumber"));
+				customer.setNationality(rs.getString("nationality"));
+				Person person = retrivePerson(rs.getInt("personId")); 
+				customer.setPerson(person);
+				//Reservation reservation = retriveReservationByCustId(rs.getInt("customerId"));
+				//customer.setReservation(reservation);
+			}
+		}
+		catch (SQLException sqle) 
+		{
+			pool.closeConn(con);
+			sqle.printStackTrace();
+		}
+
+		if(customer != null)
+		{
+			System.out.println("Retrive customer Successful");
+			pool.closeConn(con);
+			return customer;
+		}
+		pool.closeConn(con);
+		return null;
+	}
+	
 	public boolean updateCustomer(Customer customer)
 	{
 		if(customer == null)
@@ -554,7 +600,7 @@ public class PDBConnection {
 
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setInt(1, customerId);
-			rc = ps.executeUpdate(query);
+			rc = ps.executeUpdate();
 			if(rc > 0 && personId > -1)
 			{
 				if(deletePerson(personId,con))
@@ -630,7 +676,7 @@ public class PDBConnection {
 				ps.setInt(1, employee.getEmployeeId());
 				ps.setInt(2, personId);
 				ps.setString(3, employee.getWorkDesc());
-				ps.setInt(4, employee.getPosition());
+				ps.setString(4, employee.getPosition());
 				ps.setString(5,employee.getHireDate());
 				rc = ps.executeUpdate();
 				if(rc > 0)
@@ -698,12 +744,12 @@ public class PDBConnection {
 			}
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setInt(1, employeeId);
-			rs = ps.executeQuery(query);
+			rs = ps.executeQuery();
 			if (rs.next()) {
 				employee = new Employee();
 				employee.setEmployeeId(rs.getInt("employeeId"));
 				employee.setWorkDesc(rs.getString("workDesc"));
-				employee.setPosition(rs.getInt("position"));
+				employee.setPosition(rs.getString("position"));
 				employee.setHireDate(rs.getString("hireDate"));
 
 				Person person = retrivePerson(rs.getInt("personId")); 
@@ -726,6 +772,53 @@ public class PDBConnection {
 		return null;
 	}
 
+	public Employee retriveEmployeebypId(Integer personId)
+	{
+		if(personId < 0)
+			return null;
+
+		Employee employee = null;
+
+		String query = "select * from employee where personId = ?";
+
+		try 
+		{
+			con = pool.getConn();
+			if(con == null || con.isClosed())
+			{
+				System.out.println("No connection to DB");
+				return null;
+			}
+			PreparedStatement ps = con.prepareStatement(query);
+			ps.setInt(1, personId);
+			rs = ps.executeQuery();
+			if (rs.next()) {
+				employee = new Employee();
+				employee.setEmployeeId(rs.getInt("employeeId"));
+				employee.setWorkDesc(rs.getString("workDesc"));
+				employee.setPosition(rs.getString("position"));
+				employee.setHireDate(rs.getString("hireDate"));
+
+				Person person = retrivePerson(rs.getInt("personId")); 
+				employee.setPerson(person);
+			}
+		}
+		catch (SQLException sqle) 
+		{
+			pool.closeConn(con);
+			sqle.printStackTrace();
+		}
+
+		if(employee != null)
+		{
+			pool.closeConn(con);
+			System.out.println("Retrive employee Successful");
+			return employee;
+		}
+		pool.closeConn(con);
+		return null;
+	}
+	
 	public boolean updateEmployee(Employee employee)
 	{
 		if(employee == null)
@@ -735,7 +828,7 @@ public class PDBConnection {
 
 		Integer employeeId = employee.getEmployeeId();
 		String workDesc = employee.getWorkDesc();
-		Integer position = employee.getPosition();
+		String position = employee.getPosition();
 		String hireDate = employee.getHireDate();
 		try 
 		{
@@ -757,10 +850,10 @@ public class PDBConnection {
 
 				PreparedStatement ps = con.prepareStatement(query);
 				ps.setString(1, workDesc);
-				ps.setInt(2, position);
+				ps.setString(2, position);
 				ps.setString(3, hireDate);
 				ps.setInt(4, employeeId);
-				rc = ps.executeUpdate(query);
+				rc = ps.executeUpdate();
 				if(rc > 0)
 				{
 					con.commit();
@@ -824,7 +917,7 @@ public class PDBConnection {
 
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setInt(1, employeeId);
-			rc = ps.executeUpdate(query);
+			rc = ps.executeUpdate();
 			if(rc > 0 && personId > -1)
 			{
 				if(deletePerson(personId,con))
@@ -1003,7 +1096,7 @@ public class PDBConnection {
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setInt(1, reservationId); 
 
-			rs = ps.executeQuery(query);
+			rs = ps.executeQuery();
 			if (rs.next()) {
 				reservation = new Reservation();
 				reservation.setReservationId(rs.getInt("reservationId"));
@@ -1057,7 +1150,7 @@ public class PDBConnection {
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setInt(1, customerId); 
 
-			rs = ps.executeQuery(query);
+			rs = ps.executeQuery();
 			if (rs.next()) {
 				reservation = new Reservation();
 				reservation.setReservationId(rs.getInt("reservationId"));
@@ -1107,7 +1200,7 @@ public class PDBConnection {
 			}
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setString(1, reservationNo); 
-			rs = ps.executeQuery(query);
+			rs = ps.executeQuery();
 			if (rs.next()) {
 				reservation = new Reservation();
 				reservation.setReservationId(rs.getInt("reservationId"));
@@ -1176,7 +1269,7 @@ public class PDBConnection {
 			ps.setInt(4, seatsBooked);
 			ps.setInt(5, reservationId);
 
-			rc = ps.executeUpdate(query);
+			rc = ps.executeUpdate();
 			for(int i = 0; i< travellers.length;i++)
 				if(!updateTravller(travellers[i],con))
 				{
@@ -1261,7 +1354,7 @@ public class PDBConnection {
 
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setInt(1, reservationId);
-			rc = ps.executeUpdate(query);
+			rc = ps.executeUpdate();
 			if(rc > 0)
 			{
 				con.commit();
@@ -1318,7 +1411,7 @@ public class PDBConnection {
 			}
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setInt(1, customerId);
-			rc = ps.executeUpdate(query);
+			rc = ps.executeUpdate();
 		} 
 		catch (SQLException sqle) 
 		{
@@ -1407,7 +1500,7 @@ public class PDBConnection {
 			}
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setInt(1, reservationId); 
-			rs = ps.executeQuery(query);
+			rs = ps.executeQuery();
 
 			while (rs.next()) {
 				travelleritem = new Traveller();
@@ -1478,7 +1571,7 @@ public class PDBConnection {
 			ps.setInt(3, age);
 			ps.setString(4, sex);
 			ps.setInt(1, travellerId); 
-			rc = ps.executeUpdate(query);
+			rc = ps.executeUpdate();
 		} 
 		catch (SQLException sqle) 
 		{
@@ -1523,7 +1616,7 @@ public class PDBConnection {
 			 */
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setInt(1, reservationId);
-			rc = ps.executeUpdate(query);
+			rc = ps.executeUpdate();
 		} 
 		catch (SQLException sqle) 
 		{
@@ -1566,7 +1659,7 @@ public class PDBConnection {
 			}
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setInt(1, travellerId);
-			rc = ps.executeUpdate(query);
+			rc = ps.executeUpdate();
 		} 
 		catch (SQLException sqle) 
 		{
@@ -1644,7 +1737,7 @@ public class PDBConnection {
 			}
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setInt(1, locationId);
-			rs = ps.executeQuery(query);
+			rs = ps.executeQuery();
 			if (rs.next()) {
 				location = new Location();
 				location.setAirportCode(rs.getString("airportCode"));
@@ -1687,7 +1780,7 @@ public class PDBConnection {
 			}
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setString(1, stateCode);
-			rs = ps.executeQuery(query);
+			rs = ps.executeQuery();
 			if (rs.next()) {
 				location = new Location();
 				location.setAirportCode(rs.getString("airportCode"));
@@ -1731,7 +1824,7 @@ public class PDBConnection {
 			}
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setString(1, state);
-			rs = ps.executeQuery(query);
+			rs = ps.executeQuery();
 			if (rs.next()) {
 				location = new Location();
 				location.setAirportCode(rs.getString("airportCode"));
@@ -1775,7 +1868,7 @@ public class PDBConnection {
 			}
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setString(1, airportCode);
-			rs = ps.executeQuery(query);
+			rs = ps.executeQuery();
 			if (rs.next()) {
 				location = new Location();
 				location.setAirportCode(rs.getString("airportCode"));
@@ -1832,7 +1925,7 @@ public class PDBConnection {
 			ps.setString(2, stateCode);
 			ps.setString(3, airportCode);
 			ps.setInt(4, locationId);
-			rc = ps.executeUpdate(query);
+			rc = ps.executeUpdate();
 		} 
 		catch (SQLException sqle) 
 		{
@@ -1868,7 +1961,7 @@ public class PDBConnection {
 			}
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setInt(1, locationId);
-			rc = ps.executeUpdate(query);
+			rc = ps.executeUpdate();
 		} 
 		catch (SQLException sqle) 
 		{
@@ -1949,7 +2042,7 @@ public class PDBConnection {
 				System.out.println("No connection to DB");
 				return null;
 			}
-			rs = s.executeQuery(query);
+			//rs = s.executeQuery();
 			while (rs.next()) {
 				flight = new Flight();
 				flight.setFlightId(rs.getInt("flightId"));
@@ -2003,7 +2096,7 @@ public class PDBConnection {
 			}
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setInt(1, flightId);
-			rs = ps.executeQuery(query);
+			rs = ps.executeQuery();
 			if (rs.next()) {
 				flight = new Flight();
 				flight.setFlightId(rs.getInt("flightId"));
@@ -2053,7 +2146,7 @@ public class PDBConnection {
 			}
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setString(1, flightNo);
-			rs = ps.executeQuery(query);
+			rs = ps.executeQuery();
 			if (rs.next()) {
 				flight = new Flight();
 				flight.setFlightId(rs.getInt("flightId"));
@@ -2125,7 +2218,7 @@ public class PDBConnection {
 			ps.setString(4, destination);
 			ps.setInt(5, noOfSeats);
 			ps.setInt(6, flightId);
-			rc = ps.executeUpdate(query);
+			rc = ps.executeUpdate();
 		} 
 		catch (SQLException sqle) 
 		{
@@ -2162,7 +2255,7 @@ public class PDBConnection {
 			}
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setInt(1, flightId);
-			rc = ps.executeUpdate(query);
+			rc = ps.executeUpdate();
 		} 
 		catch (SQLException sqle) 
 		{
@@ -2242,7 +2335,7 @@ public class PDBConnection {
 			}
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setInt(1, flightId);
-			rs = ps.executeQuery(query);
+			rs = ps.executeQuery();
 			while (rs.next()) {
 				flightTime = new FlightTime();
 				flightTime.setFlightDay(rs.getString("flightDay"));
@@ -2363,7 +2456,7 @@ public class PDBConnection {
 			}
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setInt(1, reservationId);
-			rs = ps.executeQuery(query);
+			rs = ps.executeQuery();
 			while(rs.next()) {
 				journeyItem = new Journey();
 				journeyItem.setFlightId(rs.getInt("flightId"));
@@ -2486,7 +2579,7 @@ public class PDBConnection {
 			 */
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setInt(1, reservationId);
-			rc = ps.executeUpdate(query);
+			rc = ps.executeUpdate();
 		} 
 		catch (SQLException sqle) 
 		{

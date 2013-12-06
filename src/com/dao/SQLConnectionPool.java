@@ -26,7 +26,7 @@ public class SQLConnectionPool {
 			for(int i =0 ; i< POOL_SIZE; i++)
 			{
 				con = DriverManager.getConnection("jdbc:mysql://localhost/ams_schema",
-						"root", "mysql");
+						"root", "root");
 
 				if (!con.isClosed()) {
 					System.out.println("Successfully Connected to Mysql server using TCP/IP");

@@ -62,7 +62,7 @@ int customerId = 0;
 		int i = rnd.nextInt();
 		employee.setEmployeeId(i);
 		employee.setHireDate("10102010");
-		employee.setPosition(2);
+		employee.setPosition("PILOT");
 		employee.setWorkDesc("Manager");
 		employee.setPerson(createPerson());
 		return employee;

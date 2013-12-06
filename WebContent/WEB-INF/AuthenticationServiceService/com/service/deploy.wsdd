@@ -13,26 +13,27 @@
       <operation xmlns:operNS="http://service.com" xmlns:retNS="http://service.com" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="updateEmpInformation" qname="operNS:updateEmpInformation" returnQName="retNS:updateEmpInformationReturn" returnType="rtns:boolean" soapAction="">
         <parameter xmlns:pns="http://service.com" xmlns:tns="http://domain.com" qname="pns:employee" type="tns:Employee"/>
       </operation>
+      <operation xmlns:operNS="http://service.com" xmlns:retNS="http://service.com" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="updateCustInformation" qname="operNS:updateCustInformation" returnQName="retNS:updateCustInformationReturn" returnType="rtns:boolean" soapAction="">
+        <parameter xmlns:pns="http://service.com" xmlns:tns="http://domain.com" qname="pns:customer" type="tns:Customer"/>
+      </operation>
       <operation xmlns:operNS="http://service.com" xmlns:retNS="http://service.com" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="employeeSignUp" qname="operNS:employeeSignUp" returnQName="retNS:employeeSignUpReturn" returnType="rtns:boolean" soapAction="">
         <parameter xmlns:pns="http://service.com" xmlns:tns="http://domain.com" qname="pns:employee" type="tns:Employee"/>
+      </operation>
+      <operation xmlns:operNS="http://service.com" xmlns:retNS="http://service.com" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="signInEmployee" qname="operNS:signInEmployee" returnQName="retNS:signInEmployeeReturn" returnType="rtns:int" soapAction="">
+        <parameter xmlns:pns="http://service.com" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:username" type="tns:string"/>
+        <parameter xmlns:pns="http://service.com" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:password" type="tns:string"/>
+      </operation>
+      <operation xmlns:operNS="http://service.com" xmlns:retNS="http://service.com" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="signInCustomer" qname="operNS:signInCustomer" returnQName="retNS:signInCustomerReturn" returnType="rtns:int" soapAction="">
+        <parameter xmlns:pns="http://service.com" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:username" type="tns:string"/>
+        <parameter xmlns:pns="http://service.com" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:password" type="tns:string"/>
       </operation>
       <operation xmlns:operNS="http://service.com" xmlns:retNS="http://service.com" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="customerSignUp" qname="operNS:customerSignUp" returnQName="retNS:customerSignUpReturn" returnType="rtns:boolean" soapAction="">
         <parameter xmlns:pns="http://service.com" xmlns:tns="http://domain.com" qname="pns:customer" type="tns:Customer"/>
       </operation>
-      <operation xmlns:operNS="http://service.com" xmlns:retNS="http://service.com" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="updateCustInformation" qname="operNS:updateCustInformation" returnQName="retNS:updateCustInformationReturn" returnType="rtns:boolean" soapAction="">
-        <parameter xmlns:pns="http://service.com" xmlns:tns="http://domain.com" qname="pns:customer" type="tns:Customer"/>
-      </operation>
-      <operation xmlns:operNS="http://service.com" xmlns:retNS="http://service.com" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="signIn" qname="operNS:signIn" returnQName="retNS:signInReturn" returnType="rtns:boolean" soapAction="">
-        <parameter xmlns:pns="http://service.com" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:username" type="tns:string"/>
-        <parameter xmlns:pns="http://service.com" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:password" type="tns:string"/>
-      </operation>
-      <parameter name="allowedMethods" value="signIn updateCustInformation customerSignUp employeeSignUp updateEmpInformation"/>
+      <parameter name="allowedMethods" value="signInEmployee signInCustomer customerSignUp updateCustInformation employeeSignUp updateEmpInformation"/>
 
       <typeMapping xmlns:ns="http://domain.com" qname="ns:Customer" type="java:com.domain.Customer" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
       <typeMapping xmlns:ns="http://domain.com" qname="ns:Employee" type="java:com.domain.Employee" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
-      <typeMapping xmlns:ns="http://domain.com" qname="ns:Traveller" type="java:com.domain.Traveller" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
-      <arrayMapping xmlns:ns="http://service.com" xmlns:cmp-ns="http://domain.com" qname="ns:ArrayOf_tns1_Traveller" type="java:com.domain.Traveller[]" innerType="cmp-ns:Traveller" encodingStyle=""/>
-      <typeMapping xmlns:ns="http://domain.com" qname="ns:Reservation" type="java:com.domain.Reservation" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
       <typeMapping xmlns:ns="http://domain.com" qname="ns:Person" type="java:com.domain.Person" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
   </service>
 </deployment>

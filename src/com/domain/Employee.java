@@ -4,7 +4,7 @@ public class Employee {
 	
 	private Integer employeeId;
 	private String workDesc;
-	private Integer position;
+	private String position;
 	private String hireDate;
 	private Person person;
 	
@@ -32,10 +32,10 @@ public class Employee {
 	public void setPerson(Person person) {
 		this.person = person;
 	}
-	public Integer getPosition() {
+	public String getPosition() {
 		return position;
 	}
-	public void setPosition(Integer position) {
+	public void setPosition(String position) {
 		this.position = position;
 	}
 }

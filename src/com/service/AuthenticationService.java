@@ -19,11 +19,12 @@ public class AuthenticationService {
 		employeeService = new EmployeeService();
 		dbcon = new PDBConnection();
 	}
-	public boolean signInCustomer(String username, String password) {
+	
+	public int signInCustomer(String username, String password) {
 		//TODO need to check person type too
-		if(dbcon.signIn(username, password, PersonType.CUSTOMER))
-			return true;
-		return false;
+		if((dbcon.signIn(username, password, 2)) != -1)
+			return (dbcon.signIn(username, password, 2));
+		return -1;
 	}
 	
 	public boolean customerSignUp(Customer customer) {
@@ -32,11 +33,11 @@ public class AuthenticationService {
 		return false;
 	}
 	
-	public boolean signInEmployee(String username, String password) {
+	public int signInEmployee(String username, String password) {
 		//TODO need to check person type too
-		if(dbcon.signIn(username, password, PersonType.EMPLOYEE))
-			return true;
-		return false;
+		if((dbcon.signIn(username, password, 1)) != -1)
+			return (dbcon.signIn(username, password, 1));
+		return -1;
 	}
 	
 	public boolean employeeSignUp(Employee employee) {

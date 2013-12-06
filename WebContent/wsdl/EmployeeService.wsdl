@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://service.com" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://service.com" xmlns:intf="http://service.com" xmlns:tns1="http://domain.com" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!--WSDL created by Apache Axis version: 1.4
+Built on Apr 22, 2006 (06:55:48 PDT)-->
+ <wsdl:types>
+  <schema elementFormDefault="qualified" targetNamespace="http://service.com" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://domain.com"/>
+   <element name="retriveEmployeebypId">
+    <complexType>
+     <sequence>
+      <element name="personId" type="xsd:int"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="retriveEmployeebypIdResponse">
+    <complexType>
+     <sequence>
+      <element name="retriveEmployeebypIdReturn" type="tns1:Employee"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="insertEmployee">
+    <complexType>
+     <sequence>
+      <element name="employee" type="tns1:Employee"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="insertEmployeeResponse">
+    <complexType>
+     <sequence>
+      <element name="insertEmployeeReturn" type="xsd:boolean"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getEmployee">
+    <complexType>
+     <sequence>
+      <element name="employeeId" type="xsd:int"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getEmployeeResponse">
+    <complexType>
+     <sequence>
+      <element name="getEmployeeReturn" type="tns1:Employee"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="updateEmployee">
+    <complexType>
+     <sequence>
+      <element name="employee" type="tns1:Employee"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="updateEmployeeResponse">
+    <complexType>
+     <sequence>
+      <element name="updateEmployeeReturn" type="xsd:boolean"/>
+     </sequence>
+    </complexType>
+   </element>
+  </schema>
+  <schema elementFormDefault="qualified" targetNamespace="http://domain.com" xmlns="http://www.w3.org/2001/XMLSchema">
+   <complexType name="Person">
+    <sequence>
+     <element name="DOB" nillable="true" type="xsd:string"/>
+     <element name="address" nillable="true" type="xsd:string"/>
+     <element name="city" nillable="true" type="xsd:string"/>
+     <element name="firstName" nillable="true" type="xsd:string"/>
+     <element name="lastName" nillable="true" type="xsd:string"/>
+     <element name="password" nillable="true" type="xsd:string"/>
+     <element name="personId" nillable="true" type="xsd:int"/>
+     <element name="personType" nillable="true" type="xsd:int"/>
+     <element name="state" nillable="true" type="xsd:string"/>
+     <element name="username" nillable="true" type="xsd:string"/>
+     <element name="zip" nillable="true" type="xsd:int"/>
+    </sequence>
+   </complexType>
+   <complexType name="Employee">
+    <sequence>
+     <element name="employeeId" nillable="true" type="xsd:int"/>
+     <element name="hireDate" nillable="true" type="xsd:string"/>
+     <element name="person" nillable="true" type="tns1:Person"/>
+     <element name="position" nillable="true" type="xsd:string"/>
+     <element name="workDesc" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+  </schema>
+ </wsdl:types>
+
+   <wsdl:message name="updateEmployeeResponse">
+
+      <wsdl:part element="impl:updateEmployeeResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="updateEmployeeRequest">
+
+      <wsdl:part element="impl:updateEmployee" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="retriveEmployeebypIdResponse">
+
+      <wsdl:part element="impl:retriveEmployeebypIdResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getEmployeeRequest">
+
+      <wsdl:part element="impl:getEmployee" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="insertEmployeeRequest">
+
+      <wsdl:part element="impl:insertEmployee" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getEmployeeResponse">
+
+      <wsdl:part element="impl:getEmployeeResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="insertEmployeeResponse">
+
+      <wsdl:part element="impl:insertEmployeeResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="retriveEmployeebypIdRequest">
+
+      <wsdl:part element="impl:retriveEmployeebypId" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:portType name="EmployeeService">
+
+      <wsdl:operation name="retriveEmployeebypId">
+
+         <wsdl:input message="impl:retriveEmployeebypIdRequest" name="retriveEmployeebypIdRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:retriveEmployeebypIdResponse" name="retriveEmployeebypIdResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="insertEmployee">
+
+         <wsdl:input message="impl:insertEmployeeRequest" name="insertEmployeeRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:insertEmployeeResponse" name="insertEmployeeResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getEmployee">
+
+         <wsdl:input message="impl:getEmployeeRequest" name="getEmployeeRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getEmployeeResponse" name="getEmployeeResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="updateEmployee">
+
+         <wsdl:input message="impl:updateEmployeeRequest" name="updateEmployeeRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:updateEmployeeResponse" name="updateEmployeeResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:portType>
+
+   <wsdl:binding name="EmployeeServiceSoapBinding" type="impl:EmployeeService">
+
+      <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+      <wsdl:operation name="retriveEmployeebypId">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="retriveEmployeebypIdRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="retriveEmployeebypIdResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="insertEmployee">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="insertEmployeeRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="insertEmployeeResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getEmployee">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getEmployeeRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getEmployeeResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="updateEmployee">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="updateEmployeeRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="updateEmployeeResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:binding>
+
+   <wsdl:service name="EmployeeServiceService">
+
+      <wsdl:port binding="impl:EmployeeServiceSoapBinding" name="EmployeeService">
+
+         <wsdlsoap:address location="http://localhost:8080/AMS/services/EmployeeService"/>
+
+      </wsdl:port>
+
+   </wsdl:service>
+
+</wsdl:definitions>

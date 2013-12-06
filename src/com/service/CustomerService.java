@@ -15,6 +15,10 @@ public class CustomerService {
 		return dbcon.retriveCustomer(customerId);
 	}
 	
+	public Customer retriveCustomerbypId(Integer personId) {
+		return dbcon.retriveCustomerbypId(personId);
+	}
+	
 	public boolean insertCustomer(Customer customer) {
 		//TODO server side validations
 		if(dbcon.createCustomer(customer))

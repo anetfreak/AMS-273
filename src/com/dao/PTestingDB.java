@@ -18,7 +18,7 @@ int customerId = 0;
 		PDBConnection dbcon = new PDBConnection();
 		PTestingDB t = new PTestingDB();
 		
-		/*
+		
 		Customer customer = t.createCustomer();
 		if(dbcon.createCustomer(customer))
 			System.out.println("Create Customer Success");
@@ -30,32 +30,37 @@ int customerId = 0;
 			System.out.println("Create Employee Success");
 		
 		
-		
+		/*
 		Reservation res = t.createReservation();
 		if(dbcon.createReservation(res))
 			System.out.println("Create reservation Success");
-		*/
 		
-		if(dbcon.signIn("username", "password", PersonType.CUSTOMER))
+		
+		if(dbcon.signIn("username", "password", PersonType.CUSTOMER) != -1)
 			System.out.println("Customer signIn Success");
 		
-		if(dbcon.signIn("username", "password", PersonType.EMPLOYEE))
+		if(dbcon.signIn("username", "password", PersonType.EMPLOYEE) != -1)
 			System.out.println("Employee signIn Success");
+			*/
 	}
 	
 	
-	public Person createPerson()
+	public Person createPerson(int type)
 	{
 		Person person = new Person();
-		person.setPersonId(123456);
+		//person.setPersonId(123456);
 		person.setFirstName("Amit");
 		person.setLastName("Agrawal");
 		person.setAddress("Metro Station");
 		person.setCity("San Jose");
 		person.setState("CA");
-		person.setPersonType(1);
+		person.setPersonType(type);
 		person.setZip(95112);
-		person.setUsername("username");
+		if(type == 2)
+			person.setUsername("customer@gmail.com");
+		else
+			person.setUsername("employee@gmail.com");
+		
 		person.setPassword("password");
 		person.setDOB("101010");
 		
@@ -69,9 +74,9 @@ int customerId = 0;
 		int i = rnd.nextInt();
 		employee.setEmployeeId(i);
 		employee.setHireDate("10102010");
-		employee.setPosition(2);
+		employee.setPosition("PILOT");
 		employee.setWorkDesc("Manager");
-		employee.setPerson(createPerson());
+		employee.setPerson(createPerson(1));
 		return employee;
 	}
 	
@@ -83,7 +88,7 @@ int customerId = 0;
 		customer.setCustomerId(customerId);
 		customer.setNationality("Indian");
 		customer.setPassportNumber("AB1234JP");
-		customer.setPerson(createPerson());
+		customer.setPerson(createPerson(2));
 		//customer.setReservation(null);
 		return customer;
 	}
