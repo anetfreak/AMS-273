@@ -11,24 +11,27 @@ public class EmployeeService {
 	{
 		dbcon = new PDBConnection();
 	}
+
+	//Function used for checking the login of the Employee
 	public Employee getEmployee(Integer employeeId) {
 		return dbcon.retriveEmployee(employeeId);
 	}
-	
+
+	//Function used for checking the login of the Employee
 	public Employee retriveEmployeebypId(Integer personId) {
 		return dbcon.retriveEmployeebypId(personId);
 	}
-	
-	public boolean insertEmployee(Employee employee) {
-		//TODO server side validations
-		if(dbcon.createEmployee(employee))
-		{
-			System.out.println("Create Employee Success");
-			return true;
-		}
-		return false;
+
+	//Function for inserting an employee record
+	public int insertEmployee(Employee employee) 
+	{
+		int empId = dbcon.createEmployee(employee);
+		if( empId != -1)
+			return empId;
+		else
+			return -1;
 	}
-	
+
 	public boolean updateEmployee(Employee employee) {
 		//TODO server side validations
 		if(dbcon.updateEmployee(employee))

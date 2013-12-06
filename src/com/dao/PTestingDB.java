@@ -19,15 +19,15 @@ int customerId = 0;
 		PTestingDB t = new PTestingDB();
 		
 		
-		Customer customer = t.createCustomer();
-		if(dbcon.createCustomer(customer))
-			System.out.println("Create Customer Success");
+		//Customer customer = t.createCustomer();
+		//if(dbcon.createCustomer(customer))
+			//System.out.println("Create Customer Success");
 		
 		
 		
 		Employee emp = t.createEmployee();
-		if(dbcon.createEmployee(emp))
-			System.out.println("Create Employee Success");
+		//if(dbcon.createEmployee(emp))
+			//System.out.println("Create Employee Success");
 		
 		
 		/*

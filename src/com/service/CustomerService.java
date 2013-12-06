@@ -19,14 +19,13 @@ public class CustomerService {
 		return dbcon.retriveCustomerbypId(personId);
 	}
 	
-	public boolean insertCustomer(Customer customer) {
+	public int insertCustomer(Customer customer) {
 		//TODO server side validations
-		if(dbcon.createCustomer(customer))
-		{
-			System.out.println("Create Customer Success");
-			return true;
-		}
-		return false;
+		int customerId = (dbcon.createCustomer(customer));
+		if(customerId != 1)
+			return customerId;
+		else
+			return -1;
 	}
 	
 	public boolean updateCustomer(Customer customer) {

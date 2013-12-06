@@ -320,19 +320,20 @@ public class PDBConnection {
 	}
 
 
-	public boolean createCustomer(Customer customer)
+	public int createCustomer(Customer customer)
 	{
 		if(customer == null)
-			return false;
+			return -1;
 
 		int rc = 0;
+		int customerId = -1;
 		try 
 		{
 			con = pool.getConn();
 			if(con == null || con.isClosed())
 			{
 				System.out.println("No connection to DB");
-				return false;
+				return -1;
 			}
 			//setting autocommit false for transaction support
 			con.setAutoCommit(false);
@@ -352,6 +353,10 @@ public class PDBConnection {
 				rc = ps.executeUpdate();
 				if(rc > 0)
 				{
+					rs = ps.getGeneratedKeys();
+					if(rs.next())
+						customerId = rs.getInt(1);
+					System.out.println("Employee id = " + customerId);
 					con.commit();
 				}
 				else
@@ -391,10 +396,10 @@ public class PDBConnection {
 		if (rc > 0) {
 			System.out.println("Create Customer Successful");
 			pool.closeConn(con);
-			return true;
+			return customerId;
 		}
 		pool.closeConn(con);
-		return false;
+		return -1;
 	}
 
 	public Customer retriveCustomer(Integer customerId)
@@ -649,19 +654,20 @@ public class PDBConnection {
 		return false;	
 	}
 
-	public boolean createEmployee(Employee employee) {
+	public int createEmployee(Employee employee) {
 
 		if(employee == null)
-			return false;
+			return -1;
 
 		int rc = 0;
+		int employeeId = -1;
 		try 
 		{
 			con = pool.getConn();
 			if(con == null || con.isClosed())
 			{
 				System.out.println("No connection to DB");
-				return false;
+				return -1;
 			}
 			con.setAutoCommit(false);
 			int personId = createPerson(employee.getPerson(),con);
@@ -682,6 +688,10 @@ public class PDBConnection {
 				if(rc > 0)
 				{
 					con.commit();
+					rs = ps.getGeneratedKeys();
+					if(rs.next())
+						employeeId = rs.getInt(1);
+					System.out.println("Employee id = " + employeeId);
 				}
 				else
 				{
@@ -719,10 +729,10 @@ public class PDBConnection {
 		if (rc > 0) {
 			System.out.println("Create Employee Successful");
 			pool.closeConn(con);
-			return true;
+			return employeeId;
 		}
 		pool.closeConn(con);
-		return false;
+		return -1;
 	}
 
 	public Employee retriveEmployee(Integer employeeId)

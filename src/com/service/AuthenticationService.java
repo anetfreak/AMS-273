@@ -9,47 +9,56 @@ import com.domain.PersonType;
 
 @WebService
 public class AuthenticationService {
-	
+
 	CustomerService custromerService = null;
 	EmployeeService employeeService = null;
 	PDBConnection dbcon = null;
+
 	public AuthenticationService()
 	{
 		custromerService = new CustomerService();
 		employeeService = new EmployeeService();
 		dbcon = new PDBConnection();
 	}
-	
+
 	public int signInCustomer(String username, String password) {
 		//TODO need to check person type too
-		if((dbcon.signIn(username, password, 2)) != -1)
-			return (dbcon.signIn(username, password, 2));
+		int personId = (dbcon.signIn(username, password, 2));
+		if( personId != -1)
+			return personId;
+		else
+			return -1;
+	}
+
+	public int customerSignUp(Customer customer) {
+		int custId = custromerService.insertCustomer(customer);
+		if (custId != -1)
+			return custId;
+		else
 		return -1;
 	}
-	
-	public boolean customerSignUp(Customer customer) {
-		if(custromerService.insertCustomer(customer))
-			return true;
-		return false;
-	}
-	
+
 	public int signInEmployee(String username, String password) {
 		//TODO need to check person type too
-		if((dbcon.signIn(username, password, 1)) != -1)
-			return (dbcon.signIn(username, password, 1));
-		return -1;
+		int personId = (dbcon.signIn(username, password, 1));
+		if( personId != -1)
+			return (personId);
+		else
+			return -1;
 	}
-	
-	public boolean employeeSignUp(Employee employee) {
-		if(employeeService.insertEmployee(employee))
-			return true;
-		return false;
+
+	public int employeeSignUp(Employee employee) {
+		int empId = employeeService.insertEmployee(employee);
+		if(empId != -1)
+			return empId;
+		else
+			return -1;	
 	}
-	
+
 	public boolean updateCustInformation(Customer customer) {
 		return false;
 	}
-	
+
 	public boolean updateEmpInformation(Employee employee) {
 		return false;
 	}
