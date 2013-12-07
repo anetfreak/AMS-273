@@ -5,34 +5,6 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
  <wsdl:types>
   <schema elementFormDefault="qualified" targetNamespace="http://service.com" xmlns="http://www.w3.org/2001/XMLSchema">
    <import namespace="http://domain.com"/>
-   <element name="insertCustomer">
-    <complexType>
-     <sequence>
-      <element name="customer" type="tns1:Customer"/>
-     </sequence>
-    </complexType>
-   </element>
-   <element name="insertCustomerResponse">
-    <complexType>
-     <sequence>
-      <element name="insertCustomerReturn" type="xsd:boolean"/>
-     </sequence>
-    </complexType>
-   </element>
-   <element name="getCustomer">
-    <complexType>
-     <sequence>
-      <element name="customerId" type="xsd:int"/>
-     </sequence>
-    </complexType>
-   </element>
-   <element name="getCustomerResponse">
-    <complexType>
-     <sequence>
-      <element name="getCustomerReturn" type="tns1:Customer"/>
-     </sequence>
-    </complexType>
-   </element>
    <element name="updateCustomer">
     <complexType>
      <sequence>
@@ -58,6 +30,34 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
     <complexType>
      <sequence>
       <element name="retriveCustomerbypIdReturn" type="tns1:Customer"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getCustomer">
+    <complexType>
+     <sequence>
+      <element name="customerId" type="xsd:int"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getCustomerResponse">
+    <complexType>
+     <sequence>
+      <element name="getCustomerReturn" type="tns1:Customer"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="insertCustomer">
+    <complexType>
+     <sequence>
+      <element name="customer" type="tns1:Customer"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="insertCustomerResponse">
+    <complexType>
+     <sequence>
+      <element name="insertCustomerReturn" type="xsd:int"/>
      </sequence>
     </complexType>
    </element>
@@ -89,17 +89,17 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
   </schema>
  </wsdl:types>
 
-   <wsdl:message name="retriveCustomerbypIdResponse">
+   <wsdl:message name="insertCustomerResponse">
 
-      <wsdl:part element="impl:retriveCustomerbypIdResponse" name="parameters">
+      <wsdl:part element="impl:insertCustomerResponse" name="parameters">
 
       </wsdl:part>
 
    </wsdl:message>
 
-   <wsdl:message name="insertCustomerResponse">
+   <wsdl:message name="retriveCustomerbypIdResponse">
 
-      <wsdl:part element="impl:insertCustomerResponse" name="parameters">
+      <wsdl:part element="impl:retriveCustomerbypIdResponse" name="parameters">
 
       </wsdl:part>
 
@@ -155,30 +155,6 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
    <wsdl:portType name="CustomerService">
 
-      <wsdl:operation name="insertCustomer">
-
-         <wsdl:input message="impl:insertCustomerRequest" name="insertCustomerRequest">
-
-       </wsdl:input>
-
-         <wsdl:output message="impl:insertCustomerResponse" name="insertCustomerResponse">
-
-       </wsdl:output>
-
-      </wsdl:operation>
-
-      <wsdl:operation name="getCustomer">
-
-         <wsdl:input message="impl:getCustomerRequest" name="getCustomerRequest">
-
-       </wsdl:input>
-
-         <wsdl:output message="impl:getCustomerResponse" name="getCustomerResponse">
-
-       </wsdl:output>
-
-      </wsdl:operation>
-
       <wsdl:operation name="updateCustomer">
 
          <wsdl:input message="impl:updateCustomerRequest" name="updateCustomerRequest">
@@ -203,47 +179,35 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       </wsdl:operation>
 
+      <wsdl:operation name="getCustomer">
+
+         <wsdl:input message="impl:getCustomerRequest" name="getCustomerRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getCustomerResponse" name="getCustomerResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="insertCustomer">
+
+         <wsdl:input message="impl:insertCustomerRequest" name="insertCustomerRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:insertCustomerResponse" name="insertCustomerResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
    </wsdl:portType>
 
    <wsdl:binding name="CustomerServiceSoapBinding" type="impl:CustomerService">
 
       <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
-
-      <wsdl:operation name="insertCustomer">
-
-         <wsdlsoap:operation soapAction=""/>
-
-         <wsdl:input name="insertCustomerRequest">
-
-            <wsdlsoap:body use="literal"/>
-
-         </wsdl:input>
-
-         <wsdl:output name="insertCustomerResponse">
-
-            <wsdlsoap:body use="literal"/>
-
-         </wsdl:output>
-
-      </wsdl:operation>
-
-      <wsdl:operation name="getCustomer">
-
-         <wsdlsoap:operation soapAction=""/>
-
-         <wsdl:input name="getCustomerRequest">
-
-            <wsdlsoap:body use="literal"/>
-
-         </wsdl:input>
-
-         <wsdl:output name="getCustomerResponse">
-
-            <wsdlsoap:body use="literal"/>
-
-         </wsdl:output>
-
-      </wsdl:operation>
 
       <wsdl:operation name="updateCustomer">
 
@@ -274,6 +238,42 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
          </wsdl:input>
 
          <wsdl:output name="retriveCustomerbypIdResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getCustomer">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getCustomerRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getCustomerResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="insertCustomer">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="insertCustomerRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="insertCustomerResponse">
 
             <wsdlsoap:body use="literal"/>
 

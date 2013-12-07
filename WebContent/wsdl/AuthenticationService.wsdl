@@ -43,7 +43,7 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
    <element name="employeeSignUpResponse">
     <complexType>
      <sequence>
-      <element name="employeeSignUpReturn" type="xsd:boolean"/>
+      <element name="employeeSignUpReturn" type="xsd:int"/>
      </sequence>
     </complexType>
    </element>
@@ -87,7 +87,7 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
    <element name="customerSignUpResponse">
     <complexType>
      <sequence>
-      <element name="customerSignUpReturn" type="xsd:boolean"/>
+      <element name="customerSignUpReturn" type="xsd:int"/>
      </sequence>
     </complexType>
    </element>

@@ -19,17 +19,17 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
      </sequence>
     </complexType>
    </element>
-   <element name="insertEmployee">
+   <element name="updateEmployee">
     <complexType>
      <sequence>
       <element name="employee" type="tns1:Employee"/>
      </sequence>
     </complexType>
    </element>
-   <element name="insertEmployeeResponse">
+   <element name="updateEmployeeResponse">
     <complexType>
      <sequence>
-      <element name="insertEmployeeReturn" type="xsd:boolean"/>
+      <element name="updateEmployeeReturn" type="xsd:boolean"/>
      </sequence>
     </complexType>
    </element>
@@ -47,17 +47,17 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
      </sequence>
     </complexType>
    </element>
-   <element name="updateEmployee">
+   <element name="insertEmployee">
     <complexType>
      <sequence>
       <element name="employee" type="tns1:Employee"/>
      </sequence>
     </complexType>
    </element>
-   <element name="updateEmployeeResponse">
+   <element name="insertEmployeeResponse">
     <complexType>
      <sequence>
-      <element name="updateEmployeeReturn" type="xsd:boolean"/>
+      <element name="insertEmployeeReturn" type="xsd:int"/>
      </sequence>
     </complexType>
    </element>
@@ -114,17 +114,17 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
    </wsdl:message>
 
-   <wsdl:message name="getEmployeeRequest">
+   <wsdl:message name="insertEmployeeRequest">
 
-      <wsdl:part element="impl:getEmployee" name="parameters">
+      <wsdl:part element="impl:insertEmployee" name="parameters">
 
       </wsdl:part>
 
    </wsdl:message>
 
-   <wsdl:message name="insertEmployeeRequest">
+   <wsdl:message name="getEmployeeRequest">
 
-      <wsdl:part element="impl:insertEmployee" name="parameters">
+      <wsdl:part element="impl:getEmployee" name="parameters">
 
       </wsdl:part>
 
@@ -168,13 +168,13 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       </wsdl:operation>
 
-      <wsdl:operation name="insertEmployee">
+      <wsdl:operation name="updateEmployee">
 
-         <wsdl:input message="impl:insertEmployeeRequest" name="insertEmployeeRequest">
+         <wsdl:input message="impl:updateEmployeeRequest" name="updateEmployeeRequest">
 
        </wsdl:input>
 
-         <wsdl:output message="impl:insertEmployeeResponse" name="insertEmployeeResponse">
+         <wsdl:output message="impl:updateEmployeeResponse" name="updateEmployeeResponse">
 
        </wsdl:output>
 
@@ -192,13 +192,13 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       </wsdl:operation>
 
-      <wsdl:operation name="updateEmployee">
+      <wsdl:operation name="insertEmployee">
 
-         <wsdl:input message="impl:updateEmployeeRequest" name="updateEmployeeRequest">
+         <wsdl:input message="impl:insertEmployeeRequest" name="insertEmployeeRequest">
 
        </wsdl:input>
 
-         <wsdl:output message="impl:updateEmployeeResponse" name="updateEmployeeResponse">
+         <wsdl:output message="impl:insertEmployeeResponse" name="insertEmployeeResponse">
 
        </wsdl:output>
 
@@ -228,17 +228,17 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       </wsdl:operation>
 
-      <wsdl:operation name="insertEmployee">
+      <wsdl:operation name="updateEmployee">
 
          <wsdlsoap:operation soapAction=""/>
 
-         <wsdl:input name="insertEmployeeRequest">
+         <wsdl:input name="updateEmployeeRequest">
 
             <wsdlsoap:body use="literal"/>
 
          </wsdl:input>
 
-         <wsdl:output name="insertEmployeeResponse">
+         <wsdl:output name="updateEmployeeResponse">
 
             <wsdlsoap:body use="literal"/>
 
@@ -264,17 +264,17 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       </wsdl:operation>
 
-      <wsdl:operation name="updateEmployee">
+      <wsdl:operation name="insertEmployee">
 
          <wsdlsoap:operation soapAction=""/>
 
-         <wsdl:input name="updateEmployeeRequest">
+         <wsdl:input name="insertEmployeeRequest">
 
             <wsdlsoap:body use="literal"/>
 
          </wsdl:input>
 
-         <wsdl:output name="updateEmployeeResponse">
+         <wsdl:output name="insertEmployeeResponse">
 
             <wsdlsoap:body use="literal"/>
 
