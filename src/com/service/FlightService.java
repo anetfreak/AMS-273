@@ -34,8 +34,28 @@ public class FlightService {
 		return dbcon.retriveFlightsById(flightId);
 	}
 	
-	public Flight searchFlight(String sourceAirport, String destAirport, String departDate, String returnDate) {
+		public Flight[] searchFlight(String sourceAirport, String destAirport, String departDate) {
 		//TODO
+		try {
+			Date date = new SimpleDateFormat("YYYY-MM-DD",Locale.ENGLISH).parse(departDate);
+			@SuppressWarnings("deprecation")
+			int iday = date.getDate();
+			String day = "";
+			switch(iday){
+			case 0: day ="sun";break;
+			case 1: day ="mon";break;
+			case 2: day ="tue";break;
+			case 3: day ="wed";break;
+			case 4: day ="thu";break;
+			case 5: day ="fri";break;
+			case 6: day ="sat";break;			
+			}
+			
+			return dbcon.searchFlight(sourceAirport, destAirport, day);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return null;
 	}
 	
