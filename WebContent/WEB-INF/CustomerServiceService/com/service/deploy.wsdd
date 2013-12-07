@@ -10,19 +10,19 @@
       <parameter name="className" value="com.service.CustomerService"/>
       <parameter name="wsdlPortType" value="CustomerService"/>
       <parameter name="typeMappingVersion" value="1.2"/>
-      <operation xmlns:operNS="http://service.com" xmlns:retNS="http://service.com" xmlns:rtns="http://domain.com" name="getCustomer" qname="operNS:getCustomer" returnQName="retNS:getCustomerReturn" returnType="rtns:Customer" soapAction="">
-        <parameter xmlns:pns="http://service.com" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:customerId" type="tns:int"/>
-      </operation>
-      <operation xmlns:operNS="http://service.com" xmlns:retNS="http://service.com" xmlns:rtns="http://domain.com" name="getCustomers" qname="operNS:getCustomers" returnQName="retNS:getCustomersReturn" returnType="rtns:Customer" soapAction="">
-      </operation>
-      <operation xmlns:operNS="http://service.com" xmlns:retNS="http://service.com" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="insertCustomer" qname="operNS:insertCustomer" returnQName="retNS:insertCustomerReturn" returnType="rtns:int" soapAction="">
-        <parameter xmlns:pns="http://service.com" xmlns:tns="http://domain.com" qname="pns:customer" type="tns:Customer"/>
-      </operation>
       <operation xmlns:operNS="http://service.com" xmlns:retNS="http://service.com" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="updateCustomer" qname="operNS:updateCustomer" returnQName="retNS:updateCustomerReturn" returnType="rtns:boolean" soapAction="">
         <parameter xmlns:pns="http://service.com" xmlns:tns="http://domain.com" qname="pns:customer" type="tns:Customer"/>
       </operation>
       <operation xmlns:operNS="http://service.com" xmlns:retNS="http://service.com" xmlns:rtns="http://domain.com" name="retriveCustomerbypId" qname="operNS:retriveCustomerbypId" returnQName="retNS:retriveCustomerbypIdReturn" returnType="rtns:Customer" soapAction="">
         <parameter xmlns:pns="http://service.com" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:personId" type="tns:int"/>
+      </operation>
+      <operation xmlns:operNS="http://service.com" xmlns:retNS="http://service.com" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="insertCustomer" qname="operNS:insertCustomer" returnQName="retNS:insertCustomerReturn" returnType="rtns:int" soapAction="">
+        <parameter xmlns:pns="http://service.com" xmlns:tns="http://domain.com" qname="pns:customer" type="tns:Customer"/>
+      </operation>
+      <operation xmlns:operNS="http://service.com" xmlns:retNS="http://service.com" xmlns:rtns="http://domain.com" name="getCustomers" qname="operNS:getCustomers" returnQName="retNS:getCustomersReturn" returnType="rtns:Customer" soapAction="">
+      </operation>
+      <operation xmlns:operNS="http://service.com" xmlns:retNS="http://service.com" xmlns:rtns="http://domain.com" name="getCustomer" qname="operNS:getCustomer" returnQName="retNS:getCustomerReturn" returnType="rtns:Customer" soapAction="">
+        <parameter xmlns:pns="http://service.com" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:customerId" type="tns:int"/>
       </operation>
       <parameter name="allowedMethods" value="getCustomers getCustomer insertCustomer updateCustomer retriveCustomerbypId"/>
 

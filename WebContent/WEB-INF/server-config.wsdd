@@ -112,25 +112,25 @@
   <ns1:typeMapping deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle="" qname="ns38:Person" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" type="java:com.domain.Person" xmlns:ns38="http://domain.com"/>
  </ns1:service>
  <ns1:service name="CustomerService" provider="java:RPC" style="wrapped" use="literal">
-  <ns1:operation name="getCustomer" qname="ns39:getCustomer" returnQName="ns39:getCustomerReturn" returnType="ns40:Customer" soapAction="" xmlns:ns39="http://service.com" xmlns:ns40="http://domain.com">
-   <ns1:parameter qname="ns39:customerId" type="xsd:int" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+  <ns1:operation name="updateCustomer" qname="ns39:updateCustomer" returnQName="ns39:updateCustomerReturn" returnType="xsd:boolean" soapAction="" xmlns:ns39="http://service.com" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+   <ns1:parameter qname="ns39:customer" type="ns40:Customer" xmlns:ns40="http://domain.com"/>
   </ns1:operation>
-  <ns1:operation name="getCustomers" qname="ns41:getCustomers" returnQName="ns41:getCustomersReturn" returnType="ns42:Customer" soapAction="" xmlns:ns41="http://service.com" xmlns:ns42="http://domain.com"/>
+  <ns1:operation name="retriveCustomerbypId" qname="ns41:retriveCustomerbypId" returnQName="ns41:retriveCustomerbypIdReturn" returnType="ns42:Customer" soapAction="" xmlns:ns41="http://service.com" xmlns:ns42="http://domain.com">
+   <ns1:parameter qname="ns41:personId" type="xsd:int" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+  </ns1:operation>
   <ns1:operation name="insertCustomer" qname="ns43:insertCustomer" returnQName="ns43:insertCustomerReturn" returnType="xsd:int" soapAction="" xmlns:ns43="http://service.com" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
    <ns1:parameter qname="ns43:customer" type="ns44:Customer" xmlns:ns44="http://domain.com"/>
   </ns1:operation>
-  <ns1:operation name="updateCustomer" qname="ns45:updateCustomer" returnQName="ns45:updateCustomerReturn" returnType="xsd:boolean" soapAction="" xmlns:ns45="http://service.com" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-   <ns1:parameter qname="ns45:customer" type="ns46:Customer" xmlns:ns46="http://domain.com"/>
-  </ns1:operation>
-  <ns1:operation name="retriveCustomerbypId" qname="ns47:retriveCustomerbypId" returnQName="ns47:retriveCustomerbypIdReturn" returnType="ns48:Customer" soapAction="" xmlns:ns47="http://service.com" xmlns:ns48="http://domain.com">
-   <ns1:parameter qname="ns47:personId" type="xsd:int" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+  <ns1:operation name="getCustomers" qname="ns45:getCustomers" returnQName="ns45:getCustomersReturn" returnType="ns46:Customer" soapAction="" xmlns:ns45="http://service.com" xmlns:ns46="http://domain.com"/>
+  <ns1:operation name="getCustomer" qname="ns47:getCustomer" returnQName="ns47:getCustomerReturn" returnType="ns48:Customer" soapAction="" xmlns:ns47="http://service.com" xmlns:ns48="http://domain.com">
+   <ns1:parameter qname="ns47:customerId" type="xsd:int" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
   </ns1:operation>
   <ns1:parameter name="allowedMethods" value="getCustomers getCustomer insertCustomer updateCustomer retriveCustomerbypId"/>
-  <ns1:parameter name="typeMappingVersion" value="1.2"/>
   <ns1:parameter name="wsdlPortType" value="CustomerService"/>
-  <ns1:parameter name="className" value="com.service.CustomerService"/>
-  <ns1:parameter name="wsdlServicePort" value="CustomerService"/>
+  <ns1:parameter name="typeMappingVersion" value="1.2"/>
   <ns1:parameter name="schemaQualified" value="http://domain.com,http://service.com"/>
+  <ns1:parameter name="wsdlServicePort" value="CustomerService"/>
+  <ns1:parameter name="className" value="com.service.CustomerService"/>
   <ns1:parameter name="wsdlTargetNamespace" value="http://service.com"/>
   <ns1:parameter name="wsdlServiceElement" value="CustomerServiceService"/>
   <ns1:typeMapping deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle="" qname="ns49:Customer" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" type="java:com.domain.Customer" xmlns:ns49="http://domain.com"/>
@@ -172,25 +172,25 @@
   <ns1:parameter name="className" value="org.apache.axis.Version"/>
  </ns1:service>
  <ns1:service name="EmployeeService" provider="java:RPC" style="wrapped" use="literal">
-  <ns1:operation name="getEmployees" qname="ns66:getEmployees" returnQName="ns66:getEmployeesReturn" returnType="ns67:Employee" soapAction="" xmlns:ns66="http://service.com" xmlns:ns67="http://domain.com"/>
-  <ns1:operation name="getEmployee" qname="ns68:getEmployee" returnQName="ns68:getEmployeeReturn" returnType="ns69:Employee" soapAction="" xmlns:ns68="http://service.com" xmlns:ns69="http://domain.com">
-   <ns1:parameter qname="ns68:employeeId" type="xsd:int" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+  <ns1:operation name="insertEmployee" qname="ns66:insertEmployee" returnQName="ns66:insertEmployeeReturn" returnType="xsd:int" soapAction="" xmlns:ns66="http://service.com" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+   <ns1:parameter qname="ns66:employee" type="ns67:Employee" xmlns:ns67="http://domain.com"/>
   </ns1:operation>
-  <ns1:operation name="retriveEmployeebypId" qname="ns70:retriveEmployeebypId" returnQName="ns70:retriveEmployeebypIdReturn" returnType="ns71:Employee" soapAction="" xmlns:ns70="http://service.com" xmlns:ns71="http://domain.com">
-   <ns1:parameter qname="ns70:personId" type="xsd:int" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+  <ns1:operation name="getEmployees" qname="ns68:getEmployees" returnQName="ns68:getEmployeesReturn" returnType="ns69:Employee" soapAction="" xmlns:ns68="http://service.com" xmlns:ns69="http://domain.com"/>
+  <ns1:operation name="getEmployee" qname="ns70:getEmployee" returnQName="ns70:getEmployeeReturn" returnType="ns71:Employee" soapAction="" xmlns:ns70="http://service.com" xmlns:ns71="http://domain.com">
+   <ns1:parameter qname="ns70:employeeId" type="xsd:int" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
   </ns1:operation>
-  <ns1:operation name="updateEmployee" qname="ns72:updateEmployee" returnQName="ns72:updateEmployeeReturn" returnType="xsd:boolean" soapAction="" xmlns:ns72="http://service.com" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-   <ns1:parameter qname="ns72:employee" type="ns73:Employee" xmlns:ns73="http://domain.com"/>
+  <ns1:operation name="retriveEmployeebypId" qname="ns72:retriveEmployeebypId" returnQName="ns72:retriveEmployeebypIdReturn" returnType="ns73:Employee" soapAction="" xmlns:ns72="http://service.com" xmlns:ns73="http://domain.com">
+   <ns1:parameter qname="ns72:personId" type="xsd:int" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
   </ns1:operation>
-  <ns1:operation name="insertEmployee" qname="ns74:insertEmployee" returnQName="ns74:insertEmployeeReturn" returnType="xsd:int" soapAction="" xmlns:ns74="http://service.com" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ns1:operation name="updateEmployee" qname="ns74:updateEmployee" returnQName="ns74:updateEmployeeReturn" returnType="xsd:boolean" soapAction="" xmlns:ns74="http://service.com" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
    <ns1:parameter qname="ns74:employee" type="ns75:Employee" xmlns:ns75="http://domain.com"/>
   </ns1:operation>
   <ns1:parameter name="allowedMethods" value="getEmployees updateEmployee insertEmployee getEmployee retriveEmployeebypId"/>
-  <ns1:parameter name="wsdlPortType" value="EmployeeService"/>
   <ns1:parameter name="typeMappingVersion" value="1.2"/>
-  <ns1:parameter name="schemaQualified" value="http://domain.com,http://service.com"/>
-  <ns1:parameter name="wsdlServicePort" value="EmployeeService"/>
+  <ns1:parameter name="wsdlPortType" value="EmployeeService"/>
   <ns1:parameter name="className" value="com.service.EmployeeService"/>
+  <ns1:parameter name="wsdlServicePort" value="EmployeeService"/>
+  <ns1:parameter name="schemaQualified" value="http://domain.com,http://service.com"/>
   <ns1:parameter name="wsdlTargetNamespace" value="http://service.com"/>
   <ns1:parameter name="wsdlServiceElement" value="EmployeeServiceService"/>
   <ns1:typeMapping deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle="" qname="ns76:Employee" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" type="java:com.domain.Employee" xmlns:ns76="http://domain.com"/>
