@@ -1183,6 +1183,61 @@ public class PDBConnection {
 		return false;
 	}
 
+
+		public Reservation[] retriveReservations()
+	{
+		List<Reservation> res_list = new ArrayList<Reservation>();
+		Reservation[] reservations = null;
+		Reservation reservation = null;
+
+		String query = "select * from reservation";
+
+		try 
+		{
+			con = pool.getConn();
+			if(con == null || con.isClosed())
+			{
+				System.out.println("No connection to DB");
+				return null;
+			}
+			PreparedStatement ps = con.prepareStatement(query);
+
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				reservation = new Reservation();
+				reservation.setReservationId(rs.getInt("reservationId"));
+				reservation.setReservationNo(rs.getString("reservationNo"));
+				reservation.setCustomerId(rs.getInt("customerId"));
+				reservation.setReservationStatus(rs.getInt("reservationStatus"));
+				//reservation.setFlightId(rs.getInt("flightId"));
+				reservation.setSeatsBooked(rs.getInt("seatsBooked"));
+
+				Traveller[] travellers = retriveTravellers(rs.getInt("reservationId"));
+				reservation.setTravellers(travellers);
+
+				Journey[] journey = retriveJourney(rs.getInt("reservationId"));
+				reservation.setJourney(journey);
+				res_list.add(reservation);
+			}
+		}
+		catch (SQLException sqle) 
+		{
+			pool.closeConn(con);
+			sqle.printStackTrace();
+		}
+
+		if(!res_list.isEmpty())
+		{
+			System.out.println("Retrive reservations Successful");
+			reservations = new Reservation[res_list.size()];
+			reservations = res_list.toArray(reservations);
+			pool.closeConn(con);
+			return reservations;
+		}
+		pool.closeConn(con);
+		return null;
+	}
+
 	//retrive by reservationId
 	public Reservation retriveReservationbyResId(Integer reservationId)
 	{
