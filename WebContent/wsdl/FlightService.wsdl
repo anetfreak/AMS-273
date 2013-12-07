@@ -5,13 +5,20 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
  <wsdl:types>
   <schema elementFormDefault="qualified" targetNamespace="http://service.com" xmlns="http://www.w3.org/2001/XMLSchema">
    <import namespace="http://domain.com"/>
-   <element name="getFlights">
-    <complexType/>
-   </element>
-   <element name="getFlightsResponse">
+   <element name="searchFlight">
     <complexType>
      <sequence>
-      <element maxOccurs="unbounded" name="getFlightsReturn" type="tns1:Flight"/>
+      <element name="sourceAirport" type="xsd:string"/>
+      <element name="destAirport" type="xsd:string"/>
+      <element name="departDate" type="xsd:string"/>
+      <element name="returnDate" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="searchFlightResponse">
+    <complexType>
+     <sequence>
+      <element name="searchFlightReturn" type="tns1:Flight"/>
      </sequence>
     </complexType>
    </element>
@@ -20,20 +27,6 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
      <element maxOccurs="unbounded" minOccurs="0" name="item" type="tns1:FlightTime"/>
     </sequence>
    </complexType>
-   <element name="insertFlight">
-    <complexType>
-     <sequence>
-      <element name="flight" type="tns1:Flight"/>
-     </sequence>
-    </complexType>
-   </element>
-   <element name="insertFlightResponse">
-    <complexType>
-     <sequence>
-      <element name="insertFlightReturn" type="xsd:boolean"/>
-     </sequence>
-    </complexType>
-   </element>
    <element name="updateFlight">
     <complexType>
      <sequence>
@@ -48,17 +41,17 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
      </sequence>
     </complexType>
    </element>
-   <element name="getFlightByNo">
+   <element name="insertFlight">
     <complexType>
      <sequence>
-      <element name="flightNo" type="xsd:string"/>
+      <element name="flight" type="tns1:Flight"/>
      </sequence>
     </complexType>
    </element>
-   <element name="getFlightByNoResponse">
+   <element name="insertFlightResponse">
     <complexType>
      <sequence>
-      <element name="getFlightByNoReturn" type="tns1:Flight"/>
+      <element name="insertFlightReturn" type="xsd:boolean"/>
      </sequence>
     </complexType>
    </element>
@@ -76,20 +69,27 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
      </sequence>
     </complexType>
    </element>
-   <element name="searchFlight">
+   <element name="getFlights">
+    <complexType/>
+   </element>
+   <element name="getFlightsResponse">
     <complexType>
      <sequence>
-      <element name="sourceAirport" type="xsd:string"/>
-      <element name="destAirport" type="xsd:string"/>
-      <element name="departDate" type="xsd:string"/>
-      <element name="returnDate" type="xsd:string"/>
+      <element maxOccurs="unbounded" name="getFlightsReturn" type="tns1:Flight"/>
      </sequence>
     </complexType>
    </element>
-   <element name="searchFlightResponse">
+   <element name="getFlightByNo">
     <complexType>
      <sequence>
-      <element name="searchFlightReturn" type="tns1:Flight"/>
+      <element name="flightNo" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getFlightByNoResponse">
+    <complexType>
+     <sequence>
+      <element name="getFlightByNoReturn" type="tns1:Flight"/>
      </sequence>
     </complexType>
    </element>
@@ -173,14 +173,6 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
    </wsdl:message>
 
-   <wsdl:message name="insertFlightRequest">
-
-      <wsdl:part element="impl:insertFlight" name="parameters">
-
-      </wsdl:part>
-
-   </wsdl:message>
-
    <wsdl:message name="getFlightsResponse">
 
       <wsdl:part element="impl:getFlightsResponse" name="parameters">
@@ -189,9 +181,9 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
    </wsdl:message>
 
-   <wsdl:message name="searchFlightRequest">
+   <wsdl:message name="insertFlightRequest">
 
-      <wsdl:part element="impl:searchFlight" name="parameters">
+      <wsdl:part element="impl:insertFlight" name="parameters">
 
       </wsdl:part>
 
@@ -205,9 +197,9 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
    </wsdl:message>
 
-   <wsdl:message name="insertFlightResponse">
+   <wsdl:message name="searchFlightRequest">
 
-      <wsdl:part element="impl:insertFlightResponse" name="parameters">
+      <wsdl:part element="impl:searchFlight" name="parameters">
 
       </wsdl:part>
 
@@ -221,27 +213,23 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
    </wsdl:message>
 
+   <wsdl:message name="insertFlightResponse">
+
+      <wsdl:part element="impl:insertFlightResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
    <wsdl:portType name="FlightService">
 
-      <wsdl:operation name="getFlights">
+      <wsdl:operation name="searchFlight">
 
-         <wsdl:input message="impl:getFlightsRequest" name="getFlightsRequest">
-
-       </wsdl:input>
-
-         <wsdl:output message="impl:getFlightsResponse" name="getFlightsResponse">
-
-       </wsdl:output>
-
-      </wsdl:operation>
-
-      <wsdl:operation name="insertFlight">
-
-         <wsdl:input message="impl:insertFlightRequest" name="insertFlightRequest">
+         <wsdl:input message="impl:searchFlightRequest" name="searchFlightRequest">
 
        </wsdl:input>
 
-         <wsdl:output message="impl:insertFlightResponse" name="insertFlightResponse">
+         <wsdl:output message="impl:searchFlightResponse" name="searchFlightResponse">
 
        </wsdl:output>
 
@@ -259,13 +247,13 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       </wsdl:operation>
 
-      <wsdl:operation name="getFlightByNo">
+      <wsdl:operation name="insertFlight">
 
-         <wsdl:input message="impl:getFlightByNoRequest" name="getFlightByNoRequest">
+         <wsdl:input message="impl:insertFlightRequest" name="insertFlightRequest">
 
        </wsdl:input>
 
-         <wsdl:output message="impl:getFlightByNoResponse" name="getFlightByNoResponse">
+         <wsdl:output message="impl:insertFlightResponse" name="insertFlightResponse">
 
        </wsdl:output>
 
@@ -283,13 +271,25 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       </wsdl:operation>
 
-      <wsdl:operation name="searchFlight">
+      <wsdl:operation name="getFlights">
 
-         <wsdl:input message="impl:searchFlightRequest" name="searchFlightRequest">
+         <wsdl:input message="impl:getFlightsRequest" name="getFlightsRequest">
 
        </wsdl:input>
 
-         <wsdl:output message="impl:searchFlightResponse" name="searchFlightResponse">
+         <wsdl:output message="impl:getFlightsResponse" name="getFlightsResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getFlightByNo">
+
+         <wsdl:input message="impl:getFlightByNoRequest" name="getFlightByNoRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getFlightByNoResponse" name="getFlightByNoResponse">
 
        </wsdl:output>
 
@@ -301,35 +301,17 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
 
-      <wsdl:operation name="getFlights">
+      <wsdl:operation name="searchFlight">
 
          <wsdlsoap:operation soapAction=""/>
 
-         <wsdl:input name="getFlightsRequest">
+         <wsdl:input name="searchFlightRequest">
 
             <wsdlsoap:body use="literal"/>
 
          </wsdl:input>
 
-         <wsdl:output name="getFlightsResponse">
-
-            <wsdlsoap:body use="literal"/>
-
-         </wsdl:output>
-
-      </wsdl:operation>
-
-      <wsdl:operation name="insertFlight">
-
-         <wsdlsoap:operation soapAction=""/>
-
-         <wsdl:input name="insertFlightRequest">
-
-            <wsdlsoap:body use="literal"/>
-
-         </wsdl:input>
-
-         <wsdl:output name="insertFlightResponse">
+         <wsdl:output name="searchFlightResponse">
 
             <wsdlsoap:body use="literal"/>
 
@@ -355,17 +337,17 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       </wsdl:operation>
 
-      <wsdl:operation name="getFlightByNo">
+      <wsdl:operation name="insertFlight">
 
          <wsdlsoap:operation soapAction=""/>
 
-         <wsdl:input name="getFlightByNoRequest">
+         <wsdl:input name="insertFlightRequest">
 
             <wsdlsoap:body use="literal"/>
 
          </wsdl:input>
 
-         <wsdl:output name="getFlightByNoResponse">
+         <wsdl:output name="insertFlightResponse">
 
             <wsdlsoap:body use="literal"/>
 
@@ -391,17 +373,35 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       </wsdl:operation>
 
-      <wsdl:operation name="searchFlight">
+      <wsdl:operation name="getFlights">
 
          <wsdlsoap:operation soapAction=""/>
 
-         <wsdl:input name="searchFlightRequest">
+         <wsdl:input name="getFlightsRequest">
 
             <wsdlsoap:body use="literal"/>
 
          </wsdl:input>
 
-         <wsdl:output name="searchFlightResponse">
+         <wsdl:output name="getFlightsResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getFlightByNo">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getFlightByNoRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getFlightByNoResponse">
 
             <wsdlsoap:body use="literal"/>
 

@@ -1,8 +1,10 @@
 package com.service;
 
+import javax.jws.WebService;
+
 import com.dao.PDBConnection;
 import com.domain.Customer;
-
+@WebService
 public class CustomerService {
 
 	PDBConnection dbcon = null;

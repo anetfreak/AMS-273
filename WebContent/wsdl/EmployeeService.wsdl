@@ -5,6 +5,30 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
  <wsdl:types>
   <schema elementFormDefault="qualified" targetNamespace="http://service.com" xmlns="http://www.w3.org/2001/XMLSchema">
    <import namespace="http://domain.com"/>
+   <element name="getEmployees">
+    <complexType/>
+   </element>
+   <element name="getEmployeesResponse">
+    <complexType>
+     <sequence>
+      <element maxOccurs="unbounded" name="getEmployeesReturn" type="tns1:Employee"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getEmployee">
+    <complexType>
+     <sequence>
+      <element name="employeeId" type="xsd:int"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getEmployeeResponse">
+    <complexType>
+     <sequence>
+      <element name="getEmployeeReturn" type="tns1:Employee"/>
+     </sequence>
+    </complexType>
+   </element>
    <element name="retriveEmployeebypId">
     <complexType>
      <sequence>
@@ -30,20 +54,6 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
     <complexType>
      <sequence>
       <element name="updateEmployeeReturn" type="xsd:boolean"/>
-     </sequence>
-    </complexType>
-   </element>
-   <element name="getEmployee">
-    <complexType>
-     <sequence>
-      <element name="employeeId" type="xsd:int"/>
-     </sequence>
-    </complexType>
-   </element>
-   <element name="getEmployeeResponse">
-    <complexType>
-     <sequence>
-      <element name="getEmployeeReturn" type="tns1:Employee"/>
      </sequence>
     </complexType>
    </element>
@@ -130,9 +140,25 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
    </wsdl:message>
 
+   <wsdl:message name="getEmployeesRequest">
+
+      <wsdl:part element="impl:getEmployees" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
    <wsdl:message name="getEmployeeResponse">
 
       <wsdl:part element="impl:getEmployeeResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getEmployeesResponse">
+
+      <wsdl:part element="impl:getEmployeesResponse" name="parameters">
 
       </wsdl:part>
 
@@ -155,6 +181,30 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
    </wsdl:message>
 
    <wsdl:portType name="EmployeeService">
+
+      <wsdl:operation name="getEmployees">
+
+         <wsdl:input message="impl:getEmployeesRequest" name="getEmployeesRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getEmployeesResponse" name="getEmployeesResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getEmployee">
+
+         <wsdl:input message="impl:getEmployeeRequest" name="getEmployeeRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getEmployeeResponse" name="getEmployeeResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
 
       <wsdl:operation name="retriveEmployeebypId">
 
@@ -180,18 +230,6 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       </wsdl:operation>
 
-      <wsdl:operation name="getEmployee">
-
-         <wsdl:input message="impl:getEmployeeRequest" name="getEmployeeRequest">
-
-       </wsdl:input>
-
-         <wsdl:output message="impl:getEmployeeResponse" name="getEmployeeResponse">
-
-       </wsdl:output>
-
-      </wsdl:operation>
-
       <wsdl:operation name="insertEmployee">
 
          <wsdl:input message="impl:insertEmployeeRequest" name="insertEmployeeRequest">
@@ -209,6 +247,42 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
    <wsdl:binding name="EmployeeServiceSoapBinding" type="impl:EmployeeService">
 
       <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+      <wsdl:operation name="getEmployees">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getEmployeesRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getEmployeesResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getEmployee">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getEmployeeRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getEmployeeResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
 
       <wsdl:operation name="retriveEmployeebypId">
 
@@ -239,24 +313,6 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
          </wsdl:input>
 
          <wsdl:output name="updateEmployeeResponse">
-
-            <wsdlsoap:body use="literal"/>
-
-         </wsdl:output>
-
-      </wsdl:operation>
-
-      <wsdl:operation name="getEmployee">
-
-         <wsdlsoap:operation soapAction=""/>
-
-         <wsdl:input name="getEmployeeRequest">
-
-            <wsdlsoap:body use="literal"/>
-
-         </wsdl:input>
-
-         <wsdl:output name="getEmployeeResponse">
 
             <wsdlsoap:body use="literal"/>
 
