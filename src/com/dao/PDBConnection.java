@@ -402,6 +402,55 @@ public class PDBConnection {
 		return -1;
 	}
 
+	public Customer[] retriveCustomers()
+	{
+
+		List<Customer> cust_list = new ArrayList<Customer>();
+		Customer[] customers = null;
+		Customer customer = null;
+
+		String query = "select * from customer";
+
+		try 
+		{
+			con = pool.getConn();
+			if(con == null || con.isClosed())
+			{
+				System.out.println("No connection to DB");
+				return null;
+			}
+			PreparedStatement ps = con.prepareStatement(query);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				customer = new Customer();
+				customer.setCustomerId(rs.getInt("customerId"));
+				customer.setPassportNumber(rs.getString("passportNumber"));
+				customer.setNationality(rs.getString("nationality"));
+				Person person = retrivePerson(rs.getInt("personId")); 
+				customer.setPerson(person);
+				cust_list.add(customer);
+				//Reservation reservation = retriveReservationByCustId(rs.getInt("customerId"));
+				//customer.setReservation(reservation);
+			}
+		}
+		catch (SQLException sqle) 
+		{
+			pool.closeConn(con);
+			sqle.printStackTrace();
+		}
+		if(!cust_list.isEmpty())
+		{
+			System.out.println("Retrive customers Successful");
+			customers = new Customer[cust_list.size()];
+			customers = cust_list.toArray(customers);
+			pool.closeConn(con);
+			return customers;
+		}
+
+		pool.closeConn(con);
+		return null;
+	}
+	
 	public Customer retriveCustomer(Integer customerId)
 	{
 		if(customerId < 0)
