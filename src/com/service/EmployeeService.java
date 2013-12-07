@@ -12,6 +12,11 @@ public class EmployeeService {
 		dbcon = new PDBConnection();
 	}
 
+	public Employee[] getEmployees()
+	{
+		return dbcon.retriveEmployees();
+	}
+	
 	//Function used for checking the login of the Employee
 	public Employee getEmployee(Integer employeeId) {
 		return dbcon.retriveEmployee(employeeId);
