@@ -48,9 +48,9 @@ public class AuthenticationService {
 	}
 
 	public int employeeSignUp(Employee employee) {
-		int empId = employeeService.insertEmployee(employee);
-		if(empId != -1)
-			return empId;
+		int personId = employeeService.insertEmployee(employee);
+		if(personId != -1)
+			return personId;
 		else
 			return -1;	
 	}

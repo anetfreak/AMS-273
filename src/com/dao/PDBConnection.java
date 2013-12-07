@@ -327,6 +327,7 @@ public class PDBConnection {
 
 		int rc = 0;
 		int customerId = -1;
+		int personId = -1;
 		try 
 		{
 			con = pool.getConn();
@@ -337,7 +338,7 @@ public class PDBConnection {
 			}
 			//setting autocommit false for transaction support
 			con.setAutoCommit(false);
-			int personId = createPerson(customer.getPerson(),con);
+			personId = createPerson(customer.getPerson(),con);
 			if(personId > 0)
 			{
 				/*										1			2		3				4	*/
@@ -396,7 +397,7 @@ public class PDBConnection {
 		if (rc > 0) {
 			System.out.println("Create Customer Successful");
 			pool.closeConn(con);
-			return customerId;
+			return personId;
 		}
 		pool.closeConn(con);
 		return -1;
@@ -710,6 +711,7 @@ public class PDBConnection {
 
 		int rc = 0;
 		int employeeId = -1;
+		int personId = -1;
 		try 
 		{
 			con = pool.getConn();
@@ -719,7 +721,7 @@ public class PDBConnection {
 				return -1;
 			}
 			con.setAutoCommit(false);
-			int personId = createPerson(employee.getPerson(),con);
+			personId = createPerson(employee.getPerson(),con);
 			if(personId > 0)
 			{
 				/*										1			2		3		4		5	*/
@@ -778,7 +780,7 @@ public class PDBConnection {
 		if (rc > 0) {
 			System.out.println("Create Employee Successful");
 			pool.closeConn(con);
-			return employeeId;
+			return personId;
 		}
 		pool.closeConn(con);
 		return -1;

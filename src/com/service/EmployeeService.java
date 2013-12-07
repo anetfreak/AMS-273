@@ -30,9 +30,9 @@ public class EmployeeService {
 	//Function for inserting an employee record
 	public int insertEmployee(Employee employee) 
 	{
-		int empId = dbcon.createEmployee(employee);
-		if( empId != -1)
-			return empId;
+		int personId = dbcon.createEmployee(employee);
+		if( personId != -1)
+			return personId;
 		else
 			return -1;
 	}

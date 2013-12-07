@@ -26,9 +26,9 @@ public class CustomerService {
 	
 	public int insertCustomer(Customer customer) {
 		//TODO server side validations
-		int customerId = (dbcon.createCustomer(customer));
-		if(customerId != 1)
-			return customerId;
+		int personId = (dbcon.createCustomer(customer));
+		if(personId != 1)
+			return personId;
 		else
 			return -1;
 	}
