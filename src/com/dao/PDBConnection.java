@@ -2557,6 +2557,50 @@ public class PDBConnection {
 		return false;
 	}
 
+	public FlightTime[] retriveFlightTimeByDay(/*Get times by flight Id*/Integer flightId,String day)
+	{
+		if(flightId < 0)
+			return null;
+		List<FlightTime> flightTime_list = new ArrayList<FlightTime>();
+		FlightTime flightTime = null;
+		FlightTime[] flightTimes = null;
+		String query = "select * from flighttime where flightId = ? AND Day = ?";
+		try 
+		{
+			con = pool.getConn();
+			if(con == null || con.isClosed())
+			{
+				System.out.println("No connection to DB");
+				return null;
+			}
+			PreparedStatement ps = con.prepareStatement(query);
+			ps.setInt(1, flightId);
+			ps.setString(2,day);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				flightTime = new FlightTime();
+				flightTime.setFlightDay(rs.getString("flightDay"));
+				flightTime.setFlightTime(rs.getString("flightTime"));
+				flightTime_list.add(flightTime);
+			}
+		}
+		catch (SQLException sqle) 
+		{
+			pool.closeConn(con);
+			sqle.printStackTrace();
+		}
+		if(!flightTime_list.isEmpty())
+		{
+			System.out.println("Retrive flighttimebyFlightId Successful");
+			flightTimes = new FlightTime[flightTime_list.size()];
+			flightTimes = flightTime_list.toArray(flightTimes);
+			pool.closeConn(con);
+			return flightTimes;
+		}
+		pool.closeConn(con);
+		return null;
+	}
+	
 	public FlightTime[] retriveFlightTimeByFlightId(/*Get times by flight Id*/Integer flightId)
 	{
 		if(flightId < 0)
