@@ -11,6 +11,11 @@ public class CustomerService {
 		dbcon = new PDBConnection();
 	}
 	
+	public Customer[] getCustomers()
+	{
+		return dbcon.retriveCustomers();
+	}
+	
 	public Customer getCustomer(Integer customerId) {
 		return dbcon.retriveCustomer(customerId);
 	}
