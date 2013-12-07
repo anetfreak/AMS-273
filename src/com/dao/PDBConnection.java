@@ -2191,6 +2191,84 @@ public class PDBConnection {
 		return false;
 	}
 
+	public Flight[] searchFlight(String sourceAirport, String destAirport, String day)
+	{
+		List<Flight> flight_list = new ArrayList<Flight>();
+		Flight flight = null;
+		Flight flight1 = null;
+		Flight[] flights = null;
+		String query = "select f1.flightId as fId1, f2.flightId as fId2, f1.flightNo as fNo1, " +
+		"f2.flightNo as fNo2, f1.airlineName as airlineName, f1.source as source, " +
+		"f2.source as stopover, f2.destination as destination, f1.noOfSeats as noOfSeats " +
+		"FROM flight f1 JOIN flight f2 " +
+		"ON f1.destination = f2.source " +
+		"WHERE f1.source = ? and f2.destination = ?";
+		//String query = "select * from flight where source = ? and destination = ?";/*Get all flights*/
+
+		try 
+		{
+			con = pool.getConn();
+			if(con == null || con.isClosed())
+			{
+				System.out.println("No connection to DB");
+				return null;
+			}
+			PreparedStatement ps = con.prepareStatement(query);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+
+				FlightTime[] flightTimes1 = retriveFlightTimeByDay(rs.getInt("fId1"),day);
+				if(flightTimes1 != null)
+				{
+					flight = new Flight();
+					flight.setFlightId(rs.getInt("fId1"));
+					flight.setFlightNo(rs.getString("fNo1"));
+					flight.setAirlineName(rs.getString("airlineName"));
+					flight.setSource(rs.getString("source"));
+					flight.setDestination(rs.getString("stopover"));
+					flight.setNoOfSeats(rs.getInt("noOfSeats"));
+					flight.setFlightTime(flightTimes1);
+					
+					
+					
+					FlightTime[] flightTimes2 = retriveFlightTimeByFlightId(rs.getInt("fId2"));
+					if(flightTimes2 != null)
+					{
+						flight1 = new Flight();
+						flight1.setFlightId(rs.getInt("fId2"));
+						flight1.setFlightNo(rs.getString("fNo2"));
+						flight1.setAirlineName(rs.getString("airlineName"));
+						flight1.setSource(rs.getString("stopover"));
+						flight1.setDestination(rs.getString("destination"));
+						flight1.setNoOfSeats(rs.getInt("noOfSeats"));
+						flight1.setFlightTime(flightTimes2);
+						
+						flight_list.add(flight);
+						flight_list.add(flight1);
+						//TODO need to check the time of second flight
+					}
+				}
+
+			}
+		}
+		catch (SQLException sqle) 
+		{
+			pool.closeConn(con);
+			sqle.printStackTrace();
+		}
+
+		if(!flight_list.isEmpty())
+		{
+			System.out.println("Retrive flights Successful");
+			flights = new Flight[flight_list.size()];
+			flights = flight_list.toArray(flights);
+			pool.closeConn(con);
+			return flights;
+		}
+		pool.closeConn(con);
+		return null;
+	}
+
 	public Flight[] retriveFlights(/*Get all flights*/)
 	{
 		List<Flight> flight_list = new ArrayList<Flight>();
