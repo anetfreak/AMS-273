@@ -20,27 +20,26 @@
       <parameter name="className" value="com.service.FlightServiceSoapBindingImpl"/>
       <parameter name="wsdlPortType" value="FlightService"/>
       <parameter name="typeMappingVersion" value="1.2"/>
-      <operation name="searchFlight" qname="operNS:searchFlight" xmlns:operNS="http://service.com" returnQName="retNS:searchFlightReturn" xmlns:retNS="http://service.com" returnType="rtns:Flight" xmlns:rtns="http://domain.com" soapAction="" >
-        <parameter qname="pns:sourceAirport" xmlns:pns="http://service.com" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
-        <parameter qname="pns:destAirport" xmlns:pns="http://service.com" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
-        <parameter qname="pns:departDate" xmlns:pns="http://service.com" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
-        <parameter qname="pns:returnDate" xmlns:pns="http://service.com" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
-      </operation>
-      <operation name="updateFlight" qname="operNS:updateFlight" xmlns:operNS="http://service.com" returnQName="retNS:updateFlightReturn" xmlns:retNS="http://service.com" returnType="rtns:boolean" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
-        <parameter qname="pns:flight" xmlns:pns="http://service.com" type="tns:Flight" xmlns:tns="http://domain.com"/>
-      </operation>
       <operation name="insertFlight" qname="operNS:insertFlight" xmlns:operNS="http://service.com" returnQName="retNS:insertFlightReturn" xmlns:retNS="http://service.com" returnType="rtns:boolean" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
         <parameter qname="pns:flight" xmlns:pns="http://service.com" type="tns:Flight" xmlns:tns="http://domain.com"/>
-      </operation>
-      <operation name="getFlightById" qname="operNS:getFlightById" xmlns:operNS="http://service.com" returnQName="retNS:getFlightByIdReturn" xmlns:retNS="http://service.com" returnType="rtns:Flight" xmlns:rtns="http://domain.com" soapAction="" >
-        <parameter qname="pns:flightId" xmlns:pns="http://service.com" type="tns:int" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
       </operation>
       <operation name="getFlights" qname="operNS:getFlights" xmlns:operNS="http://service.com" returnQName="retNS:getFlightsReturn" xmlns:retNS="http://service.com" returnType="rtns:Flight" xmlns:rtns="http://domain.com" soapAction="" >
       </operation>
       <operation name="getFlightByNo" qname="operNS:getFlightByNo" xmlns:operNS="http://service.com" returnQName="retNS:getFlightByNoReturn" xmlns:retNS="http://service.com" returnType="rtns:Flight" xmlns:rtns="http://domain.com" soapAction="" >
         <parameter qname="pns:flightNo" xmlns:pns="http://service.com" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
       </operation>
-      <parameter name="allowedMethods" value="getFlightById searchFlight updateFlight insertFlight getFlightByNo getFlights"/>
+      <operation name="getFlightById" qname="operNS:getFlightById" xmlns:operNS="http://service.com" returnQName="retNS:getFlightByIdReturn" xmlns:retNS="http://service.com" returnType="rtns:Flight" xmlns:rtns="http://domain.com" soapAction="" >
+        <parameter qname="pns:flightId" xmlns:pns="http://service.com" type="tns:int" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+      </operation>
+      <operation name="searchFlight" qname="operNS:searchFlight" xmlns:operNS="http://service.com" returnQName="retNS:searchFlightReturn" xmlns:retNS="http://service.com" returnType="rtns:Flight" xmlns:rtns="http://domain.com" soapAction="" >
+        <parameter qname="pns:sourceAirport" xmlns:pns="http://service.com" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="pns:destAirport" xmlns:pns="http://service.com" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="pns:departDate" xmlns:pns="http://service.com" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+      </operation>
+      <operation name="updateFlight" qname="operNS:updateFlight" xmlns:operNS="http://service.com" returnQName="retNS:updateFlightReturn" xmlns:retNS="http://service.com" returnType="rtns:boolean" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <parameter qname="pns:flight" xmlns:pns="http://service.com" type="tns:Flight" xmlns:tns="http://domain.com"/>
+      </operation>
+      <parameter name="allowedMethods" value="searchFlight getFlightById updateFlight insertFlight getFlightByNo getFlights"/>
 
       <typeMapping
         xmlns:ns="http://domain.com"

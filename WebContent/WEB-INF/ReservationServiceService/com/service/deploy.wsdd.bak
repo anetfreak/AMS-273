@@ -20,10 +20,10 @@
       <parameter name="className" value="com.service.ReservationServiceSoapBindingImpl"/>
       <parameter name="wsdlPortType" value="ReservationService"/>
       <parameter name="typeMappingVersion" value="1.2"/>
+      <operation name="getReservations" qname="operNS:getReservations" xmlns:operNS="http://service.com" returnQName="retNS:getReservationsReturn" xmlns:retNS="http://service.com" returnType="rtns:Reservation" xmlns:rtns="http://domain.com" soapAction="" >
+      </operation>
       <operation name="insertReservation" qname="operNS:insertReservation" xmlns:operNS="http://service.com" returnQName="retNS:insertReservationReturn" xmlns:retNS="http://service.com" returnType="rtns:boolean" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
         <parameter qname="pns:reservation" xmlns:pns="http://service.com" type="tns:Reservation" xmlns:tns="http://domain.com"/>
-      </operation>
-      <operation name="getReservations" qname="operNS:getReservations" xmlns:operNS="http://service.com" returnQName="retNS:getReservationsReturn" xmlns:retNS="http://service.com" returnType="rtns:Reservation" xmlns:rtns="http://domain.com" soapAction="" >
       </operation>
       <operation name="getReservation" qname="operNS:getReservation" xmlns:operNS="http://service.com" returnQName="retNS:getReservationReturn" xmlns:retNS="http://service.com" returnType="rtns:Reservation" xmlns:rtns="http://domain.com" soapAction="" >
         <parameter qname="pns:reservationId" xmlns:pns="http://service.com" type="tns:int" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>

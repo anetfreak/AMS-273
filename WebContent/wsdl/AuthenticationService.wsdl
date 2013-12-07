@@ -5,31 +5,18 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
  <wsdl:types>
   <schema elementFormDefault="qualified" targetNamespace="http://service.com" xmlns="http://www.w3.org/2001/XMLSchema">
    <import namespace="http://domain.com"/>
-   <element name="updateEmpInformation">
+   <element name="signInEmployee">
     <complexType>
      <sequence>
-      <element name="employee" type="tns1:Employee"/>
+      <element name="username" type="xsd:string"/>
+      <element name="password" type="xsd:string"/>
      </sequence>
     </complexType>
    </element>
-   <element name="updateEmpInformationResponse">
+   <element name="signInEmployeeResponse">
     <complexType>
      <sequence>
-      <element name="updateEmpInformationReturn" type="xsd:boolean"/>
-     </sequence>
-    </complexType>
-   </element>
-   <element name="updateCustInformation">
-    <complexType>
-     <sequence>
-      <element name="customer" type="tns1:Customer"/>
-     </sequence>
-    </complexType>
-   </element>
-   <element name="updateCustInformationResponse">
-    <complexType>
-     <sequence>
-      <element name="updateCustInformationReturn" type="xsd:boolean"/>
+      <element name="signInEmployeeReturn" type="xsd:int"/>
      </sequence>
     </complexType>
    </element>
@@ -44,21 +31,6 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
     <complexType>
      <sequence>
       <element name="employeeSignUpReturn" type="xsd:int"/>
-     </sequence>
-    </complexType>
-   </element>
-   <element name="signInEmployee">
-    <complexType>
-     <sequence>
-      <element name="username" type="xsd:string"/>
-      <element name="password" type="xsd:string"/>
-     </sequence>
-    </complexType>
-   </element>
-   <element name="signInEmployeeResponse">
-    <complexType>
-     <sequence>
-      <element name="signInEmployeeReturn" type="xsd:int"/>
      </sequence>
     </complexType>
    </element>
@@ -88,6 +60,34 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
     <complexType>
      <sequence>
       <element name="customerSignUpReturn" type="xsd:int"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="updateCustInformation">
+    <complexType>
+     <sequence>
+      <element name="customer" type="tns1:Customer"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="updateCustInformationResponse">
+    <complexType>
+     <sequence>
+      <element name="updateCustInformationReturn" type="xsd:boolean"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="updateEmpInformation">
+    <complexType>
+     <sequence>
+      <element name="employee" type="tns1:Employee"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="updateEmpInformationResponse">
+    <complexType>
+     <sequence>
+      <element name="updateEmpInformationReturn" type="xsd:boolean"/>
      </sequence>
     </complexType>
    </element>
@@ -128,6 +128,14 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
   </schema>
  </wsdl:types>
 
+   <wsdl:message name="updateCustInformationRequest">
+
+      <wsdl:part element="impl:updateCustInformation" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
    <wsdl:message name="employeeSignUpResponse">
 
       <wsdl:part element="impl:employeeSignUpResponse" name="parameters">
@@ -139,14 +147,6 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
    <wsdl:message name="employeeSignUpRequest">
 
       <wsdl:part element="impl:employeeSignUp" name="parameters">
-
-      </wsdl:part>
-
-   </wsdl:message>
-
-   <wsdl:message name="updateCustInformationRequest">
-
-      <wsdl:part element="impl:updateCustInformation" name="parameters">
 
       </wsdl:part>
 
@@ -226,25 +226,13 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
    <wsdl:portType name="AuthenticationService">
 
-      <wsdl:operation name="updateEmpInformation">
+      <wsdl:operation name="signInEmployee">
 
-         <wsdl:input message="impl:updateEmpInformationRequest" name="updateEmpInformationRequest">
-
-       </wsdl:input>
-
-         <wsdl:output message="impl:updateEmpInformationResponse" name="updateEmpInformationResponse">
-
-       </wsdl:output>
-
-      </wsdl:operation>
-
-      <wsdl:operation name="updateCustInformation">
-
-         <wsdl:input message="impl:updateCustInformationRequest" name="updateCustInformationRequest">
+         <wsdl:input message="impl:signInEmployeeRequest" name="signInEmployeeRequest">
 
        </wsdl:input>
 
-         <wsdl:output message="impl:updateCustInformationResponse" name="updateCustInformationResponse">
+         <wsdl:output message="impl:signInEmployeeResponse" name="signInEmployeeResponse">
 
        </wsdl:output>
 
@@ -257,18 +245,6 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
        </wsdl:input>
 
          <wsdl:output message="impl:employeeSignUpResponse" name="employeeSignUpResponse">
-
-       </wsdl:output>
-
-      </wsdl:operation>
-
-      <wsdl:operation name="signInEmployee">
-
-         <wsdl:input message="impl:signInEmployeeRequest" name="signInEmployeeRequest">
-
-       </wsdl:input>
-
-         <wsdl:output message="impl:signInEmployeeResponse" name="signInEmployeeResponse">
 
        </wsdl:output>
 
@@ -298,41 +274,47 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       </wsdl:operation>
 
+      <wsdl:operation name="updateCustInformation">
+
+         <wsdl:input message="impl:updateCustInformationRequest" name="updateCustInformationRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:updateCustInformationResponse" name="updateCustInformationResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="updateEmpInformation">
+
+         <wsdl:input message="impl:updateEmpInformationRequest" name="updateEmpInformationRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:updateEmpInformationResponse" name="updateEmpInformationResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
    </wsdl:portType>
 
    <wsdl:binding name="AuthenticationServiceSoapBinding" type="impl:AuthenticationService">
 
       <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
 
-      <wsdl:operation name="updateEmpInformation">
+      <wsdl:operation name="signInEmployee">
 
          <wsdlsoap:operation soapAction=""/>
 
-         <wsdl:input name="updateEmpInformationRequest">
+         <wsdl:input name="signInEmployeeRequest">
 
             <wsdlsoap:body use="literal"/>
 
          </wsdl:input>
 
-         <wsdl:output name="updateEmpInformationResponse">
-
-            <wsdlsoap:body use="literal"/>
-
-         </wsdl:output>
-
-      </wsdl:operation>
-
-      <wsdl:operation name="updateCustInformation">
-
-         <wsdlsoap:operation soapAction=""/>
-
-         <wsdl:input name="updateCustInformationRequest">
-
-            <wsdlsoap:body use="literal"/>
-
-         </wsdl:input>
-
-         <wsdl:output name="updateCustInformationResponse">
+         <wsdl:output name="signInEmployeeResponse">
 
             <wsdlsoap:body use="literal"/>
 
@@ -351,24 +333,6 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
          </wsdl:input>
 
          <wsdl:output name="employeeSignUpResponse">
-
-            <wsdlsoap:body use="literal"/>
-
-         </wsdl:output>
-
-      </wsdl:operation>
-
-      <wsdl:operation name="signInEmployee">
-
-         <wsdlsoap:operation soapAction=""/>
-
-         <wsdl:input name="signInEmployeeRequest">
-
-            <wsdlsoap:body use="literal"/>
-
-         </wsdl:input>
-
-         <wsdl:output name="signInEmployeeResponse">
 
             <wsdlsoap:body use="literal"/>
 
@@ -405,6 +369,42 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
          </wsdl:input>
 
          <wsdl:output name="customerSignUpResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="updateCustInformation">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="updateCustInformationRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="updateCustInformationResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="updateEmpInformation">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="updateEmpInformationRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="updateEmpInformationResponse">
 
             <wsdlsoap:body use="literal"/>
 

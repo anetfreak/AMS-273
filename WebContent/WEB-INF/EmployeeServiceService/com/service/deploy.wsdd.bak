@@ -1,0 +1,56 @@
+<!-- Use this file to deploy some handlers/chains and services      -->
+<!-- Two ways to do this:                                           -->
+<!--   java org.apache.axis.client.AdminClient deploy.wsdd          -->
+<!--      after the axis server is running                          -->
+<!-- or                                                             -->
+<!--   java org.apache.axis.utils.Admin client|server deploy.wsdd   -->
+<!--      from the same directory that the Axis engine runs         -->
+
+<deployment
+    xmlns="http://xml.apache.org/axis/wsdd/"
+    xmlns:java="http://xml.apache.org/axis/wsdd/providers/java">
+
+  <!-- Services from EmployeeServiceService WSDL service -->
+
+  <service name="EmployeeService" provider="java:RPC" style="wrapped" use="literal">
+      <parameter name="wsdlTargetNamespace" value="http://service.com"/>
+      <parameter name="wsdlServiceElement" value="EmployeeServiceService"/>
+      <parameter name="schemaQualified" value="http://domain.com,http://service.com"/>
+      <parameter name="wsdlServicePort" value="EmployeeService"/>
+      <parameter name="className" value="com.service.EmployeeServiceSoapBindingImpl"/>
+      <parameter name="wsdlPortType" value="EmployeeService"/>
+      <parameter name="typeMappingVersion" value="1.2"/>
+      <operation name="getEmployees" qname="operNS:getEmployees" xmlns:operNS="http://service.com" returnQName="retNS:getEmployeesReturn" xmlns:retNS="http://service.com" returnType="rtns:Employee" xmlns:rtns="http://domain.com" soapAction="" >
+      </operation>
+      <operation name="getEmployee" qname="operNS:getEmployee" xmlns:operNS="http://service.com" returnQName="retNS:getEmployeeReturn" xmlns:retNS="http://service.com" returnType="rtns:Employee" xmlns:rtns="http://domain.com" soapAction="" >
+        <parameter qname="pns:employeeId" xmlns:pns="http://service.com" type="tns:int" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+      </operation>
+      <operation name="retriveEmployeebypId" qname="operNS:retriveEmployeebypId" xmlns:operNS="http://service.com" returnQName="retNS:retriveEmployeebypIdReturn" xmlns:retNS="http://service.com" returnType="rtns:Employee" xmlns:rtns="http://domain.com" soapAction="" >
+        <parameter qname="pns:personId" xmlns:pns="http://service.com" type="tns:int" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+      </operation>
+      <operation name="updateEmployee" qname="operNS:updateEmployee" xmlns:operNS="http://service.com" returnQName="retNS:updateEmployeeReturn" xmlns:retNS="http://service.com" returnType="rtns:boolean" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <parameter qname="pns:employee" xmlns:pns="http://service.com" type="tns:Employee" xmlns:tns="http://domain.com"/>
+      </operation>
+      <operation name="insertEmployee" qname="operNS:insertEmployee" xmlns:operNS="http://service.com" returnQName="retNS:insertEmployeeReturn" xmlns:retNS="http://service.com" returnType="rtns:int" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <parameter qname="pns:employee" xmlns:pns="http://service.com" type="tns:Employee" xmlns:tns="http://domain.com"/>
+      </operation>
+      <parameter name="allowedMethods" value="getEmployees updateEmployee insertEmployee getEmployee retriveEmployeebypId"/>
+
+      <typeMapping
+        xmlns:ns="http://domain.com"
+        qname="ns:Employee"
+        type="java:com.domain.Employee"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://domain.com"
+        qname="ns:Person"
+        type="java:com.domain.Person"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+  </service>
+</deployment>

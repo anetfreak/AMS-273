@@ -1,0 +1,47 @@
+<!-- Use this file to deploy some handlers/chains and services      -->
+<!-- Two ways to do this:                                           -->
+<!--   java org.apache.axis.client.AdminClient deploy.wsdd          -->
+<!--      after the axis server is running                          -->
+<!-- or                                                             -->
+<!--   java org.apache.axis.utils.Admin client|server deploy.wsdd   -->
+<!--      from the same directory that the Axis engine runs         -->
+
+<deployment
+    xmlns="http://xml.apache.org/axis/wsdd/"
+    xmlns:java="http://xml.apache.org/axis/wsdd/providers/java">
+
+  <!-- Services from PersonServiceService WSDL service -->
+
+  <service name="PersonService" provider="java:RPC" style="wrapped" use="literal">
+      <parameter name="wsdlTargetNamespace" value="http://service.com"/>
+      <parameter name="wsdlServiceElement" value="PersonServiceService"/>
+      <parameter name="schemaQualified" value="http://domain.com,http://service.com"/>
+      <parameter name="wsdlServicePort" value="PersonService"/>
+      <parameter name="className" value="com.service.PersonServiceSoapBindingImpl"/>
+      <parameter name="wsdlPortType" value="PersonService"/>
+      <parameter name="typeMappingVersion" value="1.2"/>
+      <operation name="getPerson" qname="operNS:getPerson" xmlns:operNS="http://service.com" returnQName="retNS:getPersonReturn" xmlns:retNS="http://service.com" returnType="rtns:Person" xmlns:rtns="http://domain.com" soapAction="" >
+        <parameter qname="pns:personId" xmlns:pns="http://service.com" type="tns:int" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+      </operation>
+      <operation name="validatePerson" qname="operNS:validatePerson" xmlns:operNS="http://service.com" returnQName="retNS:validatePersonReturn" xmlns:retNS="http://service.com" returnType="rtns:boolean" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <parameter qname="pns:username" xmlns:pns="http://service.com" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="pns:password" xmlns:pns="http://service.com" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+      </operation>
+      <operation name="insertPerson" qname="operNS:insertPerson" xmlns:operNS="http://service.com" returnQName="retNS:insertPersonReturn" xmlns:retNS="http://service.com" returnType="rtns:boolean" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <parameter qname="pns:person" xmlns:pns="http://service.com" type="tns:Person" xmlns:tns="http://domain.com"/>
+      </operation>
+      <operation name="updatePerson" qname="operNS:updatePerson" xmlns:operNS="http://service.com" returnQName="retNS:updatePersonReturn" xmlns:retNS="http://service.com" returnType="rtns:boolean" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <parameter qname="pns:person" xmlns:pns="http://service.com" type="tns:Person" xmlns:tns="http://domain.com"/>
+      </operation>
+      <parameter name="allowedMethods" value="insertPerson validatePerson updatePerson getPerson"/>
+
+      <typeMapping
+        xmlns:ns="http://domain.com"
+        qname="ns:Person"
+        type="java:com.domain.Person"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+  </service>
+</deployment>

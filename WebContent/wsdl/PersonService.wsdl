@@ -19,6 +19,21 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
      </sequence>
     </complexType>
    </element>
+   <element name="validatePerson">
+    <complexType>
+     <sequence>
+      <element name="username" type="xsd:string"/>
+      <element name="password" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="validatePersonResponse">
+    <complexType>
+     <sequence>
+      <element name="validatePersonReturn" type="xsd:boolean"/>
+     </sequence>
+    </complexType>
+   </element>
    <element name="insertPerson">
     <complexType>
      <sequence>
@@ -44,21 +59,6 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
     <complexType>
      <sequence>
       <element name="updatePersonReturn" type="xsd:boolean"/>
-     </sequence>
-    </complexType>
-   </element>
-   <element name="validatePerson">
-    <complexType>
-     <sequence>
-      <element name="username" type="xsd:string"/>
-      <element name="password" type="xsd:string"/>
-     </sequence>
-    </complexType>
-   </element>
-   <element name="validatePersonResponse">
-    <complexType>
-     <sequence>
-      <element name="validatePersonReturn" type="xsd:boolean"/>
      </sequence>
     </complexType>
    </element>
@@ -130,17 +130,17 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
    </wsdl:message>
 
-   <wsdl:message name="validatePersonResponse">
+   <wsdl:message name="updatePersonResponse">
 
-      <wsdl:part element="impl:validatePersonResponse" name="parameters">
+      <wsdl:part element="impl:updatePersonResponse" name="parameters">
 
       </wsdl:part>
 
    </wsdl:message>
 
-   <wsdl:message name="updatePersonResponse">
+   <wsdl:message name="validatePersonResponse">
 
-      <wsdl:part element="impl:updatePersonResponse" name="parameters">
+      <wsdl:part element="impl:validatePersonResponse" name="parameters">
 
       </wsdl:part>
 
@@ -155,6 +155,18 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
        </wsdl:input>
 
          <wsdl:output message="impl:getPersonResponse" name="getPersonResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="validatePerson">
+
+         <wsdl:input message="impl:validatePersonRequest" name="validatePersonRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:validatePersonResponse" name="validatePersonResponse">
 
        </wsdl:output>
 
@@ -184,18 +196,6 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       </wsdl:operation>
 
-      <wsdl:operation name="validatePerson">
-
-         <wsdl:input message="impl:validatePersonRequest" name="validatePersonRequest">
-
-       </wsdl:input>
-
-         <wsdl:output message="impl:validatePersonResponse" name="validatePersonResponse">
-
-       </wsdl:output>
-
-      </wsdl:operation>
-
    </wsdl:portType>
 
    <wsdl:binding name="PersonServiceSoapBinding" type="impl:PersonService">
@@ -213,6 +213,24 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
          </wsdl:input>
 
          <wsdl:output name="getPersonResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="validatePerson">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="validatePersonRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="validatePersonResponse">
 
             <wsdlsoap:body use="literal"/>
 
@@ -249,24 +267,6 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
          </wsdl:input>
 
          <wsdl:output name="updatePersonResponse">
-
-            <wsdlsoap:body use="literal"/>
-
-         </wsdl:output>
-
-      </wsdl:operation>
-
-      <wsdl:operation name="validatePerson">
-
-         <wsdlsoap:operation soapAction=""/>
-
-         <wsdl:input name="validatePersonRequest">
-
-            <wsdlsoap:body use="literal"/>
-
-         </wsdl:input>
-
-         <wsdl:output name="validatePersonResponse">
 
             <wsdlsoap:body use="literal"/>
 
