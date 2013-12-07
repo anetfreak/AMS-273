@@ -783,6 +783,55 @@ public class PDBConnection {
 		pool.closeConn(con);
 		return -1;
 	}
+	
+	public Employee[] retriveEmployees()
+	{
+		
+		List<Employee> emp_list = new ArrayList<Employee>();
+		Employee[] employees = null;
+		Employee employee = null;
+
+		String query = "select * from employee";
+
+		try 
+		{
+			con = pool.getConn();
+			if(con == null || con.isClosed())
+			{
+				System.out.println("No connection to DB");
+				return null;
+			}
+			PreparedStatement ps = con.prepareStatement(query);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				employee = new Employee();
+				employee.setEmployeeId(rs.getInt("employeeId"));
+				employee.setWorkDesc(rs.getString("workDesc"));
+				employee.setPosition(rs.getString("position"));
+				employee.setHireDate(rs.getString("hireDate"));
+
+				Person person = retrivePerson(rs.getInt("personId")); 
+				employee.setPerson(person);
+				emp_list.add(employee);
+			}
+		}
+		catch (SQLException sqle) 
+		{
+			pool.closeConn(con);
+			sqle.printStackTrace();
+		}
+
+		if(!emp_list.isEmpty())
+		{
+			System.out.println("Retrive customers Successful");
+			employees = new Employee[emp_list.size()];
+			employees = emp_list.toArray(employees);
+			pool.closeConn(con);
+			return employees;
+		}
+		pool.closeConn(con);
+		return null;
+	}
 
 	public Employee retriveEmployee(Integer employeeId)
 	{
