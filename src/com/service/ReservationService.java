@@ -23,6 +23,11 @@ public class ReservationService {
 		return false;
 	}
 	
+	public Reservation[] getReservations()
+	{
+		return dbcon.retriveReservations();
+	}
+	
 	public Reservation getReservation(Integer reservationId) {
 		return dbcon.retriveReservationbyResId(reservationId);
 	}
