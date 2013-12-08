@@ -71,6 +71,21 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
      </sequence>
     </complexType>
    </element>
+   <element name="retriveEmployeesbyName">
+    <complexType>
+     <sequence>
+      <element name="firstName" type="xsd:string"/>
+      <element name="lastName" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="retriveEmployeesbyNameResponse">
+    <complexType>
+     <sequence>
+      <element maxOccurs="unbounded" name="retriveEmployeesbyNameReturn" type="tns1:Employee"/>
+     </sequence>
+    </complexType>
+   </element>
   </schema>
   <schema elementFormDefault="qualified" targetNamespace="http://domain.com" xmlns="http://www.w3.org/2001/XMLSchema">
    <complexType name="Person">
@@ -116,6 +131,14 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
    </wsdl:message>
 
+   <wsdl:message name="retriveEmployeesbyNameRequest">
+
+      <wsdl:part element="impl:retriveEmployeesbyName" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
    <wsdl:message name="retriveEmployeebypIdResponse">
 
       <wsdl:part element="impl:retriveEmployeebypIdResponse" name="parameters">
@@ -143,6 +166,14 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
    <wsdl:message name="insertEmployeeRequest">
 
       <wsdl:part element="impl:insertEmployee" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="retriveEmployeesbyNameResponse">
+
+      <wsdl:part element="impl:retriveEmployeesbyNameResponse" name="parameters">
 
       </wsdl:part>
 
@@ -242,6 +273,18 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       </wsdl:operation>
 
+      <wsdl:operation name="retriveEmployeesbyName">
+
+         <wsdl:input message="impl:retriveEmployeesbyNameRequest" name="retriveEmployeesbyNameRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:retriveEmployeesbyNameResponse" name="retriveEmployeesbyNameResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
    </wsdl:portType>
 
    <wsdl:binding name="EmployeeServiceSoapBinding" type="impl:EmployeeService">
@@ -331,6 +374,24 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
          </wsdl:input>
 
          <wsdl:output name="updateEmployeeResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="retriveEmployeesbyName">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="retriveEmployeesbyNameRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="retriveEmployeesbyNameResponse">
 
             <wsdlsoap:body use="literal"/>
 

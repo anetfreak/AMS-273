@@ -988,6 +988,74 @@ public class PDBConnection {
 		return null;
 	}
 	
+	public Employee[] retriveEmployeesbyName(String firstName, String lastName)
+	{
+		
+		List<Employee> emp_list = new ArrayList<Employee>();
+		Employee[] employees = null;
+		Employee employee = null;
+		Person person = null;
+
+		String query = "select * from person p, employee emp where p.personId = emp.personId"
+				+ "and p.firstName = ? and p.lastName = ?";
+
+		try 
+		{
+			con = pool.getConn();
+			if(con == null || con.isClosed())
+			{
+				System.out.println("No connection to DB");
+				return null;
+			}
+			PreparedStatement ps = con.prepareStatement(query);
+			ps.setString(1, firstName);
+			ps.setString(2, lastName);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				person = new Person();
+				person.setFirstName(rs.getString("firstName"));
+				person.setLastName(rs.getString("lastName"));
+				person.setAddress(rs.getString("address"));
+				person.setCity(rs.getString("city"));
+				person.setState(rs.getString("state"));
+				person.setZip(rs.getInt("zip"));
+				person.setDOB(rs.getString("dob"));
+				person.setUsername(rs.getString("username"));
+				person.setPassword(rs.getString("password"));
+				
+				employee = new Employee();
+				
+				employee.setEmployeeId(rs.getInt("employeeId"));
+				employee.setWorkDesc(rs.getString("workDesc"));
+				employee.setPosition(rs.getString("position"));
+				employee.setHireDate(rs.getString("hireDate"));
+				employee.setPerson(person);
+
+				emp_list.add(employee);
+			}
+		}
+		catch (SQLException sqle) 
+		{
+			//pool.closeConn(con);
+			sqle.printStackTrace();
+		}
+		finally
+		{
+			pool.closeConn(con);
+		}
+
+		if(!emp_list.isEmpty())
+		{
+			System.out.println("Retrive customers Successful");
+			employees = new Employee[emp_list.size()];
+			employees = emp_list.toArray(employees);
+			//pool.closeConn(con);
+			return employees;
+		}
+		//pool.closeConn(con);
+		return null;
+	}
+	
 	public boolean updateEmployee(Employee employee)
 	{
 		if(employee == null)

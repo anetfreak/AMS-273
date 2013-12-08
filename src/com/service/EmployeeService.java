@@ -29,6 +29,11 @@ public class EmployeeService {
 		return dbcon.retriveEmployeebypId(personId);
 	}
 
+	//Function used for searching an employee based on FirstName and LastName
+	public Employee[] retriveEmployeesbyName(String firstName, String lastName) {
+		return dbcon.retriveEmployeesbyName(firstName, lastName);
+	}
+	
 	//Function for inserting an employee record
 	public int insertEmployee(Employee employee) 
 	{
@@ -39,6 +44,7 @@ public class EmployeeService {
 			return -1;
 	}
 
+	//Function for updating the record of an employee
 	public boolean updateEmployee(Employee employee) {
 		//TODO server side validations
 		if(dbcon.updateEmployee(employee))

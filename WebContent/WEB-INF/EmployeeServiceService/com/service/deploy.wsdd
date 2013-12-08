@@ -24,7 +24,11 @@
       <operation xmlns:operNS="http://service.com" xmlns:retNS="http://service.com" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="updateEmployee" qname="operNS:updateEmployee" returnQName="retNS:updateEmployeeReturn" returnType="rtns:boolean" soapAction="">
         <parameter xmlns:pns="http://service.com" xmlns:tns="http://domain.com" qname="pns:employee" type="tns:Employee"/>
       </operation>
-      <parameter name="allowedMethods" value="getEmployees updateEmployee insertEmployee getEmployee retriveEmployeebypId"/>
+      <operation xmlns:operNS="http://service.com" xmlns:retNS="http://service.com" xmlns:rtns="http://domain.com" name="retriveEmployeesbyName" qname="operNS:retriveEmployeesbyName" returnQName="retNS:retriveEmployeesbyNameReturn" returnType="rtns:Employee" soapAction="">
+        <parameter xmlns:pns="http://service.com" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:firstName" type="tns:string"/>
+        <parameter xmlns:pns="http://service.com" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:lastName" type="tns:string"/>
+      </operation>
+      <parameter name="allowedMethods" value="getEmployees retriveEmployeesbyName updateEmployee insertEmployee getEmployee retriveEmployeebypId"/>
 
       <typeMapping xmlns:ns="http://domain.com" qname="ns:Employee" type="java:com.domain.Employee" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
       <typeMapping xmlns:ns="http://domain.com" qname="ns:Person" type="java:com.domain.Person" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
