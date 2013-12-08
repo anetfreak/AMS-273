@@ -2331,7 +2331,8 @@ public class PDBConnection {
 				System.out.println("No connection to DB");
 				return null;
 			}
-			//rs = s.executeQuery();
+			PreparedStatement ps = con.prepareStatement(query);
+			rs = ps.executeQuery();
 			while (rs.next()) {
 				flight = new Flight();
 				flight.setFlightId(rs.getInt("flightId"));
