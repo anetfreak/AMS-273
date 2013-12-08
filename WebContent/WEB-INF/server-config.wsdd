@@ -7,8 +7,8 @@
   <ns1:parameter name="dotNetSoapEncFix" value="true"/>
   <ns1:parameter name="enableNamespacePrefixOptimization" value="false"/>
   <ns1:parameter name="sendXMLDeclaration" value="true"/>
-  <ns1:parameter name="sendXsiTypes" value="true"/>
   <ns1:parameter name="attachments.implementation" value="org.apache.axis.attachments.AttachmentsImpl"/>
+  <ns1:parameter name="sendXsiTypes" value="true"/>
   <ns1:requestFlow>
    <ns1:handler type="java:org.apache.axis.handlers.JWSHandler">
     <ns1:parameter name="scope" value="session"/>
@@ -22,19 +22,51 @@
  <ns1:handler name="URLMapper" type="java:org.apache.axis.handlers.http.URLMapper"/>
  <ns1:handler name="LocalResponder" type="java:org.apache.axis.transport.local.LocalResponder"/>
  <ns1:handler name="Authenticate" type="java:org.apache.axis.handlers.SimpleAuthenticationHandler"/>
+ <ns1:service name="FlightService" provider="java:RPC" style="wrapped" use="literal">
+  <ns2:operation name="insertFlight" qname="ns1:insertFlight" returnQName="ns1:insertFlightReturn" returnType="xsd:boolean" soapAction="" xmlns:ns1="http://service.com" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ns2="http://xml.apache.org/axis/wsdd/">
+   <ns3:parameter qname="ns1:flight" type="ns2:Flight" xmlns:ns2="http://domain.com" xmlns:ns3="http://xml.apache.org/axis/wsdd/"/>
+  </ns2:operation>
+  <ns1:operation name="getFlights" qname="ns3:getFlights" returnQName="ns3:getFlightsReturn" returnType="ns4:Flight" soapAction="" xmlns:ns3="http://service.com" xmlns:ns4="http://domain.com"/>
+  <ns1:operation name="getFlightByNo" qname="ns5:getFlightByNo" returnQName="ns5:getFlightByNoReturn" returnType="ns6:Flight" soapAction="" xmlns:ns5="http://service.com" xmlns:ns6="http://domain.com">
+   <ns1:parameter qname="ns5:flightNo" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+  </ns1:operation>
+  <ns1:operation name="getFlightById" qname="ns7:getFlightById" returnQName="ns7:getFlightByIdReturn" returnType="ns8:Flight" soapAction="" xmlns:ns7="http://service.com" xmlns:ns8="http://domain.com">
+   <ns1:parameter qname="ns7:flightId" type="xsd:int" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+  </ns1:operation>
+  <ns1:operation name="searchFlight" qname="ns9:searchFlight" returnQName="ns9:searchFlightReturn" returnType="ns10:Flight" soapAction="" xmlns:ns10="http://domain.com" xmlns:ns9="http://service.com">
+   <ns1:parameter qname="ns9:sourceAirport" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+   <ns1:parameter qname="ns9:destAirport" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+   <ns1:parameter qname="ns9:departDate" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+  </ns1:operation>
+  <ns1:operation name="updateFlight" qname="ns11:updateFlight" returnQName="ns11:updateFlightReturn" returnType="xsd:boolean" soapAction="" xmlns:ns11="http://service.com" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+   <ns1:parameter qname="ns11:flight" type="ns12:Flight" xmlns:ns12="http://domain.com"/>
+  </ns1:operation>
+  <ns1:parameter name="allowedMethods" value="searchFlight getFlightById updateFlight insertFlight getFlightByNo getFlights"/>
+  <ns1:parameter name="wsdlPortType" value="FlightService"/>
+  <ns1:parameter name="typeMappingVersion" value="1.2"/>
+  <ns1:parameter name="schemaQualified" value="http://domain.com,http://service.com"/>
+  <ns1:parameter name="wsdlServicePort" value="FlightService"/>
+  <ns1:parameter name="className" value="com.service.FlightService"/>
+  <ns1:parameter name="wsdlTargetNamespace" value="http://service.com"/>
+  <ns1:parameter name="wsdlServiceElement" value="FlightServiceService"/>
+  <ns1:typeMapping deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle="" qname="ns13:FlightTime" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" type="java:com.domain.FlightTime" xmlns:ns13="http://domain.com"/>
+  <ns1:typeMapping deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle="" qname="ns14:Journey" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" type="java:com.domain.Journey" xmlns:ns14="http://domain.com"/>
+  <ns1:typeMapping deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle="" qname="ns15:Flight" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" type="java:com.domain.Flight" xmlns:ns15="http://domain.com"/>
+  <ns1:arrayMapping innerType="ns17:FlightTime" languageSpecificType="java:com.domain.FlightTime[]" qname="ns16:ArrayOf_tns1_FlightTime" xmlns:ns16="http://service.com" xmlns:ns17="http://domain.com"/>
+ </ns1:service>
  <ns1:service name="PersonService" provider="java:RPC" style="wrapped" use="literal">
-  <ns3:operation name="getPerson" qname="ns1:getPerson" returnQName="ns1:getPersonReturn" returnType="ns2:Person" soapAction="" xmlns:ns1="http://service.com" xmlns:ns2="http://domain.com" xmlns:ns3="http://xml.apache.org/axis/wsdd/">
-   <ns3:parameter qname="ns1:personId" type="xsd:int" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
-  </ns3:operation>
-  <ns1:operation name="validatePerson" qname="ns3:validatePerson" returnQName="ns3:validatePersonReturn" returnType="xsd:boolean" soapAction="" xmlns:ns3="http://service.com" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-   <ns1:parameter qname="ns3:username" type="xsd:string"/>
-   <ns1:parameter qname="ns3:password" type="xsd:string"/>
+  <ns1:operation name="getPerson" qname="ns18:getPerson" returnQName="ns18:getPersonReturn" returnType="ns19:Person" soapAction="" xmlns:ns18="http://service.com" xmlns:ns19="http://domain.com">
+   <ns1:parameter qname="ns18:personId" type="xsd:int" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
   </ns1:operation>
-  <ns1:operation name="insertPerson" qname="ns4:insertPerson" returnQName="ns4:insertPersonReturn" returnType="xsd:boolean" soapAction="" xmlns:ns4="http://service.com" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-   <ns1:parameter qname="ns4:person" type="ns5:Person" xmlns:ns5="http://domain.com"/>
+  <ns1:operation name="validatePerson" qname="ns20:validatePerson" returnQName="ns20:validatePersonReturn" returnType="xsd:boolean" soapAction="" xmlns:ns20="http://service.com" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+   <ns1:parameter qname="ns20:username" type="xsd:string"/>
+   <ns1:parameter qname="ns20:password" type="xsd:string"/>
   </ns1:operation>
-  <ns1:operation name="updatePerson" qname="ns6:updatePerson" returnQName="ns6:updatePersonReturn" returnType="xsd:boolean" soapAction="" xmlns:ns6="http://service.com" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-   <ns1:parameter qname="ns6:person" type="ns7:Person" xmlns:ns7="http://domain.com"/>
+  <ns1:operation name="insertPerson" qname="ns21:insertPerson" returnQName="ns21:insertPersonReturn" returnType="xsd:boolean" soapAction="" xmlns:ns21="http://service.com" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+   <ns1:parameter qname="ns21:person" type="ns22:Person" xmlns:ns22="http://domain.com"/>
+  </ns1:operation>
+  <ns1:operation name="updatePerson" qname="ns23:updatePerson" returnQName="ns23:updatePersonReturn" returnType="xsd:boolean" soapAction="" xmlns:ns23="http://service.com" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+   <ns1:parameter qname="ns23:person" type="ns24:Person" xmlns:ns24="http://domain.com"/>
   </ns1:operation>
   <ns1:parameter name="allowedMethods" value="insertPerson validatePerson updatePerson getPerson"/>
   <ns1:parameter name="typeMappingVersion" value="1.2"/>
@@ -44,39 +76,7 @@
   <ns1:parameter name="schemaQualified" value="http://domain.com,http://service.com"/>
   <ns1:parameter name="wsdlTargetNamespace" value="http://service.com"/>
   <ns1:parameter name="wsdlServiceElement" value="PersonServiceService"/>
-  <ns1:typeMapping deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle="" qname="ns8:Person" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" type="java:com.domain.Person" xmlns:ns8="http://domain.com"/>
- </ns1:service>
- <ns1:service name="FlightService" provider="java:RPC" style="wrapped" use="literal">
-  <ns1:operation name="insertFlight" qname="ns9:insertFlight" returnQName="ns9:insertFlightReturn" returnType="xsd:boolean" soapAction="" xmlns:ns9="http://service.com" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-   <ns1:parameter qname="ns9:flight" type="ns10:Flight" xmlns:ns10="http://domain.com"/>
-  </ns1:operation>
-  <ns1:operation name="getFlights" qname="ns11:getFlights" returnQName="ns11:getFlightsReturn" returnType="ns12:Flight" soapAction="" xmlns:ns11="http://service.com" xmlns:ns12="http://domain.com"/>
-  <ns1:operation name="getFlightByNo" qname="ns13:getFlightByNo" returnQName="ns13:getFlightByNoReturn" returnType="ns14:Flight" soapAction="" xmlns:ns13="http://service.com" xmlns:ns14="http://domain.com">
-   <ns1:parameter qname="ns13:flightNo" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
-  </ns1:operation>
-  <ns1:operation name="getFlightById" qname="ns15:getFlightById" returnQName="ns15:getFlightByIdReturn" returnType="ns16:Flight" soapAction="" xmlns:ns15="http://service.com" xmlns:ns16="http://domain.com">
-   <ns1:parameter qname="ns15:flightId" type="xsd:int" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
-  </ns1:operation>
-  <ns1:operation name="searchFlight" qname="ns17:searchFlight" returnQName="ns17:searchFlightReturn" returnType="ns18:Flight" soapAction="" xmlns:ns17="http://service.com" xmlns:ns18="http://domain.com">
-   <ns1:parameter qname="ns17:sourceAirport" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
-   <ns1:parameter qname="ns17:destAirport" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
-   <ns1:parameter qname="ns17:departDate" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
-  </ns1:operation>
-  <ns1:operation name="updateFlight" qname="ns19:updateFlight" returnQName="ns19:updateFlightReturn" returnType="xsd:boolean" soapAction="" xmlns:ns19="http://service.com" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-   <ns1:parameter qname="ns19:flight" type="ns20:Flight" xmlns:ns20="http://domain.com"/>
-  </ns1:operation>
-  <ns1:parameter name="allowedMethods" value="searchFlight getFlightById updateFlight insertFlight getFlightByNo getFlights"/>
-  <ns1:parameter name="typeMappingVersion" value="1.2"/>
-  <ns1:parameter name="wsdlPortType" value="FlightService"/>
-  <ns1:parameter name="className" value="com.service.FlightService"/>
-  <ns1:parameter name="wsdlServicePort" value="FlightService"/>
-  <ns1:parameter name="schemaQualified" value="http://domain.com,http://service.com"/>
-  <ns1:parameter name="wsdlTargetNamespace" value="http://service.com"/>
-  <ns1:parameter name="wsdlServiceElement" value="FlightServiceService"/>
-  <ns1:typeMapping deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle="" qname="ns21:FlightTime" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" type="java:com.domain.FlightTime" xmlns:ns21="http://domain.com"/>
-  <ns1:typeMapping deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle="" qname="ns22:Journey" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" type="java:com.domain.Journey" xmlns:ns22="http://domain.com"/>
-  <ns1:typeMapping deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle="" qname="ns23:Flight" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" type="java:com.domain.Flight" xmlns:ns23="http://domain.com"/>
-  <ns1:arrayMapping innerType="ns25:FlightTime" languageSpecificType="java:com.domain.FlightTime[]" qname="ns24:ArrayOf_tns1_FlightTime" xmlns:ns24="http://service.com" xmlns:ns25="http://domain.com"/>
+  <ns1:typeMapping deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle="" qname="ns25:Person" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" type="java:com.domain.Person" xmlns:ns25="http://domain.com"/>
  </ns1:service>
  <ns1:service name="AuthenticationService" provider="java:RPC" style="wrapped" use="literal">
   <ns1:operation name="signInEmployee" qname="ns26:signInEmployee" returnQName="ns26:signInEmployeeReturn" returnType="xsd:int" soapAction="" xmlns:ns26="http://service.com" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
@@ -100,11 +100,11 @@
    <ns1:parameter qname="ns34:employee" type="ns35:Employee" xmlns:ns35="http://domain.com"/>
   </ns1:operation>
   <ns1:parameter name="allowedMethods" value="signInEmployee signInCustomer updateCustInformation customerSignUp updateEmpInformation employeeSignUp"/>
-  <ns1:parameter name="wsdlPortType" value="AuthenticationService"/>
   <ns1:parameter name="typeMappingVersion" value="1.2"/>
-  <ns1:parameter name="schemaQualified" value="http://domain.com,http://service.com"/>
-  <ns1:parameter name="wsdlServicePort" value="AuthenticationService"/>
+  <ns1:parameter name="wsdlPortType" value="AuthenticationService"/>
   <ns1:parameter name="className" value="com.service.AuthenticationService"/>
+  <ns1:parameter name="wsdlServicePort" value="AuthenticationService"/>
+  <ns1:parameter name="schemaQualified" value="http://domain.com,http://service.com"/>
   <ns1:parameter name="wsdlTargetNamespace" value="http://service.com"/>
   <ns1:parameter name="wsdlServiceElement" value="AuthenticationServiceService"/>
   <ns1:typeMapping deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle="" qname="ns36:Customer" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" type="java:com.domain.Customer" xmlns:ns36="http://domain.com"/>
@@ -126,11 +126,11 @@
    <ns1:parameter qname="ns47:customerId" type="xsd:int" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
   </ns1:operation>
   <ns1:parameter name="allowedMethods" value="getCustomers getCustomer insertCustomer updateCustomer retriveCustomerbypId"/>
-  <ns1:parameter name="wsdlPortType" value="CustomerService"/>
   <ns1:parameter name="typeMappingVersion" value="1.2"/>
-  <ns1:parameter name="schemaQualified" value="http://domain.com,http://service.com"/>
-  <ns1:parameter name="wsdlServicePort" value="CustomerService"/>
+  <ns1:parameter name="wsdlPortType" value="CustomerService"/>
   <ns1:parameter name="className" value="com.service.CustomerService"/>
+  <ns1:parameter name="wsdlServicePort" value="CustomerService"/>
+  <ns1:parameter name="schemaQualified" value="http://domain.com,http://service.com"/>
   <ns1:parameter name="wsdlTargetNamespace" value="http://service.com"/>
   <ns1:parameter name="wsdlServiceElement" value="CustomerServiceService"/>
   <ns1:typeMapping deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle="" qname="ns49:Customer" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" type="java:com.domain.Customer" xmlns:ns49="http://domain.com"/>
@@ -154,11 +154,11 @@
    <ns1:parameter qname="ns57:reservation" type="ns58:Reservation" xmlns:ns58="http://domain.com"/>
   </ns1:operation>
   <ns1:parameter name="allowedMethods" value="getReservations getReservation updateReservation insertReservation"/>
-  <ns1:parameter name="wsdlPortType" value="ReservationService"/>
   <ns1:parameter name="typeMappingVersion" value="1.2"/>
-  <ns1:parameter name="schemaQualified" value="http://domain.com,http://service.com"/>
-  <ns1:parameter name="wsdlServicePort" value="ReservationService"/>
+  <ns1:parameter name="wsdlPortType" value="ReservationService"/>
   <ns1:parameter name="className" value="com.service.ReservationService"/>
+  <ns1:parameter name="wsdlServicePort" value="ReservationService"/>
+  <ns1:parameter name="schemaQualified" value="http://domain.com,http://service.com"/>
   <ns1:parameter name="wsdlTargetNamespace" value="http://service.com"/>
   <ns1:parameter name="wsdlServiceElement" value="ReservationServiceService"/>
   <ns1:typeMapping deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle="" qname="ns59:Journey" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" type="java:com.domain.Journey" xmlns:ns59="http://domain.com"/>
@@ -166,10 +166,6 @@
   <ns1:typeMapping deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle="" qname="ns61:Reservation" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" type="java:com.domain.Reservation" xmlns:ns61="http://domain.com"/>
   <ns1:arrayMapping innerType="ns63:Journey" languageSpecificType="java:com.domain.Journey[]" qname="ns62:ArrayOf_tns1_Journey" xmlns:ns62="http://service.com" xmlns:ns63="http://domain.com"/>
   <ns1:arrayMapping innerType="ns65:Traveller" languageSpecificType="java:com.domain.Traveller[]" qname="ns64:ArrayOf_tns1_Traveller" xmlns:ns64="http://service.com" xmlns:ns65="http://domain.com"/>
- </ns1:service>
- <ns1:service name="Version" provider="java:RPC">
-  <ns1:parameter name="allowedMethods" value="getVersion"/>
-  <ns1:parameter name="className" value="org.apache.axis.Version"/>
  </ns1:service>
  <ns1:service name="EmployeeService" provider="java:RPC" style="wrapped" use="literal">
   <ns1:operation name="insertEmployee" qname="ns66:insertEmployee" returnQName="ns66:insertEmployeeReturn" returnType="xsd:int" soapAction="" xmlns:ns66="http://service.com" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
@@ -186,15 +182,19 @@
    <ns1:parameter qname="ns74:employee" type="ns75:Employee" xmlns:ns75="http://domain.com"/>
   </ns1:operation>
   <ns1:parameter name="allowedMethods" value="getEmployees updateEmployee insertEmployee getEmployee retriveEmployeebypId"/>
-  <ns1:parameter name="typeMappingVersion" value="1.2"/>
   <ns1:parameter name="wsdlPortType" value="EmployeeService"/>
-  <ns1:parameter name="className" value="com.service.EmployeeService"/>
-  <ns1:parameter name="wsdlServicePort" value="EmployeeService"/>
+  <ns1:parameter name="typeMappingVersion" value="1.2"/>
   <ns1:parameter name="schemaQualified" value="http://domain.com,http://service.com"/>
+  <ns1:parameter name="wsdlServicePort" value="EmployeeService"/>
+  <ns1:parameter name="className" value="com.service.EmployeeService"/>
   <ns1:parameter name="wsdlTargetNamespace" value="http://service.com"/>
   <ns1:parameter name="wsdlServiceElement" value="EmployeeServiceService"/>
   <ns1:typeMapping deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle="" qname="ns76:Employee" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" type="java:com.domain.Employee" xmlns:ns76="http://domain.com"/>
   <ns1:typeMapping deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle="" qname="ns77:Person" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" type="java:com.domain.Person" xmlns:ns77="http://domain.com"/>
+ </ns1:service>
+ <ns1:service name="Version" provider="java:RPC">
+  <ns1:parameter name="allowedMethods" value="getVersion"/>
+  <ns1:parameter name="className" value="org.apache.axis.Version"/>
  </ns1:service>
  <ns1:transport name="http">
   <ns1:requestFlow>
