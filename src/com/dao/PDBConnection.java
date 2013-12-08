@@ -1883,6 +1883,52 @@ public class PDBConnection {
 		return false;
 	}
 
+	public Location[] retriveLocations()
+	{
+		
+		List<Location> location_list = new ArrayList<Location>();
+		Location[] locations = null;
+		Location location = null;
+
+		String query = "select * from location where locationId";
+
+		try 
+		{
+			con = pool.getConn();
+			if(con == null || con.isClosed())
+			{
+				System.out.println("No connection to DB");
+				return null;
+			}
+			PreparedStatement ps = con.prepareStatement(query);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				location = new Location();
+				location.setAirportCode(rs.getString("airportCode"));
+				location.setLocationId(rs.getInt("locationId"));
+				location.setState(rs.getString("state"));
+				location.setStateCode(rs.getString("stateCode"));
+				location_list.add(location);
+			}
+		}
+		catch (SQLException sqle) 
+		{
+			pool.closeConn(con);
+			sqle.printStackTrace();
+		}
+
+		if(!location_list.isEmpty())
+		{
+			System.out.println("Retrive Location Successful");
+			locations = new Location[location_list.size()];
+			locations = location_list.toArray(locations);
+			pool.closeConn(con);
+			return locations;
+		}
+		return null;
+	}
+
+
 	public Location retriveLocation(Integer locationId)
 	{
 		if(locationId == null)
