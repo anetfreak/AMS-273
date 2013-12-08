@@ -2391,12 +2391,12 @@ public class PDBConnection {
 		Flight flight = null;
 		Flight flight1 = null;
 		Flight[] flights = null;
-		String query = "select f1.flightId as fId1, f2.flightId as fId2, f1.flightNo as fNo1, " +
-		"f2.flightNo as fNo2, f1.airlineName as airlineName, f1.source as source, " +
-		"f2.source as stopover, f2.destination as destination, f1.noOfSeats as noOfSeats " +
+		String query = "select f1.flight_Id as fId1, f2.flight_Id as fId2, f1.flightNo as fNo1, " +
+		"f2.flightNo as fNo2, f1.airlineName as airlineName, f1.flightsource as source, " +
+		"f2.flightsource as stopover, f2.flightdestination as destination, f1.flightnoOfSeats as noOfSeats " +
 		"FROM flight f1 JOIN flight f2 " +
-		"ON f1.destination = f2.source " +
-		"WHERE f1.source = ? and f2.destination = ?";
+		"ON f1.flightdestination = f2.flightsource " +
+		"WHERE f1.flightsource = ? and f2.flightdestination = ?";
 		//String query = "select * from flight where source = ? and destination = ?";/*Get all flights*/
 
 		try 
@@ -2408,6 +2408,8 @@ public class PDBConnection {
 				return null;
 			}
 			PreparedStatement ps = con.prepareStatement(query);
+			ps.setString(1, sourceAirport);
+			ps.setString(2, destAirport);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 
@@ -2454,7 +2456,7 @@ public class PDBConnection {
 		{
 			pool.closeConn(con);
 		}
-
+		System.out.println("Size is : "+flight_list.size());
 		if(!flight_list.isEmpty())
 		{
 			System.out.println("Retrive flights Successful");

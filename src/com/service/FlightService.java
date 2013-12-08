@@ -43,7 +43,7 @@ public class FlightService {
 		public Flight[] searchFlight(String sourceAirport, String destAirport, String departDate) {
 		//TODO
 		try {
-			Date date = new SimpleDateFormat("YYYY-MM-DD",Locale.ENGLISH).parse(departDate);
+			Date date = new SimpleDateFormat("yyyy-MM-dd",Locale.ENGLISH).parse(departDate);
 			@SuppressWarnings("deprecation")
 			int iday = date.getDate();
 			String day = "";
@@ -60,6 +60,12 @@ public class FlightService {
 			return dbcon.searchFlight(sourceAirport, destAirport, day);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
+			System.out.println("In Parse Exception");
+			e.printStackTrace();
+		}
+		catch(Exception e)
+		{
+			System.out.println("In other Exception");
 			e.printStackTrace();
 		}
 		return null;
