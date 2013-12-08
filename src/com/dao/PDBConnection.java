@@ -53,6 +53,19 @@ public class PDBConnection {
 		}
 		 */
 	}
+	public String getFlightTimes(int flightId)
+	{
+		String query = "select * from flightStatus where flight_id ="+flightId;
+		String flightStatus = "";
+		try {
+			rs = s.executeQuery(query);
+			flightStatus = rs.getString("expected_time")+";"+ rs.getString("real_time");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return flightStatus;
+	}
 
 	public int signIn(String username, String password, Integer type) 
 	{
