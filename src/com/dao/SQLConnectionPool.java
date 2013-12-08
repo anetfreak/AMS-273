@@ -51,15 +51,17 @@ public class SQLConnectionPool {
 		return pool;
 	}
 
-	public Connection getConn()
+	public synchronized Connection getConn()
 	{
 		//if(!conn.isEmpty())
 		System.out.println("connection will be given  , size is "+conn.size());
-			return conn.poll();
+		Connection con = conn.poll();
+		System.out.println("connection  given  , size is "+conn.size());
+			return con;
 		//return null;
 	}
 
-	public void closeConn(Connection c)
+	public synchronized void closeConn(Connection c)
 	{
 		System.out.println("connection pool size is "+conn.size());
 		conn.add(c);

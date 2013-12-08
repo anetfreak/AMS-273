@@ -24,7 +24,7 @@ public class PDBConnection {
 	SQLConnectionPool pool = SQLConnectionPool.getPool();
 	Connection con = null;
 	Statement s = null;
-	ResultSet rs = null;
+	
 
 	public PDBConnection()
 	{
@@ -72,9 +72,9 @@ public class PDBConnection {
 			ps.setString(1, username);
 			ps.setString(2, password);
 			ps.setInt(3, type);
-			rs = ps.executeQuery();
+			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
-				pool.closeConn(con);
+				//pool.closeConn(con);
 				return (rs.getInt("personId"));
 			}
 
@@ -82,10 +82,14 @@ public class PDBConnection {
 		}
 		catch (SQLException sqle) 
 		{
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			sqle.printStackTrace();
 		}
-		pool.closeConn(con);
+		finally
+		{
+			pool.closeConn(con);
+		}
+		//pool.closeConn(con);
 		return -1;
 	}
 
@@ -122,7 +126,7 @@ public class PDBConnection {
 
 			rc = ps.executeUpdate();
 
-			rs = ps.getGeneratedKeys();
+			ResultSet rs = ps.getGeneratedKeys();
 			if(rs.next())
 				personId = rs.getInt(1);
 			System.out.println("Person id = " + personId);
@@ -166,7 +170,7 @@ public class PDBConnection {
 			}
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setInt(1, personId);
-			rs = ps.executeQuery();
+			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
 				person = new Person();
 				person.setPersonId(rs.getInt("personId"));
@@ -184,17 +188,20 @@ public class PDBConnection {
 		}
 		catch (SQLException sqle) 
 		{
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			sqle.printStackTrace();
 		}
-
+		finally
+		{
+			pool.closeConn(con);
+		}
 		if(person != null)
 		{
 			System.out.println("Retrive Person Successful");
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			return person;
 		}
-		pool.closeConn(con);
+		//pool.closeConn(con);
 		return null;
 	}
 
@@ -354,7 +361,7 @@ public class PDBConnection {
 				rc = ps.executeUpdate();
 				if(rc > 0)
 				{
-					rs = ps.getGeneratedKeys();
+					ResultSet rs = ps.getGeneratedKeys();
 					if(rs.next())
 						customerId = rs.getInt(1);
 					System.out.println("Employee id = " + customerId);
@@ -388,18 +395,22 @@ public class PDBConnection {
 			} catch(SQLException excep) {
 				excep.printStackTrace();
 			}
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			sqle.printStackTrace();
+		}
+		finally
+		{
+			pool.closeConn(con);
 		}
 
 		//createReservation(customer.getCustomerId(),customer.getReservation());
 
 		if (rc > 0) {
 			System.out.println("Create Customer Successful");
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			return personId;
 		}
-		pool.closeConn(con);
+		//pool.closeConn(con);
 		return -1;
 	}
 
@@ -421,7 +432,9 @@ public class PDBConnection {
 				return null;
 			}
 			PreparedStatement ps = con.prepareStatement(query);
-			rs = ps.executeQuery();
+			ResultSet rs = ps.executeQuery();
+			int i =0;
+			
 			while (rs.next()) {
 				customer = new Customer();
 				customer.setCustomerId(rs.getInt("customerId"));
@@ -429,6 +442,7 @@ public class PDBConnection {
 				customer.setNationality(rs.getString("nationality"));
 				Person person = retrivePerson(rs.getInt("personId")); 
 				customer.setPerson(person);
+				System.out.println("added customer: "+i++);
 				cust_list.add(customer);
 				//Reservation reservation = retriveReservationByCustId(rs.getInt("customerId"));
 				//customer.setReservation(reservation);
@@ -436,19 +450,23 @@ public class PDBConnection {
 		}
 		catch (SQLException sqle) 
 		{
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			sqle.printStackTrace();
+		}
+		finally
+		{
+			pool.closeConn(con);
 		}
 		if(!cust_list.isEmpty())
 		{
 			System.out.println("Retrive customers Successful");
 			customers = new Customer[cust_list.size()];
 			customers = cust_list.toArray(customers);
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			return customers;
 		}
 
-		pool.closeConn(con);
+		//pool.closeConn(con);
 		return null;
 	}
 	
@@ -471,7 +489,7 @@ public class PDBConnection {
 			}
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setInt(1, customerId);
-			rs = ps.executeQuery();
+			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
 				customer = new Customer();
 				customer.setCustomerId(rs.getInt("customerId"));
@@ -485,17 +503,21 @@ public class PDBConnection {
 		}
 		catch (SQLException sqle) 
 		{
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			sqle.printStackTrace();
+		}
+		finally
+		{
+			pool.closeConn(con);
 		}
 
 		if(customer != null)
 		{
 			System.out.println("Retrive customer Successful");
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			return customer;
 		}
-		pool.closeConn(con);
+		//pool.closeConn(con);
 		return null;
 	}
 
@@ -518,7 +540,7 @@ public class PDBConnection {
 			}
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setInt(1, personId);
-			rs = ps.executeQuery();
+			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
 				customer = new Customer();
 				customer.setCustomerId(rs.getInt("customerId"));
@@ -532,17 +554,21 @@ public class PDBConnection {
 		}
 		catch (SQLException sqle) 
 		{
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			sqle.printStackTrace();
+		}
+		finally
+		{
+			pool.closeConn(con);
 		}
 
 		if(customer != null)
 		{
 			System.out.println("Retrive customer Successful");
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			return customer;
 		}
-		pool.closeConn(con);
+		//pool.closeConn(con);
 		return null;
 	}
 	
@@ -612,8 +638,12 @@ public class PDBConnection {
 			} catch(SQLException excep) {
 				excep.printStackTrace();
 			}
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			sqle.printStackTrace();
+		}
+		finally
+		{
+			pool.closeConn(con);
 		}
 
 		//updateReservation(customer.getReservation());
@@ -621,10 +651,10 @@ public class PDBConnection {
 
 		if (rc > 0) {
 			System.out.println("Update Customer Successful");
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			return true;
 		}
-		pool.closeConn(con);
+		//pool.closeConn(con);
 		return false;
 	}
 
@@ -648,7 +678,7 @@ public class PDBConnection {
 			con.setAutoCommit(false);
 			PreparedStatement ps1 = con.prepareStatement(query1);
 			ps1.setInt(1, customerId);
-			rs = ps1.executeQuery();
+			ResultSet rs = ps1.executeQuery();
 			if(rs.next())
 				personId = rs.getInt("personId");
 
@@ -691,16 +721,20 @@ public class PDBConnection {
 			} catch(SQLException excep) {
 				excep.printStackTrace();
 			}
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			sqle.printStackTrace();
+		}
+		finally
+		{
+			pool.closeConn(con);
 		}
 
 		if (rc > 0) {
 			System.out.println("Delete Customer Successful");
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			return true;
 		}
-		pool.closeConn(con);
+		//pool.closeConn(con);
 		return false;	
 	}
 
@@ -739,7 +773,7 @@ public class PDBConnection {
 				if(rc > 0)
 				{
 					con.commit();
-					rs = ps.getGeneratedKeys();
+					ResultSet rs = ps.getGeneratedKeys();
 					if(rs.next())
 						employeeId = rs.getInt(1);
 					System.out.println("Employee id = " + employeeId);
@@ -772,17 +806,21 @@ public class PDBConnection {
 			} catch(SQLException excep) {
 				excep.printStackTrace();
 			}
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			sqle.printStackTrace();
+		}
+		finally
+		{
+			pool.closeConn(con);
 		}
 
 
 		if (rc > 0) {
 			System.out.println("Create Employee Successful");
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			return personId;
 		}
-		pool.closeConn(con);
+		//pool.closeConn(con);
 		return -1;
 	}
 	
@@ -804,7 +842,7 @@ public class PDBConnection {
 				return null;
 			}
 			PreparedStatement ps = con.prepareStatement(query);
-			rs = ps.executeQuery();
+			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				employee = new Employee();
 				employee.setEmployeeId(rs.getInt("employeeId"));
@@ -819,8 +857,12 @@ public class PDBConnection {
 		}
 		catch (SQLException sqle) 
 		{
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			sqle.printStackTrace();
+		}
+		finally
+		{
+			pool.closeConn(con);
 		}
 
 		if(!emp_list.isEmpty())
@@ -828,10 +870,10 @@ public class PDBConnection {
 			System.out.println("Retrive customers Successful");
 			employees = new Employee[emp_list.size()];
 			employees = emp_list.toArray(employees);
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			return employees;
 		}
-		pool.closeConn(con);
+		//pool.closeConn(con);
 		return null;
 	}
 
@@ -854,7 +896,7 @@ public class PDBConnection {
 			}
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setInt(1, employeeId);
-			rs = ps.executeQuery();
+			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
 				employee = new Employee();
 				employee.setEmployeeId(rs.getInt("employeeId"));
@@ -868,17 +910,21 @@ public class PDBConnection {
 		}
 		catch (SQLException sqle) 
 		{
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			sqle.printStackTrace();
+		}
+		finally
+		{
+			pool.closeConn(con);
 		}
 
 		if(employee != null)
 		{
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			System.out.println("Retrive employee Successful");
 			return employee;
 		}
-		pool.closeConn(con);
+		//pool.closeConn(con);
 		return null;
 	}
 
@@ -901,7 +947,7 @@ public class PDBConnection {
 			}
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setInt(1, personId);
-			rs = ps.executeQuery();
+			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
 				employee = new Employee();
 				employee.setEmployeeId(rs.getInt("employeeId"));
@@ -915,17 +961,21 @@ public class PDBConnection {
 		}
 		catch (SQLException sqle) 
 		{
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			sqle.printStackTrace();
+		}
+		finally
+		{
+			pool.closeConn(con);
 		}
 
 		if(employee != null)
 		{
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			System.out.println("Retrive employee Successful");
 			return employee;
 		}
-		pool.closeConn(con);
+		//pool.closeConn(con);
 		return null;
 	}
 	
@@ -987,17 +1037,21 @@ public class PDBConnection {
 			} catch(SQLException excep) {
 				excep.printStackTrace();
 			}
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			sqle.printStackTrace();
+		}
+		finally
+		{
+			pool.closeConn(con);
 		}
 
 
 		if (rc > 0) {
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			System.out.println("Update Employee Successful");
 			return true;
 		}
-		pool.closeConn(con);
+		//pool.closeConn(con);
 		return false;
 	}
 
@@ -1021,7 +1075,7 @@ public class PDBConnection {
 			con.setAutoCommit(false);
 			PreparedStatement ps1 = con.prepareStatement(query1);
 			ps1.setInt(1, employeeId);
-			rs = ps1.executeQuery();
+			ResultSet rs = ps1.executeQuery();
 			if(rs.next())
 				personId = rs.getInt("personId");
 
@@ -1063,16 +1117,20 @@ public class PDBConnection {
 			} catch(SQLException excep) {
 				excep.printStackTrace();
 			}
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			sqle.printStackTrace();
+		}
+		finally
+		{
+			pool.closeConn(con);
 		}
 
 		if (rc > 0) {
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			System.out.println("Delete employee Successful");
 			return true;
 		}
-		pool.closeConn(con);
+		//pool.closeConn(con);
 		return false;	
 	}
 
@@ -1109,7 +1167,7 @@ public class PDBConnection {
 			ps.setInt(4, reservation.getSeatsBooked());
 
 			rc = ps.executeUpdate();
-			rs = ps.getGeneratedKeys();
+			ResultSet rs = ps.getGeneratedKeys();
 
 			if(rs.next())
 				reservationId = rs.getInt(1);
@@ -1125,7 +1183,7 @@ public class PDBConnection {
 						try {
 							System.err.print("Transaction is being rolled back");
 							con.rollback();
-							pool.closeConn(con);
+							//pool.closeConn(con);
 							return false;
 						} catch(SQLException excep) {
 							excep.printStackTrace();
@@ -1141,7 +1199,7 @@ public class PDBConnection {
 						try {
 							System.err.print("Transaction is being rolled back");
 							con.rollback();
-							pool.closeConn(con);
+							//pool.closeConn(con);
 							return false;
 						} catch(SQLException excep) {
 							excep.printStackTrace();
@@ -1165,23 +1223,28 @@ public class PDBConnection {
 			try {
 				System.err.print("Transaction is being rolled back");
 				con.rollback();
-				pool.closeConn(con);
+				//pool.closeConn(con);
 				return false;
 			} catch(SQLException excep) {
 				excep.printStackTrace();
 			}
-			pool.closeConn(con);
+			
+			//pool.closeConn(con);
 			sqle.printStackTrace();
+		}
+		finally
+		{
+			pool.closeConn(con);
 		}
 
 
 
 		if (rc > 0) {
 			System.out.println("Create reservation Successful");
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			return true;
 		}
-		pool.closeConn(con);
+		//pool.closeConn(con);
 		return false;
 	}
 
@@ -1204,7 +1267,7 @@ public class PDBConnection {
 			}
 			PreparedStatement ps = con.prepareStatement(query);
 
-			rs = ps.executeQuery();
+			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				reservation = new Reservation();
 				reservation.setReservationId(rs.getInt("reservationId"));
@@ -1224,8 +1287,12 @@ public class PDBConnection {
 		}
 		catch (SQLException sqle) 
 		{
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			sqle.printStackTrace();
+		}
+		finally
+		{
+			pool.closeConn(con);
 		}
 
 		if(!res_list.isEmpty())
@@ -1233,10 +1300,10 @@ public class PDBConnection {
 			System.out.println("Retrive reservations Successful");
 			reservations = new Reservation[res_list.size()];
 			reservations = res_list.toArray(reservations);
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			return reservations;
 		}
-		pool.closeConn(con);
+		//pool.closeConn(con);
 		return null;
 	}
 
@@ -1261,7 +1328,7 @@ public class PDBConnection {
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setInt(1, reservationId); 
 
-			rs = ps.executeQuery();
+			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
 				reservation = new Reservation();
 				reservation.setReservationId(rs.getInt("reservationId"));
@@ -1280,17 +1347,21 @@ public class PDBConnection {
 		}
 		catch (SQLException sqle) 
 		{
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			sqle.printStackTrace();
+		}
+		finally
+		{
+			pool.closeConn(con);
 		}
 
 		if(reservation != null)
 		{
 			System.out.println("Retrive reservation Successful");
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			return reservation;
 		}
-		pool.closeConn(con);
+		//pool.closeConn(con);
 		return null;
 	}
 
@@ -1315,7 +1386,7 @@ public class PDBConnection {
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setInt(1, customerId); 
 
-			rs = ps.executeQuery();
+			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
 				reservation = new Reservation();
 				reservation.setReservationId(rs.getInt("reservationId"));
@@ -1332,17 +1403,21 @@ public class PDBConnection {
 		}
 		catch (SQLException sqle) 
 		{
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			sqle.printStackTrace();
+		}
+		finally
+		{
+			pool.closeConn(con);
 		}
 
 		if(reservation != null)
 		{
 			System.out.println("Retrive reservation Successful");
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			return reservation;
 		}
-		pool.closeConn(con);
+		//pool.closeConn(con);
 		return null;
 	}
 	//retrive by reservationNo
@@ -1365,7 +1440,7 @@ public class PDBConnection {
 			}
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setString(1, reservationNo); 
-			rs = ps.executeQuery();
+			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
 				reservation = new Reservation();
 				reservation.setReservationId(rs.getInt("reservationId"));
@@ -1382,17 +1457,21 @@ public class PDBConnection {
 		}
 		catch (SQLException sqle) 
 		{
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			sqle.printStackTrace();
+		}
+		finally
+		{
+			pool.closeConn(con);
 		}
 
 		if(reservation != null)
 		{
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			System.out.println("Retrive reservation Successful");
 			return reservation;
 		}
-		pool.closeConn(con);
+		//pool.closeConn(con);
 		return null;
 	}
 
@@ -1464,8 +1543,12 @@ public class PDBConnection {
 			} catch(SQLException excep) {
 				excep.printStackTrace();
 			}	
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			sqle.printStackTrace();
+		}
+		finally
+		{
+			pool.closeConn(con);
 		}
 
 
@@ -1474,10 +1557,10 @@ public class PDBConnection {
 
 		if (rc > 0) {
 			System.out.println("Update reservation Successful");
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			return true;
 		}
-		pool.closeConn(con);
+		//pool.closeConn(con);
 		return false;
 	}
 
@@ -1542,16 +1625,20 @@ public class PDBConnection {
 			} catch(SQLException excep) {
 				excep.printStackTrace();
 			}
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			sqle.printStackTrace();
+		}
+		finally
+		{
+			pool.closeConn(con);
 		}
 
 		if (rc > 0) {
 			System.out.println("Delete reservation Successful");
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			return true;
 		}
-		pool.closeConn(con);
+		//pool.closeConn(con);
 		return false;
 	}
 
@@ -1580,16 +1667,20 @@ public class PDBConnection {
 		} 
 		catch (SQLException sqle) 
 		{
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			sqle.printStackTrace();
+		}
+		finally
+		{
+			pool.closeConn(con);
 		}
 
 		if (rc > 0) {
 			System.out.println("Delete reservation Successful");
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			return true;
 		}
-		pool.closeConn(con);
+		//pool.closeConn(con);
 		return false;
 	}
 
@@ -1665,7 +1756,7 @@ public class PDBConnection {
 			}
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setInt(1, reservationId); 
-			rs = ps.executeQuery();
+			ResultSet rs = ps.executeQuery();
 
 			while (rs.next()) {
 				travelleritem = new Traveller();
@@ -1681,8 +1772,12 @@ public class PDBConnection {
 		}
 		catch (SQLException sqle) 
 		{
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			sqle.printStackTrace();
+		}
+		finally
+		{
+			pool.closeConn(con);
 		}
 
 		if(!travellerList.isEmpty())
@@ -1691,10 +1786,10 @@ public class PDBConnection {
 			travellers = travellerList.toArray(travellers);
 
 			System.out.println("Retrive traveller Successful");
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			return travellers;
 		}
-		pool.closeConn(con);
+		//pool.closeConn(con);
 		return null;
 	}
 
@@ -1828,16 +1923,20 @@ public class PDBConnection {
 		} 
 		catch (SQLException sqle) 
 		{
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			sqle.printStackTrace();
+		}
+		finally
+		{
+			pool.closeConn(con);
 		}
 
 		if (rc > 0) {
 			System.out.println("Delete traveller Successful");
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			return true;
 		}
-		pool.closeConn(con);
+		//pool.closeConn(con);
 		return false;
 	}
 
@@ -1870,16 +1969,20 @@ public class PDBConnection {
 		} 
 		catch (SQLException sqle) 
 		{
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			sqle.printStackTrace();
+		}
+		finally
+		{
+			pool.closeConn(con);
 		}
 
 		if (rc > 0) {
 			System.out.println("Create location Successful");
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			return true;
 		}
-		pool.closeConn(con);
+		//pool.closeConn(con);
 		return false;
 	}
 
@@ -1901,7 +2004,7 @@ public class PDBConnection {
 				return null;
 			}
 			PreparedStatement ps = con.prepareStatement(query);
-			rs = ps.executeQuery();
+			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				location = new Location();
 				location.setAirportCode(rs.getString("airportCode"));
@@ -1913,8 +2016,12 @@ public class PDBConnection {
 		}
 		catch (SQLException sqle) 
 		{
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			sqle.printStackTrace();
+		}
+		finally
+		{
+			pool.closeConn(con);
 		}
 
 		if(!location_list.isEmpty())
@@ -1922,7 +2029,7 @@ public class PDBConnection {
 			System.out.println("Retrive Location Successful");
 			locations = new Location[location_list.size()];
 			locations = location_list.toArray(locations);
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			return locations;
 		}
 		return null;
@@ -1948,7 +2055,7 @@ public class PDBConnection {
 			}
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setInt(1, locationId);
-			rs = ps.executeQuery();
+			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
 				location = new Location();
 				location.setAirportCode(rs.getString("airportCode"));
@@ -1959,14 +2066,18 @@ public class PDBConnection {
 		}
 		catch (SQLException sqle) 
 		{
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			sqle.printStackTrace();
+		}
+		finally
+		{
+			pool.closeConn(con);
 		}
 
 		if(location != null)
 		{
 			System.out.println("Retrive location Successful");
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			return location;
 		}
 		return null;
@@ -1991,7 +2102,7 @@ public class PDBConnection {
 			}
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setString(1, stateCode);
-			rs = ps.executeQuery();
+			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
 				location = new Location();
 				location.setAirportCode(rs.getString("airportCode"));
@@ -2002,17 +2113,21 @@ public class PDBConnection {
 		}
 		catch (SQLException sqle) 
 		{
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			sqle.printStackTrace();
+		}
+		finally
+		{
+			pool.closeConn(con);
 		}
 
 		if(location != null)
 		{
 			System.out.println("Retrive location Successful");
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			return location;
 		}
-		pool.closeConn(con);
+		//pool.closeConn(con);
 		return null;
 	}
 
@@ -2035,7 +2150,7 @@ public class PDBConnection {
 			}
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setString(1, state);
-			rs = ps.executeQuery();
+			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
 				location = new Location();
 				location.setAirportCode(rs.getString("airportCode"));
@@ -2046,17 +2161,21 @@ public class PDBConnection {
 		}
 		catch (SQLException sqle) 
 		{
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			sqle.printStackTrace();
+		}
+		finally
+		{
+			pool.closeConn(con);
 		}
 
 		if(location != null)
 		{
 			System.out.println("Retrive location Successful");
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			return location;
 		}
-		pool.closeConn(con);
+		//pool.closeConn(con);
 		return null;
 	}
 
@@ -2079,7 +2198,7 @@ public class PDBConnection {
 			}
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setString(1, airportCode);
-			rs = ps.executeQuery();
+			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
 				location = new Location();
 				location.setAirportCode(rs.getString("airportCode"));
@@ -2090,17 +2209,21 @@ public class PDBConnection {
 		}
 		catch (SQLException sqle) 
 		{
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			sqle.printStackTrace();
+		}
+		finally
+		{
+			pool.closeConn(con);
 		}
 
 		if(location != null)
 		{
 			System.out.println("Retrive location Successful");
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			return location;
 		}
-		pool.closeConn(con);
+		//pool.closeConn(con);
 		return null;
 	}
 
@@ -2140,16 +2263,20 @@ public class PDBConnection {
 		} 
 		catch (SQLException sqle) 
 		{
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			sqle.printStackTrace();
+		}
+		finally
+		{
+			pool.closeConn(con);
 		}
 
 		if (rc > 0) {
 			System.out.println("Update location Successful");
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			return true;
 		}
-		pool.closeConn(con);
+		//pool.closeConn(con);
 		return false;
 	}
 
@@ -2176,16 +2303,20 @@ public class PDBConnection {
 		} 
 		catch (SQLException sqle) 
 		{
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			sqle.printStackTrace();
+		}
+		finally
+		{
+			pool.closeConn(con);
 		}
 
 		if (rc > 0) {
 			System.out.println("Delete location Successful");
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			return true;
 		}
-		pool.closeConn(con);
+		//pool.closeConn(con);
 		return false;
 	}
 
@@ -2196,7 +2327,7 @@ public class PDBConnection {
 
 		int rc = 0;
 		/*										1		2			3		4		5				*/
-		String query = "insert into flight(flight_id,flightNo,airlineName,flightSource,flightDestination,flightNoOfSeats) " +
+		String query = "insert into flight(flightNo,airlineName,source,destination,noOfSeats) " +
 		"values (?,?,?,?,?,?)";
 
 
@@ -2209,18 +2340,22 @@ public class PDBConnection {
 				return false;
 			}
 			PreparedStatement ps = con.prepareStatement(query);
-			ps.setInt(1, flight.getFlightId());
-			ps.setString(2, flight.getFlightNo());
-			ps.setString(3, flight.getAirlineName());
-			ps.setString(4, flight.getSource());
-			ps.setString(5, flight.getDestination());
-			ps.setInt(6,flight.getNoOfSeats());
+			//ps.setInt(1, flight.getFlightId());
+			ps.setString(1, flight.getFlightNo());
+			ps.setString(2, flight.getAirlineName());
+			ps.setString(3, flight.getSource());
+			ps.setString(4, flight.getDestination());
+			ps.setInt(5,flight.getNoOfSeats());
 			rc = ps.executeUpdate();
 		} 
 		catch (SQLException sqle) 
 		{
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			sqle.printStackTrace();
+		}
+		finally
+		{
+			pool.closeConn(con);
 		}
 
 		if (rc > 0) {
@@ -2230,10 +2365,10 @@ public class PDBConnection {
 				createFlightTime(flight.getFlightId(),flighttimes[i]);
 			}
 			System.out.println("Create Flight Successful");
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			return true;
 		}
-		pool.closeConn(con);
+		//pool.closeConn(con);
 		return false;
 	}
 
@@ -2260,7 +2395,7 @@ public class PDBConnection {
 				return null;
 			}
 			PreparedStatement ps = con.prepareStatement(query);
-			rs = ps.executeQuery();
+			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 
 				FlightTime[] flightTimes1 = retriveFlightTimeByDay(rs.getInt("fId1"),day);
@@ -2299,8 +2434,12 @@ public class PDBConnection {
 		}
 		catch (SQLException sqle) 
 		{
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			sqle.printStackTrace();
+		}
+		finally
+		{
+			pool.closeConn(con);
 		}
 
 		if(!flight_list.isEmpty())
@@ -2308,10 +2447,10 @@ public class PDBConnection {
 			System.out.println("Retrive flights Successful");
 			flights = new Flight[flight_list.size()];
 			flights = flight_list.toArray(flights);
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			return flights;
 		}
-		pool.closeConn(con);
+		//pool.closeConn(con);
 		return null;
 	}
 
@@ -2332,7 +2471,7 @@ public class PDBConnection {
 				return null;
 			}
 			PreparedStatement ps = con.prepareStatement(query);
-			rs = ps.executeQuery();
+			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				flight = new Flight();
 				flight.setFlightId(rs.getInt("flightId"));
@@ -2351,8 +2490,12 @@ public class PDBConnection {
 		}
 		catch (SQLException sqle) 
 		{
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			sqle.printStackTrace();
+		}
+		finally
+		{
+			pool.closeConn(con);
 		}
 
 		if(!flight_list.isEmpty())
@@ -2360,10 +2503,10 @@ public class PDBConnection {
 			System.out.println("Retrive flights Successful");
 			flights = new Flight[flight_list.size()];
 			flights = flight_list.toArray(flights);
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			return flights;
 		}
-		pool.closeConn(con);
+		//pool.closeConn(con);
 		return null;
 	}
 
@@ -2386,7 +2529,7 @@ public class PDBConnection {
 			}
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setInt(1, flightId);
-			rs = ps.executeQuery();
+			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
 				flight = new Flight();
 				flight.setFlightId(rs.getInt("flightId"));
@@ -2403,17 +2546,21 @@ public class PDBConnection {
 		}
 		catch (SQLException sqle) 
 		{
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			sqle.printStackTrace();
+		}
+		finally
+		{
+			pool.closeConn(con);
 		}
 
 		if(flight != null)
 		{
 			System.out.println("Retrive flight by id Successful");
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			return flight;
 		}
-		pool.closeConn(con);
+		//pool.closeConn(con);
 		return null;
 	}
 
@@ -2436,7 +2583,7 @@ public class PDBConnection {
 			}
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setString(1, flightNo);
-			rs = ps.executeQuery();
+			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
 				flight = new Flight();
 				flight.setFlightId(rs.getInt("flightId"));
@@ -2453,17 +2600,21 @@ public class PDBConnection {
 		}
 		catch (SQLException sqle) 
 		{
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			sqle.printStackTrace();
+		}
+		finally
+		{
+			pool.closeConn(con);
 		}
 
 		if(flight != null)
 		{
 			System.out.println("Retrive FlightbyNo Successful");
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			return flight;
 		}
-		pool.closeConn(con);
+		//pool.closeConn(con);
 		return null;
 	}
 
@@ -2512,17 +2663,21 @@ public class PDBConnection {
 		} 
 		catch (SQLException sqle) 
 		{
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			sqle.printStackTrace();
+		}
+		finally
+		{
+			pool.closeConn(con);
 		}
 
 		if (rc > 0) {
 			updateFlightTimes(flightTimes);
 			System.out.println("Update flight Successful");
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			return true;
 		}
-		pool.closeConn(con);
+		//pool.closeConn(con);
 		return false;
 	}
 
@@ -2549,16 +2704,20 @@ public class PDBConnection {
 		} 
 		catch (SQLException sqle) 
 		{
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			sqle.printStackTrace();
+		}
+		finally
+		{
+			pool.closeConn(con);
 		}
 
 		if (rc > 0) {
 			System.out.println("Delete flight Successful");
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			return true;
 		}
-		pool.closeConn(con);
+		//pool.closeConn(con);
 		return false;
 	}
 
@@ -2572,7 +2731,7 @@ public class PDBConnection {
 
 		int rc = 0;
 		/*										1		2			3	*/
-		String query = "insert into flight(flight_id ,day,time) " +
+		String query = "insert into flight(flightId ,flightDay,flightTime) " +
 		"values (?,?,?)";
 
 		try 
@@ -2591,16 +2750,20 @@ public class PDBConnection {
 		} 
 		catch (SQLException sqle) 
 		{
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			sqle.printStackTrace();
+		}
+		finally
+		{
+			pool.closeConn(con);
 		}
 
 		if (rc > 0) {
 			System.out.println("Create FlightTime Successful");
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			return true;
 		}
-		pool.closeConn(con);
+		//pool.closeConn(con);
 		return false;
 	}
 
@@ -2623,7 +2786,7 @@ public class PDBConnection {
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setInt(1, flightId);
 			ps.setString(2,day);
-			rs = ps.executeQuery();
+			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				flightTime = new FlightTime();
 				flightTime.setFlightDay(rs.getString("flightDay"));
@@ -2633,18 +2796,22 @@ public class PDBConnection {
 		}
 		catch (SQLException sqle) 
 		{
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			sqle.printStackTrace();
+		}
+		finally
+		{
+			pool.closeConn(con);
 		}
 		if(!flightTime_list.isEmpty())
 		{
 			System.out.println("Retrive flighttimebyFlightId Successful");
 			flightTimes = new FlightTime[flightTime_list.size()];
 			flightTimes = flightTime_list.toArray(flightTimes);
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			return flightTimes;
 		}
-		pool.closeConn(con);
+		//pool.closeConn(con);
 		return null;
 	}
 	
@@ -2669,7 +2836,7 @@ public class PDBConnection {
 			}
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setInt(1, flightId);
-			rs = ps.executeQuery();
+			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				flightTime = new FlightTime();
 				flightTime.setFlightDay(rs.getString("flightDay"));
@@ -2681,8 +2848,12 @@ public class PDBConnection {
 		}
 		catch (SQLException sqle) 
 		{
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			sqle.printStackTrace();
+		}
+		finally
+		{
+			pool.closeConn(con);
 		}
 
 		if(!flightTime_list.isEmpty())
@@ -2690,10 +2861,10 @@ public class PDBConnection {
 			System.out.println("Retrive flighttimebyFlightId Successful");
 			flightTimes = new FlightTime[flightTime_list.size()];
 			flightTimes = flightTime_list.toArray(flightTimes);
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			return flightTimes;
 		}
-		pool.closeConn(con);
+		//pool.closeConn(con);
 		return null;
 	}
 	//TODO
@@ -2790,7 +2961,7 @@ public class PDBConnection {
 			}
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setInt(1, reservationId);
-			rs = ps.executeQuery();
+			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
 				journeyItem = new Journey();
 				journeyItem.setFlightId(rs.getInt("flightId"));
@@ -2803,8 +2974,12 @@ public class PDBConnection {
 		}
 		catch (SQLException sqle) 
 		{
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			sqle.printStackTrace();
+		}
+		finally
+		{
+			pool.closeConn(con);
 		}
 
 		if(!journeyList.isEmpty())
@@ -2812,10 +2987,10 @@ public class PDBConnection {
 			journey = new Journey[journeyList.size()];
 			journey = journeyList.toArray(journey);
 			System.out.println("Retrive journey Successful");
-			pool.closeConn(con);
+			//pool.closeConn(con);
 			return journey;
 		}
-		pool.closeConn(con);
+		//pool.closeConn(con);
 		return null;
 	}
 
@@ -2836,32 +3011,32 @@ public class PDBConnection {
 				return false;
 			}
 		 */
+		try {
 		if(deleteJourney(reservationId,con))
 		{
 			for(int j = 0; j<journey.length;j++)
 			{
 				if(!createJourney(reservationId,journey[j],con))
-
 				{
-					try {
-						System.err.print("Transaction is being rolled back");
+					System.err.print("Transaction is being rolled back");
 						con.rollback();
-						pool.closeConn(con);
+						//pool.closeConn(con);
 						return false;
-					} catch(SQLException excep) {
-						excep.printStackTrace();
-					}
 				}
 			}
 		}
 		else
 		{
-			try {
 				System.err.print("Transaction is being rolled back");
 				con.rollback();
-			} catch(SQLException excep) {
-				excep.printStackTrace();
-			}
+
+		}
+		} catch(SQLException excep) {
+			excep.printStackTrace();
+		}
+		finally
+		{
+			pool.closeConn(con);
 		}
 
 		//String query = "update from Journey where reservationId = ?";
