@@ -1948,7 +1948,7 @@ public class PDBConnection {
 
 		int rc = 0;
 		/*										1		  2		  3			4	*/
-		String query = "insert into location(locationId,state,stateCode,airportCode) " +
+		String query = "insert into locations(locationId,state,stateCode,airportCode) " +
 		"values (?,?,?,?)";
 
 
@@ -1978,7 +1978,7 @@ public class PDBConnection {
 		}
 
 		if (rc > 0) {
-			System.out.println("Create location Successful");
+			System.out.println("Create locations Successful");
 			//pool.closeConn(con);
 			return true;
 		}
@@ -1993,7 +1993,7 @@ public class PDBConnection {
 		Location[] locations = null;
 		Location location = null;
 
-		String query = "select * from location where locationId";
+		String query = "select * from locations where locationId";
 
 		try 
 		{
@@ -2043,7 +2043,7 @@ public class PDBConnection {
 
 		Location location = null;
 
-		String query = "select * from location where locationId = ?";
+		String query = "select * from locations where locationId = ?";
 
 		try 
 		{
@@ -2090,7 +2090,7 @@ public class PDBConnection {
 
 		Location location = null;
 
-		String query = "select * from location where stateCode = ?";
+		String query = "select * from locations where stateCode = ?";
 
 		try 
 		{
@@ -2138,7 +2138,7 @@ public class PDBConnection {
 
 		Location location = null;
 
-		String query = "select * from location where state = ?";
+		String query = "select * from locations where state = ?";
 
 		try 
 		{
@@ -2186,7 +2186,7 @@ public class PDBConnection {
 
 		Location location = null;
 
-		String query = "select * from location where airportCode = ?";
+		String query = "select * from locations where airportCode = ?";
 
 		try 
 		{
@@ -2240,7 +2240,7 @@ public class PDBConnection {
 		String airportCode = location.getAirportCode();
 
 
-		String query = "update location set " +
+		String query = "update locations set " +
 		"state = ? ," +				//1
 		"stateCode = ? ," +			//2
 		"airportCode = ? " +		//3
@@ -2287,7 +2287,7 @@ public class PDBConnection {
 
 		int rc = 0;
 
-		String query = "delete from location where locationId = ?";
+		String query = "delete from locations where locationId = ?";
 
 		try 
 		{
