@@ -56,10 +56,10 @@ public class AuthenticationService {
 	}
 
 	public boolean updateCustInformation(Customer customer) {
-		return false;
+		return custromerService.updateCustomer(customer);
 	}
 
 	public boolean updateEmpInformation(Employee employee) {
-		return false;
+		return employeeService.updateEmployee(employee);
 	}
 }
