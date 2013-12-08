@@ -134,11 +134,11 @@ public class TestingAMS {
 			flight.setFlightId(arrOfInt.get(i));
 			flight.setFlightNo("AF"+i);
 			
-			int lr = rnd.nextInt(1126);
+			int lr = rnd.nextInt(locations.length-1);
 			flight.setSource(locations[lr].getAirportCode());
-			int lr1 = rnd.nextInt(1126);
+			int lr1 = rnd.nextInt(locations.length-1);
 			if(lr == lr1)
-				locations[lr].getAirportCode();
+				lr1 = rnd.nextInt(locations.length-1);
 			flight.setDestination(locations[lr1].getAirportCode());
 			flight.setNoOfSeats(100);
 			flight.setAirlineName("AMS");

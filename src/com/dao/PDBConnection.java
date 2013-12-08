@@ -2339,9 +2339,9 @@ public class PDBConnection {
 			return false;
 
 		int rc = 0;
-		/*										1		2			3		4		5				*/
-		String query = "insert into flight(flightNo,airlineName,source,destination,noOfSeats) " +
-		"values (?,?,?,?,?,?)";
+		/*										1		2			3			4					5				*/
+		String query = "insert into flight(flightNo,airlineName,flightSource,flightDestination,flightNoOfSeats) " +
+		"values (?,?,?,?,?)";
 
 
 		try 
@@ -2744,7 +2744,7 @@ public class PDBConnection {
 
 		int rc = 0;
 		/*										1		2			3	*/
-		String query = "insert into flight(flightId ,flightDay,flightTime) " +
+		String query = "insert into flight(flight_Id ,Day,Time) " +
 		"values (?,?,?)";
 
 		try 
@@ -2802,8 +2802,8 @@ public class PDBConnection {
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				flightTime = new FlightTime();
-				flightTime.setFlightDay(rs.getString("flightDay"));
-				flightTime.setFlightTime(rs.getString("flightTime"));
+				flightTime.setFlightDay(rs.getString("Day"));
+				flightTime.setFlightTime(rs.getString("Time"));
 				flightTime_list.add(flightTime);
 			}
 		}
@@ -2852,8 +2852,8 @@ public class PDBConnection {
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				flightTime = new FlightTime();
-				flightTime.setFlightDay(rs.getString("flightDay"));
-				flightTime.setFlightTime(rs.getString("flightTime"));
+				flightTime.setFlightDay(rs.getString("Day"));
+				flightTime.setFlightTime(rs.getString("Time"));
 
 				flightTime_list.add(flightTime);
 
