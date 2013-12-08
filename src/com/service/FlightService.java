@@ -45,7 +45,8 @@ public class FlightService {
 		try {
 			Date date = new SimpleDateFormat("yyyy-MM-dd",Locale.ENGLISH).parse(departDate);
 			@SuppressWarnings("deprecation")
-			int iday = date.getDate();
+			int iday = date.getDay();
+			System.out.println("iDay is : "+iday);
 			String day = "";
 			switch(iday){
 			case 0: day ="sun";break;

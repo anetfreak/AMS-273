@@ -144,7 +144,7 @@ public class TestingAMS {
 			flight.setAirlineName("AMS");
 			
 			FlightTime[] flightTime = new FlightTime[3];
-			for(int j =0; i<3; i++)
+			for(int j =0; j<3; j++)
 			{
 				
 				int r = rnd.nextInt(6);

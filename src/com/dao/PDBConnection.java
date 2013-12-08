@@ -2337,7 +2337,7 @@ public class PDBConnection {
 	{
 		if(flight == null)
 			return false;
-
+		int flight_id = -1;
 		int rc = 0;
 		/*										1		2			3			4					5				*/
 		String query = "insert into flight(flightNo,airlineName,flightSource,flightDestination,flightNoOfSeats) " +
@@ -2360,6 +2360,10 @@ public class PDBConnection {
 			ps.setString(4, flight.getDestination());
 			ps.setInt(5,flight.getNoOfSeats());
 			rc = ps.executeUpdate();
+			
+			ResultSet rs = ps.getGeneratedKeys();
+			if(rs.next())
+				flight_id = rs.getInt(1);
 		} 
 		catch (SQLException sqle) 
 		{
@@ -2370,12 +2374,13 @@ public class PDBConnection {
 		{
 			pool.closeConn(con);
 		}
-
+		System.out.println("record count: "+rc);
 		if (rc > 0) {
+			System.out.println("flight_id = "+flight_id);
 			FlightTime[] flighttimes = flight.getFlightTime();
 			for(int i = 0; i< flighttimes.length;i++)
 			{
-				createFlightTime(flight.getFlightId(),flighttimes[i]);
+				createFlightTime(flight_id,flighttimes[i]);
 			}
 			System.out.println("Create Flight Successful");
 			//pool.closeConn(con);
@@ -2398,7 +2403,7 @@ public class PDBConnection {
 		"ON f1.flightdestination = f2.flightsource " +
 		"WHERE f1.flightsource = ? and f2.flightdestination = ?";
 		//String query = "select * from flight where source = ? and destination = ?";/*Get all flights*/
-
+		System.out.println(query);
 		try 
 		{
 			con = pool.getConn();
@@ -2413,9 +2418,11 @@ public class PDBConnection {
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 
+				System.out.println("1: "+rs.getInt("fId1")+ " and day is "+day);
 				FlightTime[] flightTimes1 = retriveFlightTimeByDay(rs.getInt("fId1"),day);
 				if(flightTimes1 != null)
 				{
+					System.out.println("2: "+rs.getInt("fId1"));
 					flight = new Flight();
 					flight.setFlightId(rs.getInt("fId1"));
 					flight.setFlightNo(rs.getString("fNo1"));
@@ -2426,10 +2433,11 @@ public class PDBConnection {
 					flight.setFlightTime(flightTimes1);
 					
 					
-					
+					System.out.println("3: "+rs.getInt("fId2"));
 					FlightTime[] flightTimes2 = retriveFlightTimeByFlightId(rs.getInt("fId2"));
 					if(flightTimes2 != null)
 					{
+						System.out.println("3: "+rs.getInt("fId2"));
 						flight1 = new Flight();
 						flight1.setFlightId(rs.getInt("fId2"));
 						flight1.setFlightNo(rs.getString("fNo2"));
@@ -2489,12 +2497,12 @@ public class PDBConnection {
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				flight = new Flight();
-				flight.setFlightId(rs.getInt("flightId"));
+				flight.setFlightId(rs.getInt("flight_Id"));
 				flight.setFlightNo(rs.getString("flightNo"));
 				flight.setAirlineName(rs.getString("airlineName"));
-				flight.setSource(rs.getString("source"));
-				flight.setDestination(rs.getString("destination"));
-				flight.setNoOfSeats(rs.getInt("noOfSeats"));
+				flight.setSource(rs.getString("flightsource"));
+				flight.setDestination(rs.getString("flightdestination"));
+				flight.setNoOfSeats(rs.getInt("flightnoOfSeats"));
 
 				FlightTime[] flightTimes = retriveFlightTimeByFlightId(rs.getInt("flightId"));
 				flight.setFlightTime(flightTimes);
@@ -2532,7 +2540,7 @@ public class PDBConnection {
 
 		Flight flight = null;
 
-		String query = "select * from flight where flightId = ?";
+		String query = "select * from flight where flight_Id = ?";
 
 		try 
 		{
@@ -2547,12 +2555,12 @@ public class PDBConnection {
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
 				flight = new Flight();
-				flight.setFlightId(rs.getInt("flightId"));
+				flight.setFlightId(rs.getInt("flight_Id"));
 				flight.setFlightNo(rs.getString("flightNo"));
 				flight.setAirlineName(rs.getString("airlineName"));
-				flight.setSource(rs.getString("source"));
-				flight.setDestination(rs.getString("destination"));
-				flight.setNoOfSeats(rs.getInt("noOfSeats"));
+				flight.setSource(rs.getString("flightsource"));
+				flight.setDestination(rs.getString("flightdestination"));
+				flight.setNoOfSeats(rs.getInt("flightnoOfSeats"));
 
 				FlightTime[] flightTimes = retriveFlightTimeByFlightId(rs.getInt("flightId"));
 				flight.setFlightTime(flightTimes);
@@ -2601,14 +2609,14 @@ public class PDBConnection {
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
 				flight = new Flight();
-				flight.setFlightId(rs.getInt("flightId"));
+				flight.setFlightId(rs.getInt("flight_Id"));
 				flight.setFlightNo(rs.getString("flightNo"));
 				flight.setAirlineName(rs.getString("airlineName"));
-				flight.setSource(rs.getString("source"));
-				flight.setDestination(rs.getString("destination"));
-				flight.setNoOfSeats(rs.getInt("noOfSeats"));
+				flight.setSource(rs.getString("flightsource"));
+				flight.setDestination(rs.getString("flightdestination"));
+				flight.setNoOfSeats(rs.getInt("flightnoOfSeats"));
 
-				FlightTime[] flightTimes = retriveFlightTimeByFlightId(rs.getInt("flightId"));
+				FlightTime[] flightTimes = retriveFlightTimeByFlightId(rs.getInt("flight_Id"));
 				flight.setFlightTime(flightTimes);
 
 			}
@@ -2653,10 +2661,10 @@ public class PDBConnection {
 		String query = "update flight set " +
 		"flightNo = ? ," +
 		"airlineName = ? ," +
-		"source = ? ," +
-		"destination = ? ," +
-		"noOfSeats = ? " +
-		"where flightId = ?";
+		"flightsource = ? ," +
+		"flightdestination = ? ," +
+		"flightnoOfSeats = ? " +
+		"where flight_Id = ?";
 
 
 		try 
@@ -2703,7 +2711,7 @@ public class PDBConnection {
 
 		int rc = 0;
 
-		String query = "delete from flight where flightId = ?";
+		String query = "delete from flight where flight_Id = ?";
 
 		try 
 		{
@@ -2742,11 +2750,13 @@ public class PDBConnection {
 	public boolean createFlightTime(Integer flightId,FlightTime flightTime)
 	{
 		if(flightId < 0 || flightTime == null)
+		{
+			System.out.println("flight time Is null");
 			return false;
-
+		}
 		int rc = 0;
 		/*										1		2			3	*/
-		String query = "insert into flight(flight_Id ,Day,Time) " +
+		String query = "insert into flight_time(flight_Id ,day,time) " +
 		"values (?,?,?)";
 
 		try 
@@ -2774,7 +2784,7 @@ public class PDBConnection {
 		}
 
 		if (rc > 0) {
-			System.out.println("Create FlightTime Successful");
+			System.out.println("Create Flight_Time Successful");
 			//pool.closeConn(con);
 			return true;
 		}
@@ -2789,7 +2799,7 @@ public class PDBConnection {
 		List<FlightTime> flightTime_list = new ArrayList<FlightTime>();
 		FlightTime flightTime = null;
 		FlightTime[] flightTimes = null;
-		String query = "select * from flighttime where flightId = ? AND Day = ?";
+		String query = "select * from flight_time where flight_Id = ? AND Day = ?";
 		try 
 		{
 			con = pool.getConn();
@@ -2839,7 +2849,7 @@ public class PDBConnection {
 		FlightTime flightTime = null;
 		FlightTime[] flightTimes = null;
 
-		String query = "select * from flighttime where flightId = ?";
+		String query = "select * from flight_time where flight_Id = ?";
 
 		try 
 		{
