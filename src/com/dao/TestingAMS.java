@@ -4,13 +4,17 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+import com.dao.PDBConnection;
+import com.dao.PTestingDB;
 import com.domain.Customer;
 import com.domain.Employee;
 import com.domain.Flight;
 import com.domain.FlightTime;
-import com.domain.Location;
+import com.domain.Journey;
 import com.domain.Person;
-
+import com.domain.Reservation;
+import com.domain.Traveller;
+import com.service.CustomerService;
 
 public class TestingAMS {
 
@@ -168,6 +172,52 @@ public class TestingAMS {
 		}
 		return bool;
 	}
+		public boolean testingReservationCreation()/****** currently not working*/
+	{
+		List<Integer> arrOfInt = randomNumberGenerator(20000,30000);
+		Reservation reservation;
+		Traveller []traveller = new Traveller[3];
+		PDBConnection dbcon = new PDBConnection(); 
+		Journey []journey = new Journey[1];
+		int customerId;
+		for(int j=0; j<3; j++)
+		{
+			traveller[j] = new Traveller();
+			traveller[j].setAge(30);
+			traveller[j].setFirstName("Kanika");
+			traveller[j].setLastName("anand");
+			traveller[j].setSex("F");
+//			traveller[j].setTravellerId();
+		}
+		for(int k=0; k<1; k++)
+		{
+			journey[k] = new Journey();
+			journey[k].setSource("SJC");
+			journey[k].setDestination("AUS");
+			journey[k].setFlightId(1);
+			journey[k].setDateTime("09:00:00");
+			
+		}
+		int count = 0;
+		for(int i=0; i<1000; i++)
+		{
+			customerId = i-10000;
+			reservation = new Reservation();
+			reservation.setCustomerId(customerId);
+			reservation.setReservationId(arrOfInt.get(i));
+			reservation.setReservationNo("anynumber");
+			reservation.setReservationStatus(1);
+			reservation.setSeatsBooked(2);
+			reservation.setTravellers(traveller);
+			reservation.setJourney(journey);
+			if(dbcon.createReservation(reservation))
+				count++;
+		}
+		if(count == 1000)
+			return true;
+		else 
+			return false;
+	}
 
 
 	public static void main(String[] args) {
@@ -185,6 +235,10 @@ public class TestingAMS {
 			System.out.println("5000 employees created");
 		}*/
 		if(t.testingFlightCreation())
+		{
+			System.out.println("1000 flights created");
+		}
+		if(t.testingReservationCreation())
 		{
 			System.out.println("1000 flights created");
 		}
