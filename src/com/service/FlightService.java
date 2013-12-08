@@ -9,6 +9,7 @@ import javax.jws.WebService;
 
 import com.dao.PDBConnection;
 import com.domain.Flight;
+import com.domain.Location;
 
 @WebService
 public class FlightService {
