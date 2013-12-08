@@ -8,6 +8,7 @@ import com.domain.Customer;
 import com.domain.Employee;
 import com.domain.Flight;
 import com.domain.FlightTime;
+import com.domain.Location;
 import com.domain.Person;
 
 
@@ -119,37 +120,49 @@ public class TestingAMS {
 	 */
 	public boolean testingFlightCreation()
 	{	
+		PDBConnection dbcon = new PDBConnection();
+		Random rnd = new Random();
+		Location[] locations = dbcon.retriveLocations();
+		
 		List<Integer> arrOfInt = randomNumberGenerator(10000,11000);
 		Flight flight;
-		FlightTime[] flightTime = new FlightTime[3];
-		for(int i =0; i<3; i++)
-		{
-			Random rnd = new Random();
-			int r = rnd.nextInt(6);
-			String day = "";
-			switch(r){
-			case 0 : day="sun" ; break;
-			case 1 : day="mon" ; break;
-			case 2 : day="tue" ; break;
-			case 3 : day="wed" ; break;
-			case 4 : day="thu" ; break;
-			case 5 : day="fri" ; break;
-			case 6 : day="sat" ; break;
-			}
-			flightTime[i] = new FlightTime();
-			flightTime[i].setFlightDay(day);
-			flightTime[i].setFlightTime("0"+i+":00:00");
-		}
+		
 		boolean bool = true;
-		PDBConnection dbcon = new PDBConnection(); 
+		
 		for(int i=0; i<1000; i++){
 			flight = new Flight();
 			flight.setFlightId(arrOfInt.get(i));
-			flight.setFlightNo("testflight");
-			flight.setSource("SJC");
-			flight.setDestination("AUS");
+			flight.setFlightNo("AF"+i);
+			
+			int lr = rnd.nextInt(1126);
+			flight.setSource(locations[lr].getAirportCode());
+			int lr1 = rnd.nextInt(1126);
+			if(lr == lr1)
+				locations[lr].getAirportCode();
+			flight.setDestination(locations[lr1].getAirportCode());
 			flight.setNoOfSeats(100);
 			flight.setAirlineName("AMS");
+			
+			FlightTime[] flightTime = new FlightTime[3];
+			for(int j =0; i<3; i++)
+			{
+				
+				int r = rnd.nextInt(6);
+				String day = "";
+				switch(r){
+				case 0 : day="sun" ; break;
+				case 1 : day="mon" ; break;
+				case 2 : day="tue" ; break;
+				case 3 : day="wed" ; break;
+				case 4 : day="thu" ; break;
+				case 5 : day="fri" ; break;
+				case 6 : day="sat" ; break;
+				}
+				flightTime[j] = new FlightTime();
+				flightTime[j].setFlightDay(day);
+				flightTime[j].setFlightTime("0"+i+":00:00");
+			}
+			
 			flight.setFlightTime(flightTime);
 			bool = dbcon.createFlight(flight);
 		}
