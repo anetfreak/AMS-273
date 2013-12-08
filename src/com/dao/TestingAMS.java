@@ -11,6 +11,7 @@ import com.domain.Employee;
 import com.domain.Flight;
 import com.domain.FlightTime;
 import com.domain.Journey;
+import com.domain.Location;
 import com.domain.Person;
 import com.domain.Reservation;
 import com.domain.Traveller;

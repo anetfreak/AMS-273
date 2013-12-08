@@ -17,6 +17,7 @@ import com.domain.Location;
 import com.domain.Person;
 import com.domain.PersonType;
 import com.domain.Reservation;
+import com.domain.SearchFlight;
 import com.domain.Traveller;
 
 
@@ -28,30 +29,7 @@ public class PDBConnection {
 
 	public PDBConnection()
 	{
-		/*
-		try {
-			Class.forName("com.mysql.jdbc.Driver").newInstance();
-			con = DriverManager.getConnection("jdbc:mysql://localhost/ams_schema",
-					"root", "mysql");
-
-			if (!con.isClosed()) {
-				System.out
-				.println("Successfully Connected to Mysql server using TCP/IP");
-
-			}
-
-			s = con.createStatement();
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-		 */
+		
 	}
 	public String getFlightTimes(int flightId)
 	{
@@ -2460,6 +2438,21 @@ public class PDBConnection {
 		Flight flight = null;
 		Flight flight1 = null;
 		Flight[] flights = null;
+		
+		List<SearchFlight> sfl = CacheServer.getCache().searchFlightfrmCache(sourceAirport, destAirport, day);
+		if(!sfl.isEmpty())
+		{
+			SearchFlight sf = sfl.remove(0);
+			flight = sf.getFlight1();
+			flight1 = sf.getFlight2();
+			flight_list.add(flight);
+			flight_list.add(flight1);
+			
+			System.out.println("Retrive flights Successful from cache");
+			flights = new Flight[flight_list.size()];
+			flights = flight_list.toArray(flights);
+			return flights;
+		}
 		String query = "select f1.flight_Id as fId1, f2.flight_Id as fId2, f1.flightNo as fNo1, " +
 		"f2.flightNo as fNo2, f1.airlineName as airlineName, f1.flightsource as source, " +
 		"f2.flightsource as stopover, f2.flightdestination as destination, f1.flightnoOfSeats as noOfSeats " +
@@ -2480,6 +2473,7 @@ public class PDBConnection {
 			ps.setString(1, sourceAirport);
 			ps.setString(2, destAirport);
 			ResultSet rs = ps.executeQuery();
+			int i =0;
 			while (rs.next()) {
 
 				System.out.println("1: "+rs.getInt("fId1")+ " and day is "+day);
@@ -2513,7 +2507,8 @@ public class PDBConnection {
 						
 						flight_list.add(flight);
 						flight_list.add(flight1);
-						//TODO need to check the time of second flight
+						
+						CacheServer.getCache().addFlightToCache(sourceAirport, destAirport, day, flight, flight1,i++);
 					}
 				}
 
@@ -2568,7 +2563,7 @@ public class PDBConnection {
 				flight.setDestination(rs.getString("flightdestination"));
 				flight.setNoOfSeats(rs.getInt("flightnoOfSeats"));
 
-				FlightTime[] flightTimes = retriveFlightTimeByFlightId(rs.getInt("flightId"));
+				FlightTime[] flightTimes = retriveFlightTimeByFlightId(rs.getInt("flight_Id"));
 				flight.setFlightTime(flightTimes);
 
 				flight_list.add(flight);
@@ -2626,7 +2621,7 @@ public class PDBConnection {
 				flight.setDestination(rs.getString("flightdestination"));
 				flight.setNoOfSeats(rs.getInt("flightnoOfSeats"));
 
-				FlightTime[] flightTimes = retriveFlightTimeByFlightId(rs.getInt("flightId"));
+				FlightTime[] flightTimes = retriveFlightTimeByFlightId(rs.getInt("flight_Id"));
 				flight.setFlightTime(flightTimes);
 
 			}
@@ -2759,7 +2754,7 @@ public class PDBConnection {
 		}
 
 		if (rc > 0) {
-			updateFlightTimes(flightTimes);
+			updateFlightTimes(flightId,flightTimes);
 			System.out.println("Update flight Successful");
 			//pool.closeConn(con);
 			return true;
@@ -2908,11 +2903,21 @@ public class PDBConnection {
 	{
 		if(flightId < 0)
 			return null;
-
+		
 		List<FlightTime> flightTime_list = new ArrayList<FlightTime>();
 		FlightTime flightTime = null;
 		FlightTime[] flightTimes = null;
 
+		//Begin Getting Values from cache server
+		flightTimes = CacheServer.getCache().getFlightTimefrmCache(flightId);
+		if(flightTimes != null)
+		{
+			flightTimes = new FlightTime[flightTime_list.size()];
+			flightTimes = flightTime_list.toArray(flightTimes);
+			return flightTimes;
+		}
+		//End Getting values for cache server
+		
 		String query = "select * from flight_time where flight_Id = ?";
 
 		try 
@@ -2950,6 +2955,10 @@ public class PDBConnection {
 			System.out.println("Retrive flighttimebyFlightId Successful");
 			flightTimes = new FlightTime[flightTime_list.size()];
 			flightTimes = flightTime_list.toArray(flightTimes);
+			
+			//Adding Values to Cache Server
+			CacheServer.getCache().addFlightTimeToCache(flightId, flightTimes);
+			
 			//pool.closeConn(con);
 			return flightTimes;
 		}
@@ -2957,8 +2966,15 @@ public class PDBConnection {
 		return null;
 	}
 	//TODO
-	public boolean updateFlightTimes(FlightTime[] flightTimes)
+	public boolean updateFlightTimes(Integer flightId,FlightTime[] flightTimes)
 	{
+		
+		if(flightId < 0)
+			return false;
+		
+		//removing from Cache
+		CacheServer.getCache().deleteFlightTimefrmCache(flightId);
+	
 		if(flightTimes == null)
 			return false;
 
@@ -2970,6 +2986,9 @@ public class PDBConnection {
 	{
 		if(flightId < 0)
 			return false;
+		
+		//removing from Cache
+		CacheServer.getCache().deleteFlightTimefrmCache(flightId);		
 
 		return false;
 	}
