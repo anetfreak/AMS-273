@@ -73,4 +73,9 @@ public class FlightService {
 		return false;
 	}
 	
+	public Location[] getLocations()
+	{
+		return dbcon.retriveLocations();
+	}
+	
 }
