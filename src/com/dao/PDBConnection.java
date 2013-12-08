@@ -58,7 +58,7 @@ public class PDBConnection {
 		String query = "select * from flightStatus where flight_id ="+flightId;
 		String flightStatus = "";
 		try {
-			rs = s.executeQuery(query);
+			ResultSet rs = s.executeQuery(query);
 			flightStatus = rs.getString("expected_time")+";"+ rs.getString("real_time");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
