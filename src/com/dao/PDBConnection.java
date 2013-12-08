@@ -607,18 +607,14 @@ public class PDBConnection {
 			con.setAutoCommit(false);
 			if(updatePerson(customer.getPerson(),con))
 			{
-				String query = "update customer set " +
-				"passportNumber = ? ," +		//1
-				"nationality = ? " +			//2
-				"where customerId = ?";			//3
-
+				String query = "update customer set passportNumber = ?, nationality = ? where customerId = ?";		
 
 				PreparedStatement ps = con.prepareStatement(query);
 				ps.setString(1, passportNumber);
 				ps.setString(2, nationality);
 				ps.setInt(3, customerId);
 
-				rc = ps.executeUpdate(query);
+				rc = ps.executeUpdate();
 				if(rc > 0)
 				{
 					con.commit();

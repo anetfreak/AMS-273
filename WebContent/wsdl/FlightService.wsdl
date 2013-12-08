@@ -5,6 +5,16 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
  <wsdl:types>
   <schema elementFormDefault="qualified" targetNamespace="http://service.com" xmlns="http://www.w3.org/2001/XMLSchema">
    <import namespace="http://domain.com"/>
+   <element name="getLocations">
+    <complexType/>
+   </element>
+   <element name="getLocationsResponse">
+    <complexType>
+     <sequence>
+      <element maxOccurs="unbounded" name="getLocationsReturn" type="tns1:Location"/>
+     </sequence>
+    </complexType>
+   </element>
    <element name="insertFlight">
     <complexType>
      <sequence>
@@ -95,6 +105,14 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
   </schema>
   <schema elementFormDefault="qualified" targetNamespace="http://domain.com" xmlns="http://www.w3.org/2001/XMLSchema">
    <import namespace="http://service.com"/>
+   <complexType name="Location">
+    <sequence>
+     <element name="airportCode" nillable="true" type="xsd:string"/>
+     <element name="locationId" nillable="true" type="xsd:int"/>
+     <element name="state" nillable="true" type="xsd:string"/>
+     <element name="stateCode" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
    <complexType name="FlightTime">
     <sequence>
      <element name="flightDay" nillable="true" type="xsd:string"/>
@@ -148,14 +166,6 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
    </wsdl:message>
 
-   <wsdl:message name="getFlightByNoResponse">
-
-      <wsdl:part element="impl:getFlightByNoResponse" name="parameters">
-
-      </wsdl:part>
-
-   </wsdl:message>
-
    <wsdl:message name="searchFlightResponse">
 
       <wsdl:part element="impl:searchFlightResponse" name="parameters">
@@ -164,9 +174,9 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
    </wsdl:message>
 
-   <wsdl:message name="getFlightByNoRequest">
+   <wsdl:message name="getLocationsRequest">
 
-      <wsdl:part element="impl:getFlightByNo" name="parameters">
+      <wsdl:part element="impl:getLocations" name="parameters">
 
       </wsdl:part>
 
@@ -180,17 +190,49 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
    </wsdl:message>
 
-   <wsdl:message name="insertFlightRequest">
+   <wsdl:message name="updateFlightRequest">
 
-      <wsdl:part element="impl:insertFlight" name="parameters">
+      <wsdl:part element="impl:updateFlight" name="parameters">
 
       </wsdl:part>
 
    </wsdl:message>
 
-   <wsdl:message name="updateFlightRequest">
+   <wsdl:message name="insertFlightResponse">
 
-      <wsdl:part element="impl:updateFlight" name="parameters">
+      <wsdl:part element="impl:insertFlightResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getFlightByNoResponse">
+
+      <wsdl:part element="impl:getFlightByNoResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getLocationsResponse">
+
+      <wsdl:part element="impl:getLocationsResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getFlightByNoRequest">
+
+      <wsdl:part element="impl:getFlightByNo" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="insertFlightRequest">
+
+      <wsdl:part element="impl:insertFlight" name="parameters">
 
       </wsdl:part>
 
@@ -212,15 +254,19 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
    </wsdl:message>
 
-   <wsdl:message name="insertFlightResponse">
-
-      <wsdl:part element="impl:insertFlightResponse" name="parameters">
-
-      </wsdl:part>
-
-   </wsdl:message>
-
    <wsdl:portType name="FlightService">
+
+      <wsdl:operation name="getLocations">
+
+         <wsdl:input message="impl:getLocationsRequest" name="getLocationsRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getLocationsResponse" name="getLocationsResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
 
       <wsdl:operation name="insertFlight">
 
@@ -299,6 +345,24 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
    <wsdl:binding name="FlightServiceSoapBinding" type="impl:FlightService">
 
       <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+      <wsdl:operation name="getLocations">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getLocationsRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getLocationsResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
 
       <wsdl:operation name="insertFlight">
 

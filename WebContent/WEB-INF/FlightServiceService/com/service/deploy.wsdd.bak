@@ -20,6 +20,8 @@
       <parameter name="className" value="com.service.FlightServiceSoapBindingImpl"/>
       <parameter name="wsdlPortType" value="FlightService"/>
       <parameter name="typeMappingVersion" value="1.2"/>
+      <operation name="getLocations" qname="operNS:getLocations" xmlns:operNS="http://service.com" returnQName="retNS:getLocationsReturn" xmlns:retNS="http://service.com" returnType="rtns:Location" xmlns:rtns="http://domain.com" soapAction="" >
+      </operation>
       <operation name="insertFlight" qname="operNS:insertFlight" xmlns:operNS="http://service.com" returnQName="retNS:insertFlightReturn" xmlns:retNS="http://service.com" returnType="rtns:boolean" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
         <parameter qname="pns:flight" xmlns:pns="http://service.com" type="tns:Flight" xmlns:tns="http://domain.com"/>
       </operation>
@@ -39,7 +41,7 @@
       <operation name="updateFlight" qname="operNS:updateFlight" xmlns:operNS="http://service.com" returnQName="retNS:updateFlightReturn" xmlns:retNS="http://service.com" returnType="rtns:boolean" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
         <parameter qname="pns:flight" xmlns:pns="http://service.com" type="tns:Flight" xmlns:tns="http://domain.com"/>
       </operation>
-      <parameter name="allowedMethods" value="searchFlight getFlightById updateFlight insertFlight getFlightByNo getFlights"/>
+      <parameter name="allowedMethods" value="getLocations searchFlight getFlightById updateFlight insertFlight getFlightByNo getFlights"/>
 
       <typeMapping
         xmlns:ns="http://domain.com"
@@ -53,6 +55,14 @@
         xmlns:ns="http://domain.com"
         qname="ns:Journey"
         type="java:com.domain.Journey"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://domain.com"
+        qname="ns:Location"
+        type="java:com.domain.Location"
         serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
         deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
         encodingStyle=""
