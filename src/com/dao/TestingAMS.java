@@ -1,16 +1,14 @@
+package com.dao;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-import com.dao.PDBConnection;
-import com.dao.PTestingDB;
 import com.domain.Customer;
 import com.domain.Employee;
 import com.domain.Flight;
 import com.domain.FlightTime;
 import com.domain.Person;
-import com.service.CustomerService;
 
 
 public class TestingAMS {
