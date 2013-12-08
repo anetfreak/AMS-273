@@ -2196,7 +2196,7 @@ public class PDBConnection {
 
 		int rc = 0;
 		/*										1		2			3		4		5				*/
-		String query = "insert into flight(flightNo,airlineName,source,destination,noOfSeats) " +
+		String query = "insert into flight(flight_id,flightNo,airlineName,flightSource,flightDestination,flightNoOfSeats) " +
 		"values (?,?,?,?,?,?)";
 
 
@@ -2209,12 +2209,12 @@ public class PDBConnection {
 				return false;
 			}
 			PreparedStatement ps = con.prepareStatement(query);
-			//ps.setInt(1, flight.getFlightId());
-			ps.setString(1, flight.getFlightNo());
-			ps.setString(2, flight.getAirlineName());
-			ps.setString(3, flight.getSource());
-			ps.setString(4, flight.getDestination());
-			ps.setInt(5,flight.getNoOfSeats());
+			ps.setInt(1, flight.getFlightId());
+			ps.setString(2, flight.getFlightNo());
+			ps.setString(3, flight.getAirlineName());
+			ps.setString(4, flight.getSource());
+			ps.setString(5, flight.getDestination());
+			ps.setInt(6,flight.getNoOfSeats());
 			rc = ps.executeUpdate();
 		} 
 		catch (SQLException sqle) 
@@ -2572,7 +2572,7 @@ public class PDBConnection {
 
 		int rc = 0;
 		/*										1		2			3	*/
-		String query = "insert into flight(flightId ,flightDay,flightTime) " +
+		String query = "insert into flight(flight_id ,day,time) " +
 		"values (?,?,?)";
 
 		try 
