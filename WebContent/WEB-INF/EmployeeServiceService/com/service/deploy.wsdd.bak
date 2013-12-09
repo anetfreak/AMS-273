@@ -34,11 +34,14 @@
       <operation name="updateEmployee" qname="operNS:updateEmployee" xmlns:operNS="http://service.com" returnQName="retNS:updateEmployeeReturn" xmlns:retNS="http://service.com" returnType="rtns:boolean" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
         <parameter qname="pns:employee" xmlns:pns="http://service.com" type="tns:Employee" xmlns:tns="http://domain.com"/>
       </operation>
+      <operation name="deleteEmployee" qname="operNS:deleteEmployee" xmlns:operNS="http://service.com" returnQName="retNS:deleteEmployeeReturn" xmlns:retNS="http://service.com" returnType="rtns:boolean" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <parameter qname="pns:employeeId" xmlns:pns="http://service.com" type="tns:int" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+      </operation>
       <operation name="retriveEmployeesbyName" qname="operNS:retriveEmployeesbyName" xmlns:operNS="http://service.com" returnQName="retNS:retriveEmployeesbyNameReturn" xmlns:retNS="http://service.com" returnType="rtns:Employee" xmlns:rtns="http://domain.com" soapAction="" >
         <parameter qname="pns:firstName" xmlns:pns="http://service.com" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
         <parameter qname="pns:lastName" xmlns:pns="http://service.com" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
       </operation>
-      <parameter name="allowedMethods" value="getEmployees retriveEmployeesbyName updateEmployee insertEmployee getEmployee retriveEmployeebypId"/>
+      <parameter name="allowedMethods" value="getEmployees retriveEmployeesbyName updateEmployee insertEmployee getEmployee deleteEmployee retriveEmployeebypId"/>
 
       <typeMapping
         xmlns:ns="http://domain.com"

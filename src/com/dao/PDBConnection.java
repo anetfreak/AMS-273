@@ -292,7 +292,7 @@ public class PDBConnection {
 			}
 			 */
 			PreparedStatement ps = con.prepareStatement(query);
-			ps.setInt(11, personId);
+			ps.setInt(1, personId);
 			rc = ps.executeUpdate();
 		} 
 		catch (SQLException sqle) 
@@ -1116,7 +1116,7 @@ public class PDBConnection {
 
 		int rc = 0;
 		int personId = -1;
-		String query = "delete from customer where employeeId = ?";
+		String query = "delete from employee where employeeId = ?";
 		String query1 = "select personId from employee where employeeId = ?";
 		try 
 		{
