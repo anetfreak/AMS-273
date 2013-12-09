@@ -180,7 +180,7 @@ public class TestingAMS {
 		Reservation reservation;
 		Traveller []traveller = new Traveller[2];
 		PDBConnection dbcon = new PDBConnection(); 
-		Journey []journey = new Journey[1];
+		Journey []journey = new Journey[2];
 		int customerId;
 	
 		int count = 0;
@@ -203,13 +203,13 @@ public class TestingAMS {
 				traveller[j].setSex("F");
 			}
 			
-			for(int k=0; k<1; k++)
+			for(int k=0; k<2; k++)
 			{
 				journey[k] = new Journey();
 				
 				journey[k].setSource("SJC");
 				journey[k].setDestination("AUS");
-				journey[k].setFlightId(k+4438);
+				journey[k].setFlightId(k+5439);
 				journey[k].setDateTime("09:00:00");
 				
 			}
@@ -394,6 +394,10 @@ public class TestingAMS {
 	public static void main(String[] args) {
 
 		TestingAMS t = new TestingAMS();
+		/*if(t.testingFlightCreation())
+		{
+			System.out.println("1000 flights created");
+		}*/
 		t.testingReservationCreation();
 		//create 5000 customers
 		/*if(t.testingCustomerCreation())
@@ -406,11 +410,8 @@ public class TestingAMS {
 		{
 			System.out.println("5000 employees created");
 		}
-		if(t.testingFlightCreation())
-		{
-			System.out.println("1000 flights created");
-		}
-	/*	if(t.testingReservationCreation())
+		
+		if(t.testingReservationCreation())
 		{
 			System.out.println("1000 flights created");
 		}*/

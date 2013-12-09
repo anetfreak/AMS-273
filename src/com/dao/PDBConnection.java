@@ -1433,7 +1433,7 @@ public class PDBConnection {
 		Reservation reservation = null;
 
 
-		String query = "select * from reservation where customerId = ?";
+		String query = "select * from reservation where customerId = ? AND reservationStatus = ?";
 
 		try 
 		{
@@ -1445,6 +1445,7 @@ public class PDBConnection {
 			}
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setInt(1, customerId); 
+			ps.setInt(2, 1);
 
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
@@ -1458,6 +1459,9 @@ public class PDBConnection {
 
 				Traveller[] travellers = retriveTravellers(rs.getInt("reservationId"));
 				reservation.setTravellers(travellers);
+				
+				Journey[] journey = retriveJourney(rs.getInt("reservationId"));
+				reservation.setJourney(journey);
 				res_list.add(reservation);
 			}
 		}
@@ -1636,7 +1640,7 @@ public class PDBConnection {
 		
 		String query = "update reservation set " +
 		"reservationStatus = ? " +
-		"where reservationId ?";
+		"where reservationId = ?";
 
 		try 
 		{
@@ -3173,8 +3177,9 @@ System.out.println("create journey");
 			while(rs.next()) {
 				journeyItem = new Journey();
 				journeyItem.setFlightId(rs.getInt("flightId"));
-				journeyItem.setSource(rs.getString("source"));
+				journeyItem.setSource(rs.getString("boarding"));
 				journeyItem.setDestination(rs.getString("destination"));
+				journeyItem.setDateTime(rs.getString("dateTime"));
 
 				journeyList.add(journeyItem);
 				//i++;
