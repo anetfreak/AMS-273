@@ -178,38 +178,41 @@ public class TestingAMS {
 	{
 		List<Integer> arrOfInt = randomNumberGenerator(20000,30000);
 		Reservation reservation;
-		Traveller []traveller = new Traveller[3];
+		Traveller []traveller = new Traveller[2];
 		PDBConnection dbcon = new PDBConnection(); 
 		Journey []journey = new Journey[1];
 		int customerId;
-		for(int j=0; j<3; j++)
-		{
-			traveller[j] = new Traveller();
-			traveller[j].setAge(30);
-			traveller[j].setFirstName("Kanika");
-			traveller[j].setLastName("anand");
-			traveller[j].setSex("F");
-//			traveller[j].setTravellerId();
-		}
-		for(int k=0; k<1; k++)
-		{
-			journey[k] = new Journey();
-			journey[k].setSource("SJC");
-			journey[k].setDestination("AUS");
-			journey[k].setFlightId(1);
-			journey[k].setDateTime("09:00:00");
-			
-		}
+	
 		int count = 0;
-		for(int i=0; i<1000; i++)
+		for(int i=0; i<1; i++)
 		{
-			customerId = i-10000;
+			//customerId = i-10000;
 			reservation = new Reservation();
-			reservation.setCustomerId(customerId);
-			reservation.setReservationId(arrOfInt.get(i));
-			reservation.setReservationNo("anynumber");
+			reservation.setCustomerId(123121234);
+			//reservation.setReservationId(arrOfInt.get(i));
+			//reservation.setReservationNo("anynumber");
 			reservation.setReservationStatus(1);
 			reservation.setSeatsBooked(2);
+			
+			for(int j=0; j<2; j++)
+			{
+				traveller[j] = new Traveller();
+				traveller[j].setAge(30);
+				traveller[j].setFirstName("Kanika");
+				traveller[j].setLastName("anand");
+				traveller[j].setSex("F");
+			}
+			
+			for(int k=0; k<1; k++)
+			{
+				journey[k] = new Journey();
+				
+				journey[k].setSource("SJC");
+				journey[k].setDestination("AUS");
+				journey[k].setFlightId(k+4438);
+				journey[k].setDateTime("09:00:00");
+				
+			}
 			reservation.setTravellers(traveller);
 			reservation.setJourney(journey);
 			if(dbcon.createReservation(reservation))
@@ -351,11 +354,11 @@ public class TestingAMS {
 	} 
 	public boolean testUpdatePerson(Person person)
 	{
-		PDBConnection dbcon = new PDBConnection();
-		if(dbcon.updatePerson(person, dbcon))
+		//PDBConnection dbcon = new PDBConnection();
+		//if(dbcon.updatePerson(person, dbcon))
 			return true;
-		else 
-			return false;
+		//else 
+			//return false;
 		
 	}
 	
@@ -391,6 +394,7 @@ public class TestingAMS {
 	public static void main(String[] args) {
 
 		TestingAMS t = new TestingAMS();
+		t.testingReservationCreation();
 		//create 5000 customers
 		/*if(t.testingCustomerCreation())
 		{
@@ -401,7 +405,7 @@ public class TestingAMS {
 		if(t.testingEmployeeCreation())
 		{
 			System.out.println("5000 employees created");
-		}*/
+		}
 		if(t.testingFlightCreation())
 		{
 			System.out.println("1000 flights created");
@@ -409,7 +413,7 @@ public class TestingAMS {
 		if(t.testingReservationCreation())
 		{
 			System.out.println("1000 flights created");
-		}
+		}*/
 
 	}
 

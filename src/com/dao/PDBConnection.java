@@ -1865,7 +1865,7 @@ public class PDBConnection {
 		List<Traveller> travellerList = new ArrayList<Traveller>();
 		Traveller travelleritem = null;
 		Traveller[] travellers = null;
-		String query = "select * from reservation where reservationId = ?";
+		String query = "select * from traveller where reservationId = ?";
 
 		try 
 		{
@@ -3111,17 +3111,10 @@ public class PDBConnection {
 		String query = "insert into journey(FlightId ,boarding,destination,ReservationID,datetime) " +
 		"values (?,?,?,?,?)";
 
-
+System.out.println("create journey");
 		try 
 		{
-			/*
-			con = pool.getConn();
-			if(con == null || con.isClosed())
-			{
-				System.out.println("No connection to DB");
-				return false;
-			}
-			 */
+
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setInt(1, journey.getFlightId());
 			ps.setString(2, journey.getSource());
@@ -3163,7 +3156,7 @@ public class PDBConnection {
 
 		Journey[] journey = null;
 
-		String query = "select * from journey where locationId = ?";
+		String query = "select * from journey where reservationId = ?";
 
 		try 
 		{
