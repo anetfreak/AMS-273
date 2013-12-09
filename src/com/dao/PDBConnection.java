@@ -344,7 +344,7 @@ public class PDBConnection {
 				String query = "insert into customer(customerId,personId,passportNumber,nationality) " +
 				"values (?, ?, ?, ?)";
 
-				PreparedStatement ps = con.prepareStatement(query);
+				PreparedStatement ps = con.prepareStatement(query,Statement.RETURN_GENERATED_KEYS);
 				ps.setInt(1, customer.getCustomerId());
 				ps.setInt(2, personId);
 				ps.setString(3, customer.getPassportNumber());
@@ -751,7 +751,7 @@ public class PDBConnection {
 				"values (?, ?, ?, ?, ?)";
 
 
-				PreparedStatement ps = con.prepareStatement(query);
+				PreparedStatement ps = con.prepareStatement(query,Statement.RETURN_GENERATED_KEYS);
 				ps.setInt(1, employee.getEmployeeId());
 				ps.setInt(2, personId);
 				ps.setString(3, employee.getWorkDesc());
