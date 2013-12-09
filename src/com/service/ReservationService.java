@@ -32,6 +32,19 @@ public class ReservationService {
 		return dbcon.retriveReservationbyResId(reservationId);
 	}
 
+	public Reservation[] getReservationbyCustId(Integer customerId) {
+		return dbcon.retriveReservationByCustId(customerId);
+	}
+	
+	public boolean cancelReservation(Integer reservationId)
+	{
+		if(dbcon.cancelReservation(reservationId))
+		{
+			System.out.println("cancel Reservation Success");
+			return true;
+		}
+		return false;
+	}
 	public boolean updateReservation(Reservation reservation) {
 		//TODO server side validations
 		if(dbcon.updateReservation(reservation))

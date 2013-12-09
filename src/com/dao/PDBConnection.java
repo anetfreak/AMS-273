@@ -432,7 +432,7 @@ public class PDBConnection {
 				customer.setNationality(rs.getString("nationality"));
 				Person person = retrivePerson(rs.getInt("personId")); 
 				customer.setPerson(person);
-				System.out.println("added customer: "+i++);
+				//System.out.println("added customer: "+i++);
 				cust_list.add(customer);
 				//Reservation reservation = retriveReservationByCustId(rs.getInt("customerId"));
 				//customer.setReservation(reservation);
@@ -1420,12 +1420,15 @@ public class PDBConnection {
 	}
 
 	//retrive by customer Id
-	public Reservation retriveReservationByCustId(Integer customerId)
+	public Reservation[] retriveReservationByCustId(Integer customerId)
 	{
 		if(customerId < 0)
 			return null;
 
+		List<Reservation> res_list = new ArrayList<Reservation>();
+		Reservation[] reservations = null;
 		Reservation reservation = null;
+
 
 		String query = "select * from reservation where customerId = ?";
 
@@ -1441,7 +1444,7 @@ public class PDBConnection {
 			ps.setInt(1, customerId); 
 
 			ResultSet rs = ps.executeQuery();
-			if (rs.next()) {
+			while(rs.next()) {
 				reservation = new Reservation();
 				reservation.setReservationId(rs.getInt("reservationId"));
 				reservation.setReservationNo(rs.getString("reservationNo"));
@@ -1452,7 +1455,7 @@ public class PDBConnection {
 
 				Traveller[] travellers = retriveTravellers(rs.getInt("reservationId"));
 				reservation.setTravellers(travellers);
-
+				res_list.add(reservation);
 			}
 		}
 		catch (SQLException sqle) 
@@ -1465,11 +1468,12 @@ public class PDBConnection {
 			pool.closeConn(con);
 		}
 
-		if(reservation != null)
+		if(!res_list.isEmpty())
 		{
-			System.out.println("Retrive reservation Successful");
-			//pool.closeConn(con);
-			return reservation;
+			System.out.println("Retrive reservations Successful");
+			reservations = new Reservation[res_list.size()];
+			reservations = res_list.toArray(reservations);
+			return reservations;
 		}
 		//pool.closeConn(con);
 		return null;
@@ -1618,6 +1622,66 @@ public class PDBConnection {
 		return false;
 	}
 
+	
+	public boolean cancelReservation(Integer reservationId)
+	{
+		if(reservationId < 0)
+			return false;
+
+		int rc = 0;
+
+		
+		String query = "update reservation set " +
+		"reservationStatus = ? " +
+		"where reservationId ?";
+
+		try 
+		{
+			con = pool.getConn();
+			if(con == null || con.isClosed())
+			{
+				System.out.println("No connection to DB");
+				return false;
+			}
+			con.setAutoCommit(false);
+			PreparedStatement ps = con.prepareStatement(query);
+			ps.setInt(1, 0);
+			ps.setInt(2, reservationId);
+
+			rc = ps.executeUpdate();
+			
+			con.commit();
+		} 
+		catch (SQLException sqle) 
+		{
+			try {
+				System.err.print("Transaction is being rolled back");
+				con.rollback();
+			} catch(SQLException excep) {
+				excep.printStackTrace();
+			}	
+			//pool.closeConn(con);
+			sqle.printStackTrace();
+		}
+		finally
+		{
+			pool.closeConn(con);
+		}
+
+
+
+
+
+		if (rc > 0) {
+			System.out.println("Cancel reservation Successful");
+			//pool.closeConn(con);
+			return true;
+		}
+		//pool.closeConn(con);
+		return false;
+	}
+
+	
 	public boolean deleteReservation(Integer reservationId)
 	{
 		if(reservationId < 0)
