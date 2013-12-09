@@ -44,4 +44,9 @@ public class CustomerService {
 		}
 		return false;
 	}
+	
+	//Function for deleting a customer on basis of cutomer Id
+			public boolean deleteCustomer(Integer customerId) {
+				return dbcon.deleteCustomer(customerId);
+			}
 }

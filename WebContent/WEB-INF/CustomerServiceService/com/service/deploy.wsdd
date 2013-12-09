@@ -10,6 +10,9 @@
       <parameter name="className" value="com.service.CustomerService"/>
       <parameter name="wsdlPortType" value="CustomerService"/>
       <parameter name="typeMappingVersion" value="1.2"/>
+      <operation xmlns:operNS="http://service.com" xmlns:retNS="http://service.com" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="deleteCustomer" qname="operNS:deleteCustomer" returnQName="retNS:deleteCustomerReturn" returnType="rtns:boolean" soapAction="">
+        <parameter xmlns:pns="http://service.com" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:customerId" type="tns:int"/>
+      </operation>
       <operation xmlns:operNS="http://service.com" xmlns:retNS="http://service.com" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="updateCustomer" qname="operNS:updateCustomer" returnQName="retNS:updateCustomerReturn" returnType="rtns:boolean" soapAction="">
         <parameter xmlns:pns="http://service.com" xmlns:tns="http://domain.com" qname="pns:customer" type="tns:Customer"/>
       </operation>
@@ -24,7 +27,7 @@
       <operation xmlns:operNS="http://service.com" xmlns:retNS="http://service.com" xmlns:rtns="http://domain.com" name="getCustomer" qname="operNS:getCustomer" returnQName="retNS:getCustomerReturn" returnType="rtns:Customer" soapAction="">
         <parameter xmlns:pns="http://service.com" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:customerId" type="tns:int"/>
       </operation>
-      <parameter name="allowedMethods" value="getCustomers getCustomer insertCustomer updateCustomer retriveCustomerbypId"/>
+      <parameter name="allowedMethods" value="getCustomers getCustomer insertCustomer updateCustomer deleteCustomer retriveCustomerbypId"/>
 
       <typeMapping xmlns:ns="http://domain.com" qname="ns:Customer" type="java:com.domain.Customer" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
       <typeMapping xmlns:ns="http://domain.com" qname="ns:Person" type="java:com.domain.Person" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>

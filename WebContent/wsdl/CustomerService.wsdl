@@ -5,6 +5,20 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
  <wsdl:types>
   <schema elementFormDefault="qualified" targetNamespace="http://service.com" xmlns="http://www.w3.org/2001/XMLSchema">
    <import namespace="http://domain.com"/>
+   <element name="deleteCustomer">
+    <complexType>
+     <sequence>
+      <element name="customerId" type="xsd:int"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="deleteCustomerResponse">
+    <complexType>
+     <sequence>
+      <element name="deleteCustomerReturn" type="xsd:boolean"/>
+     </sequence>
+    </complexType>
+   </element>
    <element name="updateCustomer">
     <complexType>
      <sequence>
@@ -131,6 +145,14 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
    </wsdl:message>
 
+   <wsdl:message name="deleteCustomerRequest">
+
+      <wsdl:part element="impl:deleteCustomer" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
    <wsdl:message name="getCustomerRequest">
 
       <wsdl:part element="impl:getCustomer" name="parameters">
@@ -171,6 +193,14 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
    </wsdl:message>
 
+   <wsdl:message name="deleteCustomerResponse">
+
+      <wsdl:part element="impl:deleteCustomerResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
    <wsdl:message name="updateCustomerResponse">
 
       <wsdl:part element="impl:updateCustomerResponse" name="parameters">
@@ -180,6 +210,18 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
    </wsdl:message>
 
    <wsdl:portType name="CustomerService">
+
+      <wsdl:operation name="deleteCustomer">
+
+         <wsdl:input message="impl:deleteCustomerRequest" name="deleteCustomerRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:deleteCustomerResponse" name="deleteCustomerResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
 
       <wsdl:operation name="updateCustomer">
 
@@ -246,6 +288,24 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
    <wsdl:binding name="CustomerServiceSoapBinding" type="impl:CustomerService">
 
       <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+      <wsdl:operation name="deleteCustomer">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="deleteCustomerRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="deleteCustomerResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
 
       <wsdl:operation name="updateCustomer">
 

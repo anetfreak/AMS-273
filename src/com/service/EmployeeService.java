@@ -55,7 +55,7 @@ public class EmployeeService {
 		return false;
 	}
 	
-	//Function used for searching an employee based on FirstName and LastName
+	//Function for deleting an employee on basis of employee Id
 		public boolean deleteEmployee(Integer employeeId) {
 			return dbcon.deleteEmployee(employeeId);
 		}
