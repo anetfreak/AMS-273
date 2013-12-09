@@ -20,22 +20,22 @@
       <parameter name="className" value="com.service.CustomerServiceSoapBindingImpl"/>
       <parameter name="wsdlPortType" value="CustomerService"/>
       <parameter name="typeMappingVersion" value="1.2"/>
-      <operation name="deleteCustomer" qname="operNS:deleteCustomer" xmlns:operNS="http://service.com" returnQName="retNS:deleteCustomerReturn" xmlns:retNS="http://service.com" returnType="rtns:boolean" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
-        <parameter qname="pns:customerId" xmlns:pns="http://service.com" type="tns:int" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+      <operation name="insertCustomer" qname="operNS:insertCustomer" xmlns:operNS="http://service.com" returnQName="retNS:insertCustomerReturn" xmlns:retNS="http://service.com" returnType="rtns:int" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <parameter qname="pns:customer" xmlns:pns="http://service.com" type="tns:Customer" xmlns:tns="http://domain.com"/>
       </operation>
       <operation name="updateCustomer" qname="operNS:updateCustomer" xmlns:operNS="http://service.com" returnQName="retNS:updateCustomerReturn" xmlns:retNS="http://service.com" returnType="rtns:boolean" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
         <parameter qname="pns:customer" xmlns:pns="http://service.com" type="tns:Customer" xmlns:tns="http://domain.com"/>
       </operation>
-      <operation name="retriveCustomerbypId" qname="operNS:retriveCustomerbypId" xmlns:operNS="http://service.com" returnQName="retNS:retriveCustomerbypIdReturn" xmlns:retNS="http://service.com" returnType="rtns:Customer" xmlns:rtns="http://domain.com" soapAction="" >
-        <parameter qname="pns:personId" xmlns:pns="http://service.com" type="tns:int" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
-      </operation>
-      <operation name="insertCustomer" qname="operNS:insertCustomer" xmlns:operNS="http://service.com" returnQName="retNS:insertCustomerReturn" xmlns:retNS="http://service.com" returnType="rtns:int" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
-        <parameter qname="pns:customer" xmlns:pns="http://service.com" type="tns:Customer" xmlns:tns="http://domain.com"/>
-      </operation>
-      <operation name="getCustomers" qname="operNS:getCustomers" xmlns:operNS="http://service.com" returnQName="retNS:getCustomersReturn" xmlns:retNS="http://service.com" returnType="rtns:Customer" xmlns:rtns="http://domain.com" soapAction="" >
+      <operation name="deleteCustomer" qname="operNS:deleteCustomer" xmlns:operNS="http://service.com" returnQName="retNS:deleteCustomerReturn" xmlns:retNS="http://service.com" returnType="rtns:boolean" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <parameter qname="pns:customerId" xmlns:pns="http://service.com" type="tns:int" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
       </operation>
       <operation name="getCustomer" qname="operNS:getCustomer" xmlns:operNS="http://service.com" returnQName="retNS:getCustomerReturn" xmlns:retNS="http://service.com" returnType="rtns:Customer" xmlns:rtns="http://domain.com" soapAction="" >
         <parameter qname="pns:customerId" xmlns:pns="http://service.com" type="tns:int" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+      </operation>
+      <operation name="retriveCustomerbypId" qname="operNS:retriveCustomerbypId" xmlns:operNS="http://service.com" returnQName="retNS:retriveCustomerbypIdReturn" xmlns:retNS="http://service.com" returnType="rtns:Customer" xmlns:rtns="http://domain.com" soapAction="" >
+        <parameter qname="pns:personId" xmlns:pns="http://service.com" type="tns:int" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+      </operation>
+      <operation name="getCustomers" qname="operNS:getCustomers" xmlns:operNS="http://service.com" returnQName="retNS:getCustomersReturn" xmlns:retNS="http://service.com" returnType="rtns:Customer" xmlns:rtns="http://domain.com" soapAction="" >
       </operation>
       <parameter name="allowedMethods" value="getCustomers getCustomer insertCustomer updateCustomer deleteCustomer retriveCustomerbypId"/>
 

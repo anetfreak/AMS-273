@@ -10,26 +10,26 @@
       <parameter name="className" value="com.service.EmployeeService"/>
       <parameter name="wsdlPortType" value="EmployeeService"/>
       <parameter name="typeMappingVersion" value="1.2"/>
-      <operation xmlns:operNS="http://service.com" xmlns:retNS="http://service.com" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="insertEmployee" qname="operNS:insertEmployee" returnQName="retNS:insertEmployeeReturn" returnType="rtns:int" soapAction="">
-        <parameter xmlns:pns="http://service.com" xmlns:tns="http://domain.com" qname="pns:employee" type="tns:Employee"/>
-      </operation>
-      <operation xmlns:operNS="http://service.com" xmlns:retNS="http://service.com" xmlns:rtns="http://domain.com" name="getEmployees" qname="operNS:getEmployees" returnQName="retNS:getEmployeesReturn" returnType="rtns:Employee" soapAction="">
-      </operation>
-      <operation xmlns:operNS="http://service.com" xmlns:retNS="http://service.com" xmlns:rtns="http://domain.com" name="getEmployee" qname="operNS:getEmployee" returnQName="retNS:getEmployeeReturn" returnType="rtns:Employee" soapAction="">
-        <parameter xmlns:pns="http://service.com" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:employeeId" type="tns:int"/>
-      </operation>
-      <operation xmlns:operNS="http://service.com" xmlns:retNS="http://service.com" xmlns:rtns="http://domain.com" name="retriveEmployeebypId" qname="operNS:retriveEmployeebypId" returnQName="retNS:retriveEmployeebypIdReturn" returnType="rtns:Employee" soapAction="">
-        <parameter xmlns:pns="http://service.com" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:personId" type="tns:int"/>
-      </operation>
       <operation xmlns:operNS="http://service.com" xmlns:retNS="http://service.com" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="updateEmployee" qname="operNS:updateEmployee" returnQName="retNS:updateEmployeeReturn" returnType="rtns:boolean" soapAction="">
         <parameter xmlns:pns="http://service.com" xmlns:tns="http://domain.com" qname="pns:employee" type="tns:Employee"/>
       </operation>
-      <operation xmlns:operNS="http://service.com" xmlns:retNS="http://service.com" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="deleteEmployee" qname="operNS:deleteEmployee" returnQName="retNS:deleteEmployeeReturn" returnType="rtns:boolean" soapAction="">
-        <parameter xmlns:pns="http://service.com" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:employeeId" type="tns:int"/>
+      <operation xmlns:operNS="http://service.com" xmlns:retNS="http://service.com" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="insertEmployee" qname="operNS:insertEmployee" returnQName="retNS:insertEmployeeReturn" returnType="rtns:int" soapAction="">
+        <parameter xmlns:pns="http://service.com" xmlns:tns="http://domain.com" qname="pns:employee" type="tns:Employee"/>
       </operation>
       <operation xmlns:operNS="http://service.com" xmlns:retNS="http://service.com" xmlns:rtns="http://domain.com" name="retriveEmployeesbyName" qname="operNS:retriveEmployeesbyName" returnQName="retNS:retriveEmployeesbyNameReturn" returnType="rtns:Employee" soapAction="">
         <parameter xmlns:pns="http://service.com" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:firstName" type="tns:string"/>
         <parameter xmlns:pns="http://service.com" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:lastName" type="tns:string"/>
+      </operation>
+      <operation xmlns:operNS="http://service.com" xmlns:retNS="http://service.com" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="deleteEmployee" qname="operNS:deleteEmployee" returnQName="retNS:deleteEmployeeReturn" returnType="rtns:boolean" soapAction="">
+        <parameter xmlns:pns="http://service.com" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:employeeId" type="tns:int"/>
+      </operation>
+      <operation xmlns:operNS="http://service.com" xmlns:retNS="http://service.com" xmlns:rtns="http://domain.com" name="getEmployee" qname="operNS:getEmployee" returnQName="retNS:getEmployeeReturn" returnType="rtns:Employee" soapAction="">
+        <parameter xmlns:pns="http://service.com" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:employeeId" type="tns:int"/>
+      </operation>
+      <operation xmlns:operNS="http://service.com" xmlns:retNS="http://service.com" xmlns:rtns="http://domain.com" name="getEmployees" qname="operNS:getEmployees" returnQName="retNS:getEmployeesReturn" returnType="rtns:Employee" soapAction="">
+      </operation>
+      <operation xmlns:operNS="http://service.com" xmlns:retNS="http://service.com" xmlns:rtns="http://domain.com" name="retriveEmployeebypId" qname="operNS:retriveEmployeebypId" returnQName="retNS:retriveEmployeebypIdReturn" returnType="rtns:Employee" soapAction="">
+        <parameter xmlns:pns="http://service.com" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:personId" type="tns:int"/>
       </operation>
       <parameter name="allowedMethods" value="getEmployees retriveEmployeesbyName updateEmployee insertEmployee getEmployee deleteEmployee retriveEmployeebypId"/>
 

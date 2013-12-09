@@ -20,19 +20,19 @@
       <parameter name="className" value="com.service.AuthenticationServiceSoapBindingImpl"/>
       <parameter name="wsdlPortType" value="AuthenticationService"/>
       <parameter name="typeMappingVersion" value="1.2"/>
-      <operation name="signInEmployee" qname="operNS:signInEmployee" xmlns:operNS="http://service.com" returnQName="retNS:signInEmployeeReturn" xmlns:retNS="http://service.com" returnType="rtns:int" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+      <operation name="signInCustomer" qname="operNS:signInCustomer" xmlns:operNS="http://service.com" returnQName="retNS:signInCustomerReturn" xmlns:retNS="http://service.com" returnType="rtns:int" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
         <parameter qname="pns:username" xmlns:pns="http://service.com" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
         <parameter qname="pns:password" xmlns:pns="http://service.com" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
       </operation>
-      <operation name="employeeSignUp" qname="operNS:employeeSignUp" xmlns:operNS="http://service.com" returnQName="retNS:employeeSignUpReturn" xmlns:retNS="http://service.com" returnType="rtns:int" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
-        <parameter qname="pns:employee" xmlns:pns="http://service.com" type="tns:Employee" xmlns:tns="http://domain.com"/>
-      </operation>
-      <operation name="signInCustomer" qname="operNS:signInCustomer" xmlns:operNS="http://service.com" returnQName="retNS:signInCustomerReturn" xmlns:retNS="http://service.com" returnType="rtns:int" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+      <operation name="signInEmployee" qname="operNS:signInEmployee" xmlns:operNS="http://service.com" returnQName="retNS:signInEmployeeReturn" xmlns:retNS="http://service.com" returnType="rtns:int" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
         <parameter qname="pns:username" xmlns:pns="http://service.com" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
         <parameter qname="pns:password" xmlns:pns="http://service.com" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
       </operation>
       <operation name="customerSignUp" qname="operNS:customerSignUp" xmlns:operNS="http://service.com" returnQName="retNS:customerSignUpReturn" xmlns:retNS="http://service.com" returnType="rtns:int" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
         <parameter qname="pns:customer" xmlns:pns="http://service.com" type="tns:Customer" xmlns:tns="http://domain.com"/>
+      </operation>
+      <operation name="employeeSignUp" qname="operNS:employeeSignUp" xmlns:operNS="http://service.com" returnQName="retNS:employeeSignUpReturn" xmlns:retNS="http://service.com" returnType="rtns:int" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <parameter qname="pns:employee" xmlns:pns="http://service.com" type="tns:Employee" xmlns:tns="http://domain.com"/>
       </operation>
       <operation name="updateCustInformation" qname="operNS:updateCustInformation" xmlns:operNS="http://service.com" returnQName="retNS:updateCustInformationReturn" xmlns:retNS="http://service.com" returnType="rtns:boolean" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
         <parameter qname="pns:customer" xmlns:pns="http://service.com" type="tns:Customer" xmlns:tns="http://domain.com"/>

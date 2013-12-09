@@ -10,20 +10,20 @@
       <parameter name="className" value="com.service.PersonService"/>
       <parameter name="wsdlPortType" value="PersonService"/>
       <parameter name="typeMappingVersion" value="1.2"/>
-      <operation xmlns:operNS="http://service.com" xmlns:retNS="http://service.com" xmlns:rtns="http://domain.com" name="getPerson" qname="operNS:getPerson" returnQName="retNS:getPersonReturn" returnType="rtns:Person" soapAction="">
-        <parameter xmlns:pns="http://service.com" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:personId" type="tns:int"/>
+      <operation xmlns:operNS="http://service.com" xmlns:retNS="http://service.com" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="updatePerson" qname="operNS:updatePerson" returnQName="retNS:updatePersonReturn" returnType="rtns:boolean" soapAction="">
+        <parameter xmlns:pns="http://service.com" xmlns:tns="http://domain.com" qname="pns:person" type="tns:Person"/>
+      </operation>
+      <operation xmlns:operNS="http://service.com" xmlns:retNS="http://service.com" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="insertPerson" qname="operNS:insertPerson" returnQName="retNS:insertPersonReturn" returnType="rtns:boolean" soapAction="">
+        <parameter xmlns:pns="http://service.com" xmlns:tns="http://domain.com" qname="pns:person" type="tns:Person"/>
       </operation>
       <operation xmlns:operNS="http://service.com" xmlns:retNS="http://service.com" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="validatePerson" qname="operNS:validatePerson" returnQName="retNS:validatePersonReturn" returnType="rtns:boolean" soapAction="">
         <parameter xmlns:pns="http://service.com" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:username" type="tns:string"/>
         <parameter xmlns:pns="http://service.com" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:password" type="tns:string"/>
       </operation>
-      <operation xmlns:operNS="http://service.com" xmlns:retNS="http://service.com" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="insertPerson" qname="operNS:insertPerson" returnQName="retNS:insertPersonReturn" returnType="rtns:boolean" soapAction="">
-        <parameter xmlns:pns="http://service.com" xmlns:tns="http://domain.com" qname="pns:person" type="tns:Person"/>
+      <operation xmlns:operNS="http://service.com" xmlns:retNS="http://service.com" xmlns:rtns="http://domain.com" name="getPerson" qname="operNS:getPerson" returnQName="retNS:getPersonReturn" returnType="rtns:Person" soapAction="">
+        <parameter xmlns:pns="http://service.com" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:personId" type="tns:int"/>
       </operation>
-      <operation xmlns:operNS="http://service.com" xmlns:retNS="http://service.com" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="updatePerson" qname="operNS:updatePerson" returnQName="retNS:updatePersonReturn" returnType="rtns:boolean" soapAction="">
-        <parameter xmlns:pns="http://service.com" xmlns:tns="http://domain.com" qname="pns:person" type="tns:Person"/>
-      </operation>
-      <parameter name="allowedMethods" value="insertPerson validatePerson updatePerson getPerson"/>
+      <parameter name="allowedMethods" value="insertPerson validatePerson getPerson updatePerson"/>
 
       <typeMapping xmlns:ns="http://domain.com" qname="ns:Person" type="java:com.domain.Person" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
   </service>
