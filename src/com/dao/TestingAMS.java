@@ -349,7 +349,7 @@ public class TestingAMS {
 		else 
 			return false;
 	} 
-	public boolean testUpdatePerson(Person person)
+	/*public boolean testUpdatePerson(Person person)
 	{
 		PDBConnection dbcon = new PDBConnection();
 		if(dbcon.updatePerson(person, dbcon))
@@ -357,7 +357,7 @@ public class TestingAMS {
 		else 
 			return false;
 		
-	}
+	}*/
 	
 	/******************RESERVATION SERVICE TEST CASES**************/
 	public boolean testGetReservations()
@@ -406,10 +406,10 @@ public class TestingAMS {
 		{
 			System.out.println("1000 flights created");
 		}
-		if(t.testingReservationCreation())
+	/*	if(t.testingReservationCreation())
 		{
 			System.out.println("1000 flights created");
-		}
+		}*/
 
 	}
 

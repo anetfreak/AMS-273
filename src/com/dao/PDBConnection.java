@@ -2773,6 +2773,7 @@ public class PDBConnection {
 
 		int rc = 0;
 
+		System.out.println("Inside DB");
 		Integer flightId = flight.getFlightId();
 		String flightNo = flight.getFlightNo();
 		String airlineName = flight.getAirlineName();
@@ -2781,14 +2782,13 @@ public class PDBConnection {
 		Integer noOfSeats = flight.getNoOfSeats();
 		FlightTime[] flightTimes = flight.getFlightTime();
 
-
-
+		
 		String query = "update flight set " +
 		"flightNo = ? ," +
 		"airlineName = ? ," +
-		"flightsource = ? ," +
-		"flightdestination = ? ," +
-		"flightnoOfSeats = ? " +
+		"flightSource = ? ," +
+		"flightDestination = ? ," +
+		"flightNoOfSeats = ? " +
 		"where flight_Id = ?";
 
 
@@ -2820,6 +2820,7 @@ public class PDBConnection {
 		}
 
 		if (rc > 0) {
+			System.out.println("UPdating flight times");
 			updateFlightTimes(flightId,flightTimes);
 			System.out.println("Update flight Successful");
 			//pool.closeConn(con);
@@ -3047,7 +3048,7 @@ public class PDBConnection {
 
 		int rc = 0;
 
-		String query = "update flight_times set " +
+		String query = "update flight_time set " +
 		"day = ? ," +
 		"time = ? " +
 		"where flight_id = ?";
