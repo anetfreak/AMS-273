@@ -2911,8 +2911,9 @@ public class PDBConnection {
 		flightTimes = CacheServer.getCache().getFlightTimefrmCache(flightId);
 		if(flightTimes != null)
 		{
-			flightTimes = new FlightTime[flightTime_list.size()];
-			flightTimes = flightTime_list.toArray(flightTimes);
+			System.out.println("Retrive from Cache success");
+			//flightTimes = new FlightTime[flightTime_list.size()];
+			//flightTimes = flightTime_list.toArray(flightTimes);
 			return flightTimes;
 		}
 		//End Getting values for cache server
