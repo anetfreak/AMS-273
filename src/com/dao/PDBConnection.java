@@ -5,7 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import com.domain.Customer;
@@ -1202,8 +1204,9 @@ public class PDBConnection {
 		/*											1			2				3			4					*/
 		String query = "insert into reservation(reservationNo,customerId,reservationStatus,seatsBooked) " +
 		"values (?,?,?,?)";
-
-
+		String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
+		//System.out.println(timeStamp );
+		String reservationNo = reservation.getCustomerId()+"|"+reservation.getJourney()[0].getFlightId()+"|"+timeStamp;
 		try 
 		{
 			con = pool.getConn();
@@ -1215,7 +1218,7 @@ public class PDBConnection {
 			con.setAutoCommit(false);
 			PreparedStatement ps = con.prepareStatement(query);
 			//ps.setInt(1, null); //Auto Increment
-			ps.setString(1, reservation.getReservationNo());
+			ps.setString(1, reservationNo);
 			ps.setInt(2, reservation.getCustomerId());
 			ps.setInt(3, reservation.getReservationStatus());
 			ps.setInt(4, reservation.getSeatsBooked());

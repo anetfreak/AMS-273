@@ -5,13 +5,10 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
  <wsdl:types>
   <schema elementFormDefault="qualified" targetNamespace="http://service.com" xmlns="http://www.w3.org/2001/XMLSchema">
    <import namespace="http://domain.com"/>
-   <element name="getReservations">
-    <complexType/>
-   </element>
-   <element name="getReservationsResponse">
+   <element name="insertReservation">
     <complexType>
      <sequence>
-      <element maxOccurs="unbounded" name="getReservationsReturn" type="tns1:Reservation"/>
+      <element name="reservation" type="tns1:Reservation"/>
      </sequence>
     </complexType>
    </element>
@@ -25,17 +22,20 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
      <element maxOccurs="unbounded" minOccurs="0" name="item" type="tns1:Traveller"/>
     </sequence>
    </complexType>
-   <element name="insertReservation">
-    <complexType>
-     <sequence>
-      <element name="reservation" type="tns1:Reservation"/>
-     </sequence>
-    </complexType>
-   </element>
    <element name="insertReservationResponse">
     <complexType>
      <sequence>
       <element name="insertReservationReturn" type="xsd:boolean"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getReservations">
+    <complexType/>
+   </element>
+   <element name="getReservationsResponse">
+    <complexType>
+     <sequence>
+      <element maxOccurs="unbounded" name="getReservationsReturn" type="tns1:Reservation"/>
      </sequence>
     </complexType>
    </element>
@@ -50,6 +50,34 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
     <complexType>
      <sequence>
       <element name="getReservationReturn" type="tns1:Reservation"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getReservationbyCustId">
+    <complexType>
+     <sequence>
+      <element name="customerId" type="xsd:int"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getReservationbyCustIdResponse">
+    <complexType>
+     <sequence>
+      <element maxOccurs="unbounded" name="getReservationbyCustIdReturn" type="tns1:Reservation"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="cancelReservation">
+    <complexType>
+     <sequence>
+      <element name="reservationId" type="xsd:int"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="cancelReservationResponse">
+    <complexType>
+     <sequence>
+      <element name="cancelReservationReturn" type="xsd:boolean"/>
      </sequence>
     </complexType>
    </element>
@@ -101,6 +129,14 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
   </schema>
  </wsdl:types>
 
+   <wsdl:message name="getReservationbyCustIdResponse">
+
+      <wsdl:part element="impl:getReservationbyCustIdResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
    <wsdl:message name="getReservationsRequest">
 
       <wsdl:part element="impl:getReservations" name="parameters">
@@ -141,9 +177,33 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
    </wsdl:message>
 
+   <wsdl:message name="cancelReservationResponse">
+
+      <wsdl:part element="impl:cancelReservationResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="cancelReservationRequest">
+
+      <wsdl:part element="impl:cancelReservation" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
    <wsdl:message name="getReservationsResponse">
 
       <wsdl:part element="impl:getReservationsResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getReservationbyCustIdRequest">
+
+      <wsdl:part element="impl:getReservationbyCustId" name="parameters">
 
       </wsdl:part>
 
@@ -167,18 +227,6 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
    <wsdl:portType name="ReservationService">
 
-      <wsdl:operation name="getReservations">
-
-         <wsdl:input message="impl:getReservationsRequest" name="getReservationsRequest">
-
-       </wsdl:input>
-
-         <wsdl:output message="impl:getReservationsResponse" name="getReservationsResponse">
-
-       </wsdl:output>
-
-      </wsdl:operation>
-
       <wsdl:operation name="insertReservation">
 
          <wsdl:input message="impl:insertReservationRequest" name="insertReservationRequest">
@@ -191,6 +239,18 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       </wsdl:operation>
 
+      <wsdl:operation name="getReservations">
+
+         <wsdl:input message="impl:getReservationsRequest" name="getReservationsRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getReservationsResponse" name="getReservationsResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
       <wsdl:operation name="getReservation">
 
          <wsdl:input message="impl:getReservationRequest" name="getReservationRequest">
@@ -198,6 +258,30 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
        </wsdl:input>
 
          <wsdl:output message="impl:getReservationResponse" name="getReservationResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getReservationbyCustId">
+
+         <wsdl:input message="impl:getReservationbyCustIdRequest" name="getReservationbyCustIdRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getReservationbyCustIdResponse" name="getReservationbyCustIdResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="cancelReservation">
+
+         <wsdl:input message="impl:cancelReservationRequest" name="cancelReservationRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:cancelReservationResponse" name="cancelReservationResponse">
 
        </wsdl:output>
 
@@ -221,24 +305,6 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
 
-      <wsdl:operation name="getReservations">
-
-         <wsdlsoap:operation soapAction=""/>
-
-         <wsdl:input name="getReservationsRequest">
-
-            <wsdlsoap:body use="literal"/>
-
-         </wsdl:input>
-
-         <wsdl:output name="getReservationsResponse">
-
-            <wsdlsoap:body use="literal"/>
-
-         </wsdl:output>
-
-      </wsdl:operation>
-
       <wsdl:operation name="insertReservation">
 
          <wsdlsoap:operation soapAction=""/>
@@ -257,6 +323,24 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       </wsdl:operation>
 
+      <wsdl:operation name="getReservations">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getReservationsRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getReservationsResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
       <wsdl:operation name="getReservation">
 
          <wsdlsoap:operation soapAction=""/>
@@ -268,6 +352,42 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
          </wsdl:input>
 
          <wsdl:output name="getReservationResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getReservationbyCustId">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getReservationbyCustIdRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getReservationbyCustIdResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="cancelReservation">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="cancelReservationRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="cancelReservationResponse">
 
             <wsdlsoap:body use="literal"/>
 
