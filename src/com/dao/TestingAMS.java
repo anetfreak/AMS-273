@@ -18,7 +18,8 @@ import com.domain.Traveller;
 import com.service.CustomerService;
 
 public class TestingAMS {
-
+	/********* ENTITY CREATION TEST CASES***********/
+	
 	/*This function generated an array of random numbers which are unique and are between 1 and 5000*/
 	public List<Integer> randomNumberGenerator(int startInt, int endInt)
 	{
@@ -219,7 +220,173 @@ public class TestingAMS {
 		else 
 			return false;
 	}
+		/*********** CUSTOMER SERVICE TEST CASES****************/
+	public boolean testGetCustomers()
+	{
+		Customer [] cust_list ;
+		PDBConnection dbcon = new PDBConnection();
+		cust_list = dbcon.retriveCustomers();
+		if(cust_list.length !=0)
+		{
+			return true;
+		}
+		return false;
+	}
+	public boolean testGetCustomer(int customerId)
+	{
+		PDBConnection dbcon = new PDBConnection();
+		Customer customer = dbcon.retriveCustomer(customerId);
+		if(customer !=null)
+		{
+			return true;
+		}
+		return false;
+	}
 
+	public boolean testRetriveCustomerBypId(int personId)
+	{
+		PDBConnection dbcon = new PDBConnection();
+		Customer customer = dbcon.retriveCustomerbypId(personId);
+		if(customer !=null)
+		{
+			return true;
+		}
+		return false;
+	}
+	public boolean testUpdateCustomer(Customer customer)
+	{
+		PDBConnection dbcon = new PDBConnection();
+		if(dbcon.updateCustomer(customer))
+			return true;
+		else 
+			return false;
+		
+	}
+	/****************EMPLOEE SERVICE TEST CASES*******************/
+	public boolean testGetEmployees()
+	{
+		Employee [] emp_list ;
+		PDBConnection dbcon = new PDBConnection();
+		emp_list = dbcon.retriveEmployees();
+		if(emp_list.length !=0)
+		{
+			return true;
+		}
+		return false;
+	}
+	public boolean testGetEmployee(int employeeId)
+	{
+		PDBConnection dbcon = new PDBConnection();
+		Employee employee = dbcon.retriveEmployee(employeeId);
+		if(employee !=null)
+		{
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean testRetriveEmployeeBypId(int personId)
+	{
+		PDBConnection dbcon = new PDBConnection();
+		Employee employee = dbcon.retriveEmployeebypId(personId);
+		if(employee !=null)
+		{
+			return true;
+		}
+		return false;
+	}
+	public boolean testUpdateEmployee(Employee employee)
+	{
+		PDBConnection dbcon = new PDBConnection();
+		if(dbcon.updateEmployee(employee))
+			return true;
+		else 
+			return false;
+	}
+	/*******************FLIGHT SERVICE TEST CASES***************/
+	public boolean testGetFlightByNo(String flightNo)
+	{
+		PDBConnection dbcon = new PDBConnection();
+		if(dbcon.retriveFlightsByNo(flightNo) != null)
+			return  true;
+		else 
+			return false;	
+	}
+	public boolean testGetFlightById(int flightId)
+	{
+		PDBConnection dbcon = new PDBConnection();
+		if(dbcon.retriveFlightsById(flightId) != null)
+			return true;
+		else 
+			return false;
+	}
+	public boolean testSearchFlight(String sourceAirport, String destAirport, String day){
+		PDBConnection dbcon = new PDBConnection();
+		Flight []flights = dbcon.searchFlight(sourceAirport, destAirport, day);
+		if (flights.length !=0)
+			return true;
+		else 
+			return false;
+	}
+	public boolean testUpdateFlight(Flight flight)
+	{
+		PDBConnection dbcon = new PDBConnection();
+		if(dbcon.updateflight(flight))
+			return true;
+		else 
+			return false;
+	}
+	
+	/********************* PERSON SERVICE TEST CASES********************/
+	public boolean testGetPerson(int personId)
+	{
+		PDBConnection dbcon = new PDBConnection();
+		Person person = dbcon.retrivePerson(personId);
+		if(person != null)
+		{
+			return true;
+		}
+		else 
+			return false;
+	} 
+	public boolean testUpdatePerson(Person person)
+	{
+		PDBConnection dbcon = new PDBConnection();
+		if(dbcon.updatePerson(person, dbcon))
+			return true;
+		else 
+			return false;
+		
+	}
+	
+	/******************RESERVATION SERVICE TEST CASES**************/
+	public boolean testGetReservations()
+	{
+		PDBConnection dbcon = new PDBConnection();
+		Reservation []reservations = dbcon.retriveReservations();
+		if(reservations.length != 0)
+			return true;
+		else 
+			return false;
+	}
+	
+	public boolean testGetReservation(int reservationId)
+	{
+		PDBConnection dbcon = new PDBConnection();
+		Reservation reservation = dbcon.retriveReservationbyResId(reservationId);
+		if (reservation != null)
+			return true;
+		else 
+			return false;
+	}
+	public boolean testUpdateReservtion(Reservation reservation)
+	{
+		PDBConnection dbcon = new PDBConnection();
+		if(dbcon.updateReservation(reservation))
+			return true;
+		else 
+			return false;
+	}
 
 	public static void main(String[] args) {
 
