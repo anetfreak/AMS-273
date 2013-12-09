@@ -2978,6 +2978,45 @@ public class PDBConnection {
 		if(flightTimes == null)
 			return false;
 
+		int rc = 0;
+
+		String query = "update flight_times set " +
+		"day = ? ," +
+		"time = ? " +
+		"where flight_id = ?";
+
+
+		try 
+		{
+			con = pool.getConn();
+			if(con == null || con.isClosed())
+			{
+				System.out.println("No connection to DB");
+				return false;
+			}
+			PreparedStatement ps = con.prepareStatement(query);
+			ps.setString(1, flightTimes[0].getFlightDay());
+			ps.setString(2, flightTimes[0].getFlightTime());
+			ps.setInt(3, flightId);
+
+			rc = ps.executeUpdate();
+		} 
+		catch (SQLException sqle) 
+		{
+			sqle.printStackTrace();
+		}
+		finally
+		{
+			pool.closeConn(con);
+		}
+
+		if (rc > 0) {
+			updateFlightTimes(flightId,flightTimes);
+			System.out.println("Update flightTime Successful");
+			//pool.closeConn(con);
+			return true;
+		}
+		
 		return false;
 	}
 
