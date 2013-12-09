@@ -1216,7 +1216,7 @@ public class PDBConnection {
 				return false;
 			}
 			con.setAutoCommit(false);
-			PreparedStatement ps = con.prepareStatement(query);
+			PreparedStatement ps = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 			//ps.setInt(1, null); //Auto Increment
 			ps.setString(1, reservationNo);
 			ps.setInt(2, reservation.getCustomerId());
