@@ -974,7 +974,7 @@ public class PDBConnection {
 		Person person = null;
 
 		String query = "select * from person p, employee emp where p.personId = emp.personId"
-				+ "and p.firstName = ? and p.lastName = ?";
+				+ " and p.firstName = ? and p.lastName = ?";
 
 		try 
 		{
