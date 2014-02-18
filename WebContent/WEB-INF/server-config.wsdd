@@ -24,30 +24,30 @@
  <ns1:handler name="Authenticate" type="java:org.apache.axis.handlers.SimpleAuthenticationHandler"/>
  <ns1:service name="FlightService" provider="java:RPC" style="wrapped" use="literal">
   <ns3:operation name="getLocations" qname="ns1:getLocations" returnQName="ns1:getLocationsReturn" returnType="ns2:Location" soapAction="" xmlns:ns1="http://service.com" xmlns:ns2="http://domain.com" xmlns:ns3="http://xml.apache.org/axis/wsdd/"/>
-  <ns1:operation name="getFlightById" qname="ns3:getFlightById" returnQName="ns3:getFlightByIdReturn" returnType="ns4:Flight" soapAction="" xmlns:ns3="http://service.com" xmlns:ns4="http://domain.com">
-   <ns1:parameter qname="ns3:flightId" type="xsd:int" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+  <ns1:operation name="updateFlight" qname="ns3:updateFlight" returnQName="ns3:updateFlightReturn" returnType="xsd:boolean" soapAction="" xmlns:ns3="http://service.com" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+   <ns1:parameter qname="ns3:flight" type="ns4:Flight" xmlns:ns4="http://domain.com"/>
   </ns1:operation>
   <ns1:operation name="getFlightByNo" qname="ns5:getFlightByNo" returnQName="ns5:getFlightByNoReturn" returnType="ns6:Flight" soapAction="" xmlns:ns5="http://service.com" xmlns:ns6="http://domain.com">
    <ns1:parameter qname="ns5:flightNo" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
   </ns1:operation>
-  <ns1:operation name="insertFlight" qname="ns7:insertFlight" returnQName="ns7:insertFlightReturn" returnType="xsd:boolean" soapAction="" xmlns:ns7="http://service.com" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-   <ns1:parameter qname="ns7:flight" type="ns8:Flight" xmlns:ns8="http://domain.com"/>
+  <ns1:operation name="searchFlight" qname="ns7:searchFlight" returnQName="ns7:searchFlightReturn" returnType="ns8:Flight" soapAction="" xmlns:ns7="http://service.com" xmlns:ns8="http://domain.com">
+   <ns1:parameter qname="ns7:sourceAirport" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+   <ns1:parameter qname="ns7:destAirport" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+   <ns1:parameter qname="ns7:departDate" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
   </ns1:operation>
-  <ns1:operation name="searchFlight" qname="ns9:searchFlight" returnQName="ns9:searchFlightReturn" returnType="ns10:Flight" soapAction="" xmlns:ns10="http://domain.com" xmlns:ns9="http://service.com">
-   <ns1:parameter qname="ns9:sourceAirport" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
-   <ns1:parameter qname="ns9:destAirport" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
-   <ns1:parameter qname="ns9:departDate" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+  <ns1:operation name="insertFlight" qname="ns9:insertFlight" returnQName="ns9:insertFlightReturn" returnType="xsd:boolean" soapAction="" xmlns:ns9="http://service.com" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+   <ns1:parameter qname="ns9:flight" type="ns10:Flight" xmlns:ns10="http://domain.com"/>
   </ns1:operation>
-  <ns1:operation name="getFlights" qname="ns11:getFlights" returnQName="ns11:getFlightsReturn" returnType="ns12:Flight" soapAction="" xmlns:ns11="http://service.com" xmlns:ns12="http://domain.com"/>
-  <ns1:operation name="updateFlight" qname="ns13:updateFlight" returnQName="ns13:updateFlightReturn" returnType="xsd:boolean" soapAction="" xmlns:ns13="http://service.com" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-   <ns1:parameter qname="ns13:flight" type="ns14:Flight" xmlns:ns14="http://domain.com"/>
+  <ns1:operation name="getFlightById" qname="ns11:getFlightById" returnQName="ns11:getFlightByIdReturn" returnType="ns12:Flight" soapAction="" xmlns:ns11="http://service.com" xmlns:ns12="http://domain.com">
+   <ns1:parameter qname="ns11:flightId" type="xsd:int" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
   </ns1:operation>
-  <ns1:parameter name="allowedMethods" value="getLocations searchFlight getFlightById updateFlight insertFlight getFlightByNo getFlights"/>
-  <ns1:parameter name="typeMappingVersion" value="1.2"/>
+  <ns1:operation name="getFlights" qname="ns13:getFlights" returnQName="ns13:getFlightsReturn" returnType="ns14:Flight" soapAction="" xmlns:ns13="http://service.com" xmlns:ns14="http://domain.com"/>
+  <ns1:parameter name="allowedMethods" value="getLocations getFlightById searchFlight updateFlight insertFlight getFlightByNo getFlights"/>
   <ns1:parameter name="wsdlPortType" value="FlightService"/>
-  <ns1:parameter name="className" value="com.service.FlightService"/>
-  <ns1:parameter name="wsdlServicePort" value="FlightService"/>
+  <ns1:parameter name="typeMappingVersion" value="1.2"/>
   <ns1:parameter name="schemaQualified" value="http://domain.com,http://service.com"/>
+  <ns1:parameter name="wsdlServicePort" value="FlightService"/>
+  <ns1:parameter name="className" value="com.service.FlightService"/>
   <ns1:parameter name="wsdlTargetNamespace" value="http://service.com"/>
   <ns1:parameter name="wsdlServiceElement" value="FlightServiceService"/>
   <ns1:typeMapping deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle="" qname="ns15:FlightTime" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" type="java:com.domain.FlightTime" xmlns:ns15="http://domain.com"/>
@@ -151,20 +151,20 @@
   <ns1:operation name="getReservationbyCustId" qname="ns55:getReservationbyCustId" returnQName="ns55:getReservationbyCustIdReturn" returnType="ns56:Reservation" soapAction="" xmlns:ns55="http://service.com" xmlns:ns56="http://domain.com">
    <ns1:parameter qname="ns55:customerId" type="xsd:int" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
   </ns1:operation>
-  <ns1:operation name="cancelReservation" qname="ns57:cancelReservation" returnQName="ns57:cancelReservationReturn" returnType="xsd:boolean" soapAction="" xmlns:ns57="http://service.com" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-   <ns1:parameter qname="ns57:reservationId" type="xsd:int"/>
+  <ns1:operation name="getReservations" qname="ns57:getReservations" returnQName="ns57:getReservationsReturn" returnType="ns58:Reservation" soapAction="" xmlns:ns57="http://service.com" xmlns:ns58="http://domain.com"/>
+  <ns1:operation name="insertReservation" qname="ns59:insertReservation" returnQName="ns59:insertReservationReturn" returnType="xsd:boolean" soapAction="" xmlns:ns59="http://service.com" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+   <ns1:parameter qname="ns59:reservation" type="ns60:Reservation" xmlns:ns60="http://domain.com"/>
   </ns1:operation>
-  <ns1:operation name="insertReservation" qname="ns58:insertReservation" returnQName="ns58:insertReservationReturn" returnType="xsd:boolean" soapAction="" xmlns:ns58="http://service.com" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-   <ns1:parameter qname="ns58:reservation" type="ns59:Reservation" xmlns:ns59="http://domain.com"/>
+  <ns1:operation name="getReservation" qname="ns61:getReservation" returnQName="ns61:getReservationReturn" returnType="ns62:Reservation" soapAction="" xmlns:ns61="http://service.com" xmlns:ns62="http://domain.com">
+   <ns1:parameter qname="ns61:reservationId" type="xsd:int" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
   </ns1:operation>
-  <ns1:operation name="getReservation" qname="ns60:getReservation" returnQName="ns60:getReservationReturn" returnType="ns61:Reservation" soapAction="" xmlns:ns60="http://service.com" xmlns:ns61="http://domain.com">
-   <ns1:parameter qname="ns60:reservationId" type="xsd:int" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+  <ns1:operation name="cancelReservation" qname="ns63:cancelReservation" returnQName="ns63:cancelReservationReturn" returnType="xsd:boolean" soapAction="" xmlns:ns63="http://service.com" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+   <ns1:parameter qname="ns63:reservationId" type="xsd:int"/>
   </ns1:operation>
-  <ns1:operation name="getReservations" qname="ns62:getReservations" returnQName="ns62:getReservationsReturn" returnType="ns63:Reservation" soapAction="" xmlns:ns62="http://service.com" xmlns:ns63="http://domain.com"/>
   <ns1:operation name="updateReservation" qname="ns64:updateReservation" returnQName="ns64:updateReservationReturn" returnType="xsd:boolean" soapAction="" xmlns:ns64="http://service.com" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
    <ns1:parameter qname="ns64:reservation" type="ns65:Reservation" xmlns:ns65="http://domain.com"/>
   </ns1:operation>
-  <ns1:parameter name="allowedMethods" value="getReservations getReservation updateReservation getReservationbyCustId insertReservation cancelReservation"/>
+  <ns1:parameter name="allowedMethods" value="getReservations getReservation updateReservation getReservationbyCustId cancelReservation insertReservation"/>
   <ns1:parameter name="typeMappingVersion" value="1.2"/>
   <ns1:parameter name="wsdlPortType" value="ReservationService"/>
   <ns1:parameter name="className" value="com.service.ReservationService"/>

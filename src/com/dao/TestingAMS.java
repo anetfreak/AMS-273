@@ -36,11 +36,11 @@ public class TestingAMS {
 	 */
 	public boolean testingCustomerCreation()
 	{
-		List<Integer> arrOfInt = randomNumberGenerator(0,5000);
+		List<Integer> arrOfInt = randomNumberGenerator(5001,100000);
 		List<Customer> custList = new ArrayList<Customer>();
 		int customerId;
 		PDBConnection dbcon = new PDBConnection();
-		for(int i=0 ; i<5000 ; i++)
+		for(int i=5001 ; i<100000 ; i++)
 		{
 			customerId = arrOfInt.get(i);
 			Customer customer = createCustomer(customerId);
@@ -398,13 +398,13 @@ public class TestingAMS {
 		{
 			System.out.println("1000 flights created");
 		}*/
-		t.testingReservationCreation();
+//		t.testingReservationCreation();
 		//create 5000 customers
-		/*if(t.testingCustomerCreation())
+		if(t.testingCustomerCreation())
 		{
 			System.out.println("5000 customers created");
 		}
-
+/*
 		//create 5000 employees
 		if(t.testingEmployeeCreation())
 		{

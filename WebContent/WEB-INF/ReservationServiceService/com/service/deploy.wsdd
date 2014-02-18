@@ -13,8 +13,7 @@
       <operation xmlns:operNS="http://service.com" xmlns:retNS="http://service.com" xmlns:rtns="http://domain.com" name="getReservationbyCustId" qname="operNS:getReservationbyCustId" returnQName="retNS:getReservationbyCustIdReturn" returnType="rtns:Reservation" soapAction="">
         <parameter xmlns:pns="http://service.com" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:customerId" type="tns:int"/>
       </operation>
-      <operation xmlns:operNS="http://service.com" xmlns:retNS="http://service.com" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="cancelReservation" qname="operNS:cancelReservation" returnQName="retNS:cancelReservationReturn" returnType="rtns:boolean" soapAction="">
-        <parameter xmlns:pns="http://service.com" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:reservationId" type="tns:int"/>
+      <operation xmlns:operNS="http://service.com" xmlns:retNS="http://service.com" xmlns:rtns="http://domain.com" name="getReservations" qname="operNS:getReservations" returnQName="retNS:getReservationsReturn" returnType="rtns:Reservation" soapAction="">
       </operation>
       <operation xmlns:operNS="http://service.com" xmlns:retNS="http://service.com" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="insertReservation" qname="operNS:insertReservation" returnQName="retNS:insertReservationReturn" returnType="rtns:boolean" soapAction="">
         <parameter xmlns:pns="http://service.com" xmlns:tns="http://domain.com" qname="pns:reservation" type="tns:Reservation"/>
@@ -22,12 +21,13 @@
       <operation xmlns:operNS="http://service.com" xmlns:retNS="http://service.com" xmlns:rtns="http://domain.com" name="getReservation" qname="operNS:getReservation" returnQName="retNS:getReservationReturn" returnType="rtns:Reservation" soapAction="">
         <parameter xmlns:pns="http://service.com" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:reservationId" type="tns:int"/>
       </operation>
-      <operation xmlns:operNS="http://service.com" xmlns:retNS="http://service.com" xmlns:rtns="http://domain.com" name="getReservations" qname="operNS:getReservations" returnQName="retNS:getReservationsReturn" returnType="rtns:Reservation" soapAction="">
+      <operation xmlns:operNS="http://service.com" xmlns:retNS="http://service.com" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="cancelReservation" qname="operNS:cancelReservation" returnQName="retNS:cancelReservationReturn" returnType="rtns:boolean" soapAction="">
+        <parameter xmlns:pns="http://service.com" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:reservationId" type="tns:int"/>
       </operation>
       <operation xmlns:operNS="http://service.com" xmlns:retNS="http://service.com" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="updateReservation" qname="operNS:updateReservation" returnQName="retNS:updateReservationReturn" returnType="rtns:boolean" soapAction="">
         <parameter xmlns:pns="http://service.com" xmlns:tns="http://domain.com" qname="pns:reservation" type="tns:Reservation"/>
       </operation>
-      <parameter name="allowedMethods" value="getReservations getReservation updateReservation getReservationbyCustId insertReservation cancelReservation"/>
+      <parameter name="allowedMethods" value="getReservations getReservation updateReservation getReservationbyCustId cancelReservation insertReservation"/>
 
       <typeMapping xmlns:ns="http://domain.com" qname="ns:Journey" type="java:com.domain.Journey" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
       <typeMapping xmlns:ns="http://domain.com" qname="ns:Traveller" type="java:com.domain.Traveller" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>

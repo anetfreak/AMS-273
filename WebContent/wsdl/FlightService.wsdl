@@ -15,17 +15,10 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
      </sequence>
     </complexType>
    </element>
-   <element name="getFlightById">
+   <element name="updateFlight">
     <complexType>
      <sequence>
-      <element name="flightId" type="xsd:int"/>
-     </sequence>
-    </complexType>
-   </element>
-   <element name="getFlightByIdResponse">
-    <complexType>
-     <sequence>
-      <element name="getFlightByIdReturn" type="tns1:Flight"/>
+      <element name="flight" type="tns1:Flight"/>
      </sequence>
     </complexType>
    </element>
@@ -34,6 +27,13 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
      <element maxOccurs="unbounded" minOccurs="0" name="item" type="tns1:FlightTime"/>
     </sequence>
    </complexType>
+   <element name="updateFlightResponse">
+    <complexType>
+     <sequence>
+      <element name="updateFlightReturn" type="xsd:boolean"/>
+     </sequence>
+    </complexType>
+   </element>
    <element name="getFlightByNo">
     <complexType>
      <sequence>
@@ -45,20 +45,6 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
     <complexType>
      <sequence>
       <element name="getFlightByNoReturn" type="tns1:Flight"/>
-     </sequence>
-    </complexType>
-   </element>
-   <element name="insertFlight">
-    <complexType>
-     <sequence>
-      <element name="flight" type="tns1:Flight"/>
-     </sequence>
-    </complexType>
-   </element>
-   <element name="insertFlightResponse">
-    <complexType>
-     <sequence>
-      <element name="insertFlightReturn" type="xsd:boolean"/>
      </sequence>
     </complexType>
    </element>
@@ -78,6 +64,34 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
      </sequence>
     </complexType>
    </element>
+   <element name="insertFlight">
+    <complexType>
+     <sequence>
+      <element name="flight" type="tns1:Flight"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="insertFlightResponse">
+    <complexType>
+     <sequence>
+      <element name="insertFlightReturn" type="xsd:boolean"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getFlightById">
+    <complexType>
+     <sequence>
+      <element name="flightId" type="xsd:int"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getFlightByIdResponse">
+    <complexType>
+     <sequence>
+      <element name="getFlightByIdReturn" type="tns1:Flight"/>
+     </sequence>
+    </complexType>
+   </element>
    <element name="getFlights">
     <complexType/>
    </element>
@@ -85,20 +99,6 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
     <complexType>
      <sequence>
       <element maxOccurs="unbounded" name="getFlightsReturn" type="tns1:Flight"/>
-     </sequence>
-    </complexType>
-   </element>
-   <element name="updateFlight">
-    <complexType>
-     <sequence>
-      <element name="flight" type="tns1:Flight"/>
-     </sequence>
-    </complexType>
-   </element>
-   <element name="updateFlightResponse">
-    <complexType>
-     <sequence>
-      <element name="updateFlightReturn" type="xsd:boolean"/>
      </sequence>
     </complexType>
    </element>
@@ -268,13 +268,13 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       </wsdl:operation>
 
-      <wsdl:operation name="getFlightById">
+      <wsdl:operation name="updateFlight">
 
-         <wsdl:input message="impl:getFlightByIdRequest" name="getFlightByIdRequest">
+         <wsdl:input message="impl:updateFlightRequest" name="updateFlightRequest">
 
        </wsdl:input>
 
-         <wsdl:output message="impl:getFlightByIdResponse" name="getFlightByIdResponse">
+         <wsdl:output message="impl:updateFlightResponse" name="updateFlightResponse">
 
        </wsdl:output>
 
@@ -292,18 +292,6 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       </wsdl:operation>
 
-      <wsdl:operation name="insertFlight">
-
-         <wsdl:input message="impl:insertFlightRequest" name="insertFlightRequest">
-
-       </wsdl:input>
-
-         <wsdl:output message="impl:insertFlightResponse" name="insertFlightResponse">
-
-       </wsdl:output>
-
-      </wsdl:operation>
-
       <wsdl:operation name="searchFlight">
 
          <wsdl:input message="impl:searchFlightRequest" name="searchFlightRequest">
@@ -316,6 +304,30 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       </wsdl:operation>
 
+      <wsdl:operation name="insertFlight">
+
+         <wsdl:input message="impl:insertFlightRequest" name="insertFlightRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:insertFlightResponse" name="insertFlightResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getFlightById">
+
+         <wsdl:input message="impl:getFlightByIdRequest" name="getFlightByIdRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getFlightByIdResponse" name="getFlightByIdResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
       <wsdl:operation name="getFlights">
 
          <wsdl:input message="impl:getFlightsRequest" name="getFlightsRequest">
@@ -323,18 +335,6 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
        </wsdl:input>
 
          <wsdl:output message="impl:getFlightsResponse" name="getFlightsResponse">
-
-       </wsdl:output>
-
-      </wsdl:operation>
-
-      <wsdl:operation name="updateFlight">
-
-         <wsdl:input message="impl:updateFlightRequest" name="updateFlightRequest">
-
-       </wsdl:input>
-
-         <wsdl:output message="impl:updateFlightResponse" name="updateFlightResponse">
 
        </wsdl:output>
 
@@ -364,17 +364,17 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       </wsdl:operation>
 
-      <wsdl:operation name="getFlightById">
+      <wsdl:operation name="updateFlight">
 
          <wsdlsoap:operation soapAction=""/>
 
-         <wsdl:input name="getFlightByIdRequest">
+         <wsdl:input name="updateFlightRequest">
 
             <wsdlsoap:body use="literal"/>
 
          </wsdl:input>
 
-         <wsdl:output name="getFlightByIdResponse">
+         <wsdl:output name="updateFlightResponse">
 
             <wsdlsoap:body use="literal"/>
 
@@ -400,24 +400,6 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       </wsdl:operation>
 
-      <wsdl:operation name="insertFlight">
-
-         <wsdlsoap:operation soapAction=""/>
-
-         <wsdl:input name="insertFlightRequest">
-
-            <wsdlsoap:body use="literal"/>
-
-         </wsdl:input>
-
-         <wsdl:output name="insertFlightResponse">
-
-            <wsdlsoap:body use="literal"/>
-
-         </wsdl:output>
-
-      </wsdl:operation>
-
       <wsdl:operation name="searchFlight">
 
          <wsdlsoap:operation soapAction=""/>
@@ -436,6 +418,42 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       </wsdl:operation>
 
+      <wsdl:operation name="insertFlight">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="insertFlightRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="insertFlightResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getFlightById">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getFlightByIdRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getFlightByIdResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
       <wsdl:operation name="getFlights">
 
          <wsdlsoap:operation soapAction=""/>
@@ -447,24 +465,6 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
          </wsdl:input>
 
          <wsdl:output name="getFlightsResponse">
-
-            <wsdlsoap:body use="literal"/>
-
-         </wsdl:output>
-
-      </wsdl:operation>
-
-      <wsdl:operation name="updateFlight">
-
-         <wsdlsoap:operation soapAction=""/>
-
-         <wsdl:input name="updateFlightRequest">
-
-            <wsdlsoap:body use="literal"/>
-
-         </wsdl:input>
-
-         <wsdl:output name="updateFlightResponse">
 
             <wsdlsoap:body use="literal"/>
 
